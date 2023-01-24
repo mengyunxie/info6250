@@ -1,0 +1,19 @@
+header {
+    background-color: #FED2AA;
+    display: flex;
+    flex-direction: row;
+    color: #333333;
+}
+footer {
+    background-color: #E9DAC1;
+    text-align: center;
+    color: #333333;
+    padding: 15px 20px;
+}
+body {
+    background-color: #F7ECDE; 
+    color: #333333;
+}
+a {
+    color: #333333;
+}
