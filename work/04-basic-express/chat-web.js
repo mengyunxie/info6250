@@ -6,7 +6,7 @@ const chatWeb = {
       <html>
         <head>
           <title>Chat</title>
-          <link rel="stylesheet" href="styles.css">
+          <link rel="stylesheet" href="chat.css">
         </head>
         <body>
           <div id="chat-app">
@@ -47,12 +47,12 @@ const chatWeb = {
   },
   getOutgoing: function(chat) {
     return `<div class="outgoing">
-    <form action="/chat" method="POST" class="form">
-      <input type="hidden" name="username" value="Amit"/>
-      <input type="text" name="text" class="to-send" value="" placeholder="Enter message to send"/>
-      <button type="submit" class="button">Send</button>
-    </form>
-  </div>`;
+      <form action="/chat" method="POST" class="outgoing-form">
+        <input type="hidden" name="username" value="Amit"/>
+        <input type="text" name="text" class="to-send" value="" placeholder="Enter message to send"/>
+        <button type="submit" class="to-submit">Send</button>
+      </form>
+    </div>`;
   }
 };
 module.exports = chatWeb;

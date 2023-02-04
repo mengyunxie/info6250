@@ -42,6 +42,7 @@ html, body {
 .avatar { 
   height: 2rem;
   border-radius: 50%;
+  border: 1px solid #cacdd1;
 }
 
 .username { 
@@ -57,14 +58,18 @@ html, body {
   display: flex;
   width: 10rem;
   align-items: center;
+  flex-basis: 10rem;
+  flex-grow: 0;
+  flex-shrink: 0;
 }
 
 .message-text { 
+  flex-shrink: 2;
   margin: 0;
   padding: 1rem;
   border-radius: 2rem;
+  color: #333333;
   background-color: #e4e6eb; 
-  flex-shrink: 2;
 }
 
 .outgoing { 
@@ -74,7 +79,7 @@ html, body {
   border-top: 1px solid #cacdd1;
 }
 
-.form {
+.outgoing-form {
   display: flex;
   flex-direction: row;
   flex-wrap: nowrap;
@@ -89,10 +94,12 @@ html, body {
   border-radius: 2rem;
 }
 
-.button {
+.to-submit {
   margin-left: 1rem;
-  border: 1px solid #cacdd1;
+  border: 1px solid #007acc;
   padding: 1rem;
   border-radius: 2rem;
+  color: #ffffff;
+  background-color: #007acc;
   cursor: pointer;
 }
