@@ -45,7 +45,7 @@ const chatWeb = {
     `).join('') +
     `</ul>`;
   },
-  getOutgoing: function(chat) {
+  getOutgoing: function() {
     return `<div class="outgoing">
       <form action="/chat" method="POST" class="outgoing-form">
         <input type="hidden" name="username" value="Amit"/>
