@@ -1,0 +1,100 @@
+*, *::before, *::after { 
+  box-sizing: border-box;
+}
+
+html, body { 
+  height: 100%;
+  margin: 0;
+  font-family: sans-serif;
+}
+
+.user {
+  display: flex;
+  margin-top: 5rem;
+  flex-direction: row;
+  flex-wrap: nowrap;
+  justify-content: center;
+  align-items: center;
+}
+
+.word {
+  display: flex;
+  margin: 5rem 0 0;
+  padding: 0;
+  align-items: center;
+  flex-direction: column;
+}
+
+.word-form {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: nowrap;
+  justify-content: flex-start;
+}
+
+.login {
+  display: flex;
+  margin: 0;
+  padding: 0;
+  height: 100%;
+  align-items: center;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.login-greeting {
+  color: #333333;
+  font-size: 2rem;
+  padding-bottom: 2rem;
+}
+
+.login-form {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: nowrap;
+  justify-content: flex-start;
+}
+
+.to-send {
+  flex-shrink: 2;
+  flex-grow: 2;
+  border: 1px solid #cacdd1;
+  padding: 1rem;
+  border-radius: 2rem;
+}
+
+.to-submit {
+  margin-left: 1rem;
+  border: 1px solid #007acc;
+  padding: 1rem;
+  border-radius: 2rem;
+  color: #ffffff;
+  background-color: #007acc;
+  cursor: pointer;
+}
+
+.error {
+  display: flex;
+  margin: 0;
+  padding: 0;
+  height: 100%;
+  align-items: center;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.error-code {
+  font-size: 3rem;
+  font-weight: bold;
+  color: #007acc;
+  margin: 0 0 2rem;
+}
+
+.error-message {
+  color: #007acc;
+  margin: 0 0 2rem;
+}
+
+.error-action {
+  margin: 0;
+}

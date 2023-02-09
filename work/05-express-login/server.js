@@ -32,8 +32,9 @@ app.post('/login', express.urlencoded({ extended: false }), (req,res) => {
         // If login fails (bad username) you should respond with a 401 status code 
         // and a web page that informs them and offers a link to see the login form again (this can be simply a link to the home page)
         // Give better errors than this!
-        // url多了login，是不是问题
-        res.status(401).send(view.errorPage('Error: invalid username'));
+        // TODO--: 3000/login is right?
+        const statusCode = 401;
+        res.status(statusCode).send(view.errorPage({statusCode, message: "Invalid Username."}));
         return; 
     }
     const sid = uuidv4();
