@@ -9,12 +9,19 @@ function getSession( sid ) {
 }
 
 function deleteSession( sid ) {
-  delete sessions[sid];
+  if(sid) {
+    delete sessions[sid];
+  }
+}
+
+function isValid( sid ) { // Checking to see does it exist in the sessions object
+  return sessions[sid] ? true : false;
 }
 
 module.exports = {
   updateSession,
   getSession,
-  deleteSession
+  deleteSession,
+  isValid
 };
 

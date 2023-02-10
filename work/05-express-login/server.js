@@ -11,56 +11,56 @@ const view = require('./view'); // "view" holds the templates for the generated 
 
 app.use(cookieParser());
 app.use(express.static('./public'));
+app.use(express.urlencoded({ extended: false }));
 
 app.get('/', (req, res) => {
     const sid = req.cookies.sid;
-    if(!sid || !sessions.getSession(sid)) { // checking to see does it exist in the sessions object?
+    if(!sid || !sessions.isValid(sid)) {
+        sessions.deleteSession(sid);
         res.clearCookie('sid');
         res.send(view.loginPage());
         return;
     }
     
     const { username } = sessions.getSession(sid);
-    const { word } = model.getWord(username);
+    const { word } = model.getCurrentUser(username);
     res.send(view.dataPage({ username,  word}));
 });
 
-app.post('/login', express.urlencoded({ extended: false }), (req,res) => {
+app.post('/login', (req,res) => {
     const username = req.body.username.trim();
-    // login will fail for an empty username or the username "dog" or any username that is not made up of letters or numbers only
-    if(!username || username === 'dog'){
-        // If login fails (bad username) you should respond with a 401 status code 
-        // and a web page that informs them and offers a link to see the login form again (this can be simply a link to the home page)
-        // Give better errors than this!
-        // TODO--: 3000/login is right?
+    const regexOfBadUsername = new RegExp('dog', 'i');
+    const regex = new RegExp('^[a-zA-Z0-9]*$');
+    if(!username || regexOfBadUsername.test(username) || !regex.test(username)){
         const statusCode = 401;
-        res.status(statusCode).send(view.errorPage({statusCode, message: "Invalid Username."}));
+        res.status(statusCode).send(view.errorPage({statusCode, message: "Invalid Username. Username can contain only letters or numbers."}));
         return; 
     }
     const sid = uuidv4();
-    sessions.updateSession({ sid, username })
-    if(!model.getWord(username)) {
+    sessions.updateSession({ sid, username });
+    if(!model.getCurrentUser(username)) {
         model.createWord(username);
     } 
     res.cookie('sid', sid);
     res.redirect('/');
 });
 
-app.post('/logout', express.urlencoded({ extended: false }), (req, res) => {
-    // remove the stored word from being associated with that username
-    // This means the session object doesn't hold the stored word.
+app.post('/logout', (req, res) => {
     const sid = req.cookies.sid;
     sessions.deleteSession(sid);
     res.clearCookie('sid');
     res.redirect('/');
 });
 
-app.post('/update', express.urlencoded({ extended: false }), (req, res) => {
-    //If a change is submitted, the server will record that change and associate it to the username and redirect to /
-    // A second object to hold the stored words is a good idea. Use keys of the username. That way the data is associated with the user, not the session id. 
-    // Every change attempt will make sure the session id is a valid user
-    const word = req.body.word;
+app.post('/updateword', (req, res) => {
     const sid = req.cookies.sid;
+    if(!sid || !sessions.isValid(sid)) {
+        sessions.deleteSession(sid);
+        res.clearCookie('sid');
+        res.redirect('/');
+        return;
+    }
+    const word = req.body.word;
     const { username } = sessions.getSession(sid);
     model.updateWord({username, word})
     res.redirect('/');
