@@ -9,12 +9,16 @@ function getSession( sid ) {
 }
 
 function deleteSession( sid ) {
+
+  // If exist, delete it.
   if(sid) {
     delete sessions[sid];
   }
+  
 }
 
-function isValid( sid ) { // Checking to see does it exist in the sessions object
+/* Checking to see does this sid exist in the sessions object. */
+function isValid( sid ) {
   return sessions[sid] ? true : false;
 }
 
