@@ -97,14 +97,18 @@ html, body {
 }
 
 .login {
-  display: flex;
   margin: 0;
   padding: 0;
-  height: 100%;
-  flex-direction: column;
+  display: grid;
+  grid-template-areas: 
+    ". login-greeting ."
+    ". login-form .";
+  grid-template-columns: 1fr 4fr 1fr;
+  grid-template-rows: auto 1fr;
 }
 
 .login-greeting {
+  grid-area: login-greeting;
   color: #333333;
   font-size: 2rem;
   margin: 10rem 0 5rem;
@@ -112,6 +116,7 @@ html, body {
 }
 
 .login-form {
+  grid-area: login-form;
   display: flex;
   flex-direction: column;
   padding: 2rem 5rem;
