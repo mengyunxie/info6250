@@ -1,42 +1,42 @@
+"use strict";
 const users = {};
 
 function getCurrentUser(username) {
   return users[username];
 }
 
-
-
 /* Stored word for each user defaults to the empty string. */
 function createGameData( {username, secretWord, wordList} ) {
   users[username] = {
     wordList: wordList.map((x) => x.toLowerCase()),
-    currentGame: {
-      secretWord,
-      guessWord: "",
-      win: false,
-      turns: 0,
-      previousGuesses: {},
-      recentGuess: {}
-    },
-    previousGames: {}
+    secretWord,
+    guessWord: "",
+    win: false,
+    turns: 0,
+    previousGuesses: {},
+    recentGuess: {},
+    numberOfGames: 0,
+    numberOfWinGames: 0,
+    bestScoreOfWinGames: 0
   };
 }
 
-function updateGameData({username, secretWord, wordList, previousGame}) {
- 
-  users[username].wordList = wordList.map((x) => x.toLowerCase());
-  users[username].currentGame = {
-      secretWord,
-      guessWord: "",
-      win: false,
-      turns: 0,
-      previousGuesses: {},
-      recentGuess: {}
-  };
+function updateGameData({username, secretWord, wordList}) {
 
-  if(previousGame) {
-    users[username].previousGames[Date.now()] = previousGame;
-  }
+  const { win, numberOfGames, numberOfWinGames, bestScoreOfWinGames} = users[username];
+
+  users[username] = {
+    wordList: wordList.map((x) => x.toLowerCase()),
+    secretWord,
+    guessWord: "",
+    win: false,
+    turns: 0,
+    previousGuesses: {},
+    recentGuess: {},
+    numberOfGames: win ? numberOfGames : numberOfGames + 1,
+    numberOfWinGames: numberOfWinGames,
+    bestScoreOfWinGames: bestScoreOfWinGames
+  };
 
 }
 

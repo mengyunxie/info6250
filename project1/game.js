@@ -1,21 +1,4 @@
-
-// const readline = require('readline').createInterface({ input: process.stdin, output: process.stdout });
-// const wordList = require('./words');
-
-// const game = {
-//   word: process.env.OVERRIDE || pickWord(wordList),
-//   turns: 0
-// };
-
-// if(process.env.DEBUG) { console.log(`PSST!  The word is ${game.word}`); }
-
-// console.log(`The word is ${game.word.length} letters`);
-// prompt();
-
-// function prompt() {
-//   // readline.question('your guess? ', guess => takeTurn(game, guess) );
-//   console.log("give a message in here")
-// }
+"use strict";
 
 function start(wordList) {
   return wordList[Math.floor(Math.random() * wordList.length)];
@@ -23,29 +6,33 @@ function start(wordList) {
 
 function takeTurn(game) {
   console.log("-- takeTurn -- ");
-  game.currentGame.turns++;
+  game.turns++;
 
   const filteredList = game.wordList.filter(function(value, index, arr){ 
-      return value != game.currentGame.guessWord;
+      return value != game.guessWord;
   });
   game.wordList = filteredList;
-  if(exactMatch(game.currentGame.secretWord, game.currentGame.guessWord)) {
+  if(exactMatch(game.secretWord, game.guessWord)) {
     // console.log(`CORRECT!  You won in ${turns} turns!`);
     // readline.close();
-    game.currentGame.win = true;
+    game.win = true;
+    const { turns, numberOfGames, numberOfWinGames, bestScoreOfWinGames} = game;
+    game.numberOfGames = numberOfGames + 1;
+    game.numberOfWinGames =  numberOfWinGames + 1;
+    game.bestScoreOfWinGames = bestScoreOfWinGames == 0 ? turns : Math.min(turns, bestScoreOfWinGames);
     return;
   }
-  game.currentGame.win = false;
-  const match = compare(game.currentGame.secretWord, game.currentGame.guessWord);
+  game.win = false;
+  const match = compare(game.secretWord, game.guessWord);
   // if valid, append to guessed
-  game.currentGame.recentGuess = {
+  game.recentGuess = {
     isValid: true,
-    guess: game.currentGame.guessWord,
+    guess: game.guessWord,
     match,
   }
 
-  game.currentGame.previousGuesses[game.currentGame.guessWord] = match;
-  game.currentGame.guessWord = "";
+  game.previousGuesses[game.guessWord] = match;
+  game.guessWord = "";
   // console.log(`You matched ${match} letters out of ${word.length}`);
   // prompt();
   // return game;
@@ -53,7 +40,7 @@ function takeTurn(game) {
 
 function isValidGuess(game) {
 
-  return game.wordList.includes(game.currentGame.guessWord);
+  return game.wordList.includes(game.guessWord);
 }
 
 function exactMatch(word, guess) {

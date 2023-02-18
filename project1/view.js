@@ -1,3 +1,4 @@
+"use strict";
 const view = {
     dataPage: function({username, game}) {
       return `
@@ -17,8 +18,8 @@ const view = {
                 ${view.getPossibleWords(game)}
                 ${view.getRecentGuess(game)}
                 ${view.getPreviousGuesses(game)}
-                ${view.getPreviousGames(game)}
-                ${game.currentGame.win ? view.getWin() : view.getGuessForm(game)}
+                ${view.getStatistics(game)}
+                ${game.win ? view.getWin() : view.getGuessForm(game)}
                 ${view.getScore(game)}
                 ${view.getNewGame()}
               </main>
@@ -34,8 +35,8 @@ const view = {
     },
     getScore: function(game) {
       return `<div class="game-score">
-        <p>Total Guess Number: ${game.currentGame.turns}</p>
-        <p>Valid Guess Number: ${Object.keys(game.currentGame.previousGuesses).length}</p>
+        <p>Your Score: ${game.turns}</p>
+        <p>It is the number of valid guesses}</p>
       </div>`;
     },
     getNewGame: function() {
@@ -47,7 +48,7 @@ const view = {
       return `<form action="/guess" method="POST" class="guess-form">
         <label class="guess-label">
           <span>Your Guess Word:</span>
-          <input type="text" name="word" class="guess-to-send" value="${game.currentGame.guessWord}" placeholder="Enter your guess word" />
+          <input type="text" name="word" class="guess-to-send" value="${game.guessWord}" placeholder="Enter your guess word" />
         </label>
         <button type="submit" class="guess-to-submit">Guess</button>
       </form>`;
@@ -63,37 +64,32 @@ const view = {
       `</div>`;
     },
     getRecentGuess: function(game) {
-      if(Object.keys(game.currentGame.recentGuess).length == 0) {
+      if(Object.keys(game.recentGuess).length == 0) {
         return `<span>No recent guess</span>`;
       }
-      if(!game.currentGame.recentGuess.isValid) {
-        return `<div> Recent Guess :${game.currentGame.recentGuess.guess}, is not valid guess. Please select a word from the list of possible word.</div>`;
+      if(!game.recentGuess.isValid) {
+        return `<div> Recent Guess :${game.recentGuess.guess}, is not valid guess. Please select a word from the list of possible word.</div>`;
       }
-      return `<div> Recent Guess :${game.currentGame.recentGuess.guess}, match : ${game.currentGame.recentGuess.match}</div>`;
+      return `<div> Recent Guess :${game.recentGuess.guess}, match : ${game.recentGuess.match}</div>`;
     },
     getPreviousGuesses: function(game) {
-      if(Object.keys(game.currentGame.previousGuesses).length == 0) {
+      if(Object.keys(game.previousGuesses).length == 0) {
         return `<p>No Previous Valid Guess</p>`;
       }
       return `<ol>` +
-      Object.entries(game.currentGame.previousGuesses).map( ([guess, match]) => `
+      Object.entries(game.previousGuesses).map( ([guess, match]) => `
         <li>
         guess word: ${guess}, match: ${match}
         </li>
       `).join('') +
       `</ol>`;
     },
-    getPreviousGames: function(game) {
-      if(Object.keys(game.previousGames).length == 0) {
-        return `<p>No Previous Game.</p>`;
-      }
-      return `<ol>` +
-      Object.values(game.previousGames).map( (record) => `
-        <li>
-        secretWord: ${record.secretWord}, turns: ${record.turns}, ${record.win ? "Win!" : "Fail!"}
-        </li>
-      `).join('') +
-      `</ol>`;
+    getStatistics: function(game) {
+      return `<div class="game-score">
+      <p>The number of games: ${game.numberOfGames}</p>
+      <p>The number of win games: ${game.numberOfWinGames}</p>
+      <p>The best score of win games: ${game.bestScoreOfWinGames == 0 ? "You haven't won a game." : game.bestScoreOfWinGames}</p>
+    </div>`;
     },
     loginPage: function(message) {
       return `
@@ -116,24 +112,6 @@ const view = {
                   <button type="submit" class="login-to-submit">Login</button>
                 </form>
               </div>
-            </main>
-          </body>
-        </html>
-      `;
-    },
-    errorPage: function({statusCode, message}) {
-      return `
-        <!doctype html>
-        <html>
-          <head>
-            <title>Express Login</title>
-            <link rel="stylesheet" href="style.css">
-          </head>
-          <body>
-            <main class="error">
-              <p class="error-code">${statusCode}</p>
-              <p class="error-message">${message}</p>
-              <p class="error-link">Please jump to the <a href="/">login</a> page.</p>
             </main>
           </body>
         </html>

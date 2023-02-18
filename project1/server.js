@@ -1,3 +1,4 @@
+"use strict";
 const express = require('express');
 const cookieParser = require('cookie-parser');
 const { v4: uuidv4 } = require('uuid');
@@ -22,7 +23,7 @@ app.get('/', (req, res) => {
         sessions.deleteSession(sid);
         res.clearCookie('sid');
         // TODO---: If there is not a valid session id, the page will display a message and a login form
-        res.send(view.loginPage("Session id is invalid"));
+        res.send(view.loginPage());
         return;
     }
     
@@ -35,6 +36,7 @@ app.get('/', (req, res) => {
 
 app.post('/login', (req,res) => {
     const username = req.body.username.trim();
+    //3. This could be a simple string check. You don't need a regex for this
     const regexOfBadUsername = new RegExp('^dog$', 'i');
     const regex = new RegExp('^[a-zA-Z0-9]*$');
 
@@ -80,16 +82,17 @@ app.post('/guess', (req, res) => {
     
     const { username } = sessions.getSession(sid);
     const game = model.getCurrentUser(username);
-    game.currentGame.guessWord = guess.toLowerCase();
+    game.guessWord = guess.toLowerCase();
     if(!engine.isValidGuess(game)) {
         // If the guess is not valid, the server will update the server state for that player and respond with a redirect to the Home Page
-        game.currentGame.turns++;
-        game.currentGame.recentGuess = {
+        // TODO---: An invalid guess should not increase the turn count
+        // game.turns++;
+        game.recentGuess = {
             isValid: false,
-            guess:game.currentGame.guessWord,
+            guess:game.guessWord,
             match: 0,
         }
-        game.currentGame.guessWord = "";
+        game.guessWord = "";
         res.redirect('/');
         return;
     }
@@ -112,14 +115,8 @@ app.post('/new-game', (req, res) => {
     
     const { username } = sessions.getSession(sid);
     const secretWord = engine.start(wordList);
-    const game = model.getCurrentUser(username);
-    const previousGame = {
-        secretWord: game.currentGame.secretWord,
-        turns: game.currentGame.turns,
-        win: game.currentGame.win
-    }
     console.log(`Username: ${username}, SecretWord: ${secretWord}`);
-    model.updateGameData({username, secretWord, wordList, previousGame});
+    model.updateGameData({username, secretWord, wordList});
     res.redirect('/');
 });
 

@@ -1,3 +1,4 @@
+"use strict";
 const sessions = {};
 
 function updateSession({ sid, username }) {
