@@ -5,7 +5,7 @@ function getCurrentUser(username) {
   return users[username];
 }
 
-/* Stored word for each user defaults to the empty string. */
+/*  Create a default user data for new users */
 function createGameData( {username, secretWord, wordList} ) {
   users[username] = {
     wordList: wordList.map((x) => x.toLowerCase()),
@@ -21,6 +21,7 @@ function createGameData( {username, secretWord, wordList} ) {
   };
 }
 
+/*  Create and update user data for existing users */
 function updateGameData({username, secretWord, wordList}) {
 
   const { win, numberOfGames, numberOfWinGames, bestScoreOfWinGames} = users[username];

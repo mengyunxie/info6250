@@ -1,12 +1,12 @@
 "use strict";
 const view = {
-    dataPage: function({username, game}) {
+    homePage: function({username, game}) {
       return `
         <!doctype html>
         <html>
           <head>
             <title>Express Login</title>
-            <link rel="stylesheet" href="style.css">
+            <link rel="stylesheet" href="home.css">
           </head>
           <body>
             <div class="user">
@@ -14,13 +14,23 @@ const view = {
               <form action="/logout" method="POST" class="logout-form">
                 <button type="submit" class="logout-to-submit">Logout</button>
               </form>
+              <div class="guess-records">
+                <div class="recent-guess">
+                  <p class="panel-title">Recent Guess</p>
+                  ${view.getRecentGuess(game)}
+                </div>
+                <div class="previous-guesses">
+                  <p class="panel-title">Previous Guesses</p>
+                  ${view.getPreviousGuesses(game)}
+                </div>
+              </div>
+              <div class="score-records">
+                ${view.getScore(game)}
+                ${view.getStatistics(game)}
+              </div>
               <main class="game">
                 ${view.getPossibleWords(game)}
-                ${view.getRecentGuess(game)}
-                ${view.getPreviousGuesses(game)}
-                ${view.getStatistics(game)}
                 ${game.win ? view.getWin() : view.getGuessForm(game)}
-                ${view.getScore(game)}
                 ${view.getNewGame()}
               </main>
             </div>
@@ -30,19 +40,8 @@ const view = {
     },
     getWin: function() {
       return `<div class="game-win">
-        <span class="game-win-message"> Win! congratulation!</span>
+        <span class="game-win-message"> Win! Congratulation!</span>
       </div>`;
-    },
-    getScore: function(game) {
-      return `<div class="game-score">
-        <p>Your Score: ${game.turns}</p>
-        <p>It is the number of valid guesses}</p>
-      </div>`;
-    },
-    getNewGame: function() {
-      return `<form action="/new-game" method="POST" class="new-game-form">
-        <button type="submit" class="new-game-submit">Start a New Game</button>
-      </form>`;
     },
     getGuessForm: function(game) {
       return `<form action="/guess" method="POST" class="guess-form">
@@ -53,43 +52,56 @@ const view = {
         <button type="submit" class="guess-to-submit">Guess</button>
       </form>`;
     },
+    getNewGame: function() {
+      return `<form action="/new-game" method="POST" class="new-game-form">
+        <button type="submit" class="new-game-submit">Start a New Game</button>
+      </form>`;
+    },
     getPossibleWords: function(game) {
       return `<div class="possible-words">
-      <p>Here is the possible words: </p>` +
-      Object.values(game.wordList).map( (word) => `
-        <span>
-        ${word}
-        </span>
-      `).join('') +
-      `</div>`;
+        <p class="panel-title">Possible Words</p>
+        <div class="words">` +
+        Object.values(game.wordList).map( (word) => `
+          <span>
+          ${word}
+          </span>
+        `).join('') +
+        `</div>
+      </div>`;
     },
     getRecentGuess: function(game) {
       if(Object.keys(game.recentGuess).length == 0) {
-        return `<span>No recent guess</span>`;
+        return `<p class="no-data">No Recent Guess</p>`;
       }
       if(!game.recentGuess.isValid) {
-        return `<div> Recent Guess :${game.recentGuess.guess}, is not valid guess. Please select a word from the list of possible word.</div>`;
+        return `<p class="invalid-guess"><span class="word-highlight">${game.recentGuess.guess}</span> is invalid guess. Please enter a word from the list of possible word.</p>`;
       }
-      return `<div> Recent Guess :${game.recentGuess.guess}, match : ${game.recentGuess.match}</div>`;
+      return `<p><span class="word-highlight">${game.recentGuess.guess}</span>, match: <span class="word-highlight">${game.recentGuess.match}</span> letters</p>`;
     },
     getPreviousGuesses: function(game) {
       if(Object.keys(game.previousGuesses).length == 0) {
-        return `<p>No Previous Valid Guess</p>`;
+        return `<p class="no-data">No Previous Valid Guess</p>`;
       }
-      return `<ol>` +
-      Object.entries(game.previousGuesses).map( ([guess, match]) => `
-        <li>
-        guess word: ${guess}, match: ${match}
-        </li>
-      `).join('') +
-      `</ol>`;
+      return `<ul class="previous-guess">` +
+        Object.entries(game.previousGuesses).map( ([guess, match]) => `
+          <li><span class="word-highlight">${guess}</span>, match: <span class="word-highlight">${match}</span> letters</li>
+        `).join('') +
+      `</ul>`;
+    },
+    getScore: function(game) {
+      return `<div class="current-score">
+        <p class="panel-title">Current Game's Score</p>
+        <p>Your Score: <span class="word-highlight">${game.turns}</span></p>
+        <p class="score-info">(It is the number of valid guesses.)</p>
+      </div>`;
     },
     getStatistics: function(game) {
-      return `<div class="game-score">
-      <p>The number of games: ${game.numberOfGames}</p>
-      <p>The number of win games: ${game.numberOfWinGames}</p>
-      <p>The best score of win games: ${game.bestScoreOfWinGames == 0 ? "You haven't won a game." : game.bestScoreOfWinGames}</p>
-    </div>`;
+      return `<div class="statistics">
+        <p class="panel-title">Statistics</p>
+        <p>The number of games: <span class="word-highlight">${game.numberOfGames}</span></p>
+        <p>The number of win games: <span class="word-highlight">${game.numberOfWinGames}</span></p>
+        <p>The best score of win games: ${game.bestScoreOfWinGames == 0 ? `<span class="no-data">You haven't won a game.</span>` : `<span class="word-highlight">${game.bestScoreOfWinGames}</span>`}</p>
+      </div>`;
     },
     loginPage: function(message) {
       return `
@@ -97,7 +109,7 @@ const view = {
         <html>
           <head>
             <title>Express Login</title>
-            <link rel="stylesheet" href="style.css">
+            <link rel="stylesheet" href="login.css">
           </head>
           <body>
             <main class="login">

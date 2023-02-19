@@ -31,7 +31,7 @@ app.get('/', (req, res) => {
     const game = model.getCurrentUser(username);
     console.log("home page ---");
     console.log(game);
-    res.send(view.dataPage({ username,  game}));
+    res.send(view.homePage({ username,  game}));
 });
 
 app.post('/login', (req,res) => {

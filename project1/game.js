@@ -12,10 +12,18 @@ function takeTurn(game) {
       return value != game.guessWord;
   });
   game.wordList = filteredList;
+
+
   if(exactMatch(game.secretWord, game.guessWord)) {
     // console.log(`CORRECT!  You won in ${turns} turns!`);
     // readline.close();
     game.win = true;
+    game.recentGuess = {
+      isValid: true,
+      guess: game.guessWord,
+      match: game.guessWord.length
+    }
+    game.previousGuesses[game.guessWord] = game.guessWord.length;
     const { turns, numberOfGames, numberOfWinGames, bestScoreOfWinGames} = game;
     game.numberOfGames = numberOfGames + 1;
     game.numberOfWinGames =  numberOfWinGames + 1;
@@ -28,7 +36,7 @@ function takeTurn(game) {
   game.recentGuess = {
     isValid: true,
     guess: game.guessWord,
-    match,
+    match
   }
 
   game.previousGuesses[game.guessWord] = match;
