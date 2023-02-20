@@ -5,18 +5,13 @@ function start(wordList) {
 }
 
 function takeTurn(game) {
-  console.log("-- takeTurn -- ");
   game.turns++;
-
   const filteredList = game.wordList.filter(function(value, index, arr){ 
       return value != game.guessWord;
   });
   game.wordList = filteredList;
 
-
   if(exactMatch(game.secretWord, game.guessWord)) {
-    // console.log(`CORRECT!  You won in ${turns} turns!`);
-    // readline.close();
     game.win = true;
     game.recentGuess = {
       isValid: true,
@@ -32,7 +27,6 @@ function takeTurn(game) {
   }
   game.win = false;
   const match = compare(game.secretWord, game.guessWord);
-  // if valid, append to guessed
   game.recentGuess = {
     isValid: true,
     guess: game.guessWord,
@@ -41,9 +35,6 @@ function takeTurn(game) {
 
   game.previousGuesses[game.guessWord] = match;
   game.guessWord = "";
-  // console.log(`You matched ${match} letters out of ${word.length}`);
-  // prompt();
-  // return game;
 }
 
 function isValidGuess(game) {

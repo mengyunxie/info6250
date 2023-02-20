@@ -30,7 +30,7 @@ const view = {
               </div>
               <main class="game">
                 ${view.getPossibleWords(game)}
-                ${game.win ? view.getWin() : view.getGuessForm(game)}
+                ${game.win ? view.getWin(game) : view.getGuessForm(game)}
                 ${view.getNewGame()}
               </main>
             </div>
@@ -38,9 +38,9 @@ const view = {
         </html>
       `;
     },
-    getWin: function() {
+    getWin: function(game) {
       return `<div class="game-win">
-        <span class="game-win-message"> Win! Congratulation!</span>
+        <span class="game-win-message">Congratulation! You won in ${game.turns} turns!</span>
       </div>`;
     },
     getGuessForm: function(game) {
@@ -92,7 +92,7 @@ const view = {
       return `<div class="current-score">
         <p class="panel-title">Current Game's Score</p>
         <p>Your Score: <span class="word-highlight">${game.turns}</span></p>
-        <p class="score-info">(It is the number of valid guesses.)</p>
+        <p class="score-info">(It is the number of valid guesses)</p>
       </div>`;
     },
     getStatistics: function(game) {
