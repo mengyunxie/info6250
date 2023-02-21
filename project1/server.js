@@ -37,21 +37,24 @@ app.post('/login', (req,res) => {
     const regexOfBadUsername = /^dog$/i;
     const regex = /^[a-zA-Z0-9]*$/;
 
-    // If the username is invalid (including "dog"), respond with a login form that contains a message about the username being invalid
+    // If the username is invalid (including "dog"), respond with a login form with a message
     if(!username || regexOfBadUsername.test(username) || !regex.test(username)){
         res.send(view.loginPage("Invalid Username. Username can contain only letters or numbers."));
         return; 
     }
-    
-    const sid = uuidv4();
-    sessions.updateSession({ sid, username });
+
     // First time login, create a default user data for this new user and start a new game
     if(!model.getCurrentUser(username)) {
         const secretWord = engine.start(wordList);
-        console.log(`Username: ${username}, SecretWord: ${secretWord}`);
         model.createUser({username, secretWord, wordList});
+        console.log(`Username: ${username}, SecretWord: ${secretWord}`);
     } 
+    
+    const sid = uuidv4();
+    sessions.updateSession({ sid, username });
     res.cookie('sid', sid);
+
+    // Respond with a redirect to the Home Page
     res.redirect('/');
 });
 
@@ -59,6 +62,8 @@ app.post('/logout', (req, res) => {
     const sid = req.cookies.sid;
     sessions.deleteSession(sid);
     res.clearCookie('sid');
+
+    // Respond with a redirect to the Home Page
     res.redirect('/');
 });
 
@@ -78,7 +83,7 @@ app.post('/guess', (req, res) => {
     const user = model.getCurrentUser(username);
     user.guessWord = guess.toLowerCase();
 
-    // If the guess is not valid, the server will update the server state for that player and respond with a redirect to the Home Page
+    // If the guess is not valid, update the user's data and respond with a redirect to the Home Page
     if(!engine.isValidGuess(user)) {
         user.recentGuess = {
             isValid: false,
@@ -89,11 +94,11 @@ app.post('/guess', (req, res) => {
         res.redirect('/');
         return;
     }
-    // If the guess is valid, the server will update the server state for that player and respond with a redirect to the Home Page
+
+    // If the guess is valid, update the user's data and respond with a redirect to the Home Page
     engine.takeTurn(user);
     res.redirect('/');
 });
-
 
 app.post('/new-game', (req, res) => {
     const sid = req.cookies.sid;
@@ -108,8 +113,10 @@ app.post('/new-game', (req, res) => {
     
     const { username } = sessions.getSession(sid);
     const secretWord = engine.start(wordList);
-    console.log(`Username: ${username}, SecretWord: ${secretWord}`);
     model.updateUser({username, secretWord, wordList});
+    console.log(`Username: ${username}, SecretWord: ${secretWord}`);
+
+    // Respond with a redirect to the Home Page.
     res.redirect('/');
 });
 
