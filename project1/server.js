@@ -9,8 +9,8 @@ const PORT = 3000;
 const sessions = require('./sessions'); // "sessions" holds all users' sessions
 const model = require('./model'); // "model" holds all the non-web logic thing
 const view = require('./view'); // "view" holds the templates for the generated HTML
-const engine = require('./game');
-const wordList = require('./words');
+const engine = require('./engine'); // "engine" is the game's engine
+const wordList = require('./words'); // "words" holds all possible words
 
 app.use(cookieParser());
 app.use(express.static('./public'));
@@ -28,15 +28,14 @@ app.get('/', (req, res) => {
     }
     
     const { username } = sessions.getSession(sid);
-    const game = model.getCurrentUser(username);
-    res.send(view.homePage({ username,  game}));
+    const user = model.getCurrentUser(username);
+    res.send(view.homePage({ username,  user}));
 });
 
 app.post('/login', (req,res) => {
     const username = req.body.username.trim();
-    //TODO---: This could be a simple string check. You don't need a regex for this
-    const regexOfBadUsername = new RegExp('^dog$', 'i');
-    const regex = new RegExp('^[a-zA-Z0-9]*$');
+    const regexOfBadUsername = /^dog$/i;
+    const regex = /^[a-zA-Z0-9]*$/;
 
     // If the username is invalid (including "dog"), respond with a login form that contains a message about the username being invalid
     if(!username || regexOfBadUsername.test(username) || !regex.test(username)){
@@ -50,7 +49,7 @@ app.post('/login', (req,res) => {
     if(!model.getCurrentUser(username)) {
         const secretWord = engine.start(wordList);
         console.log(`Username: ${username}, SecretWord: ${secretWord}`);
-        model.createGameData({username, secretWord, wordList});
+        model.createUser({username, secretWord, wordList});
     } 
     res.cookie('sid', sid);
     res.redirect('/');
@@ -76,22 +75,22 @@ app.post('/guess', (req, res) => {
 
     const guess = req.body.word;
     const { username } = sessions.getSession(sid);
-    const game = model.getCurrentUser(username);
-    game.guessWord = guess.toLowerCase();
+    const user = model.getCurrentUser(username);
+    user.guessWord = guess.toLowerCase();
 
     // If the guess is not valid, the server will update the server state for that player and respond with a redirect to the Home Page
-    if(!engine.isValidGuess(game)) {
-        game.recentGuess = {
+    if(!engine.isValidGuess(user)) {
+        user.recentGuess = {
             isValid: false,
-            guess:game.guessWord,
+            guess:user.guessWord,
             match: 0,
         }
-        game.guessWord = "";
+        user.guessWord = "";
         res.redirect('/');
         return;
     }
     // If the guess is valid, the server will update the server state for that player and respond with a redirect to the Home Page
-    engine.takeTurn(game);
+    engine.takeTurn(user);
     res.redirect('/');
 });
 
@@ -110,7 +109,7 @@ app.post('/new-game', (req, res) => {
     const { username } = sessions.getSession(sid);
     const secretWord = engine.start(wordList);
     console.log(`Username: ${username}, SecretWord: ${secretWord}`);
-    model.updateGameData({username, secretWord, wordList});
+    model.updateUser({username, secretWord, wordList});
     res.redirect('/');
 });
 

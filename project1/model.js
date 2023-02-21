@@ -6,7 +6,7 @@ function getCurrentUser(username) {
 }
 
 /*  Create a default user data for new users */
-function createGameData( {username, secretWord, wordList} ) {
+function createUser( {username, secretWord, wordList} ) {
   users[username] = {
     wordList: wordList.map((x) => x.toLowerCase()),
     secretWord,
@@ -21,8 +21,8 @@ function createGameData( {username, secretWord, wordList} ) {
   };
 }
 
-/*  Create and update user data for existing users */
-function updateGameData({username, secretWord, wordList}) {
+/*  Update user data for existing users */
+function updateUser({username, secretWord, wordList}) {
 
   const { win, numberOfGames, numberOfWinGames, bestScoreOfWinGames} = users[username];
 
@@ -43,6 +43,6 @@ function updateGameData({username, secretWord, wordList}) {
 
 module.exports = {
   getCurrentUser,
-  createGameData,
-  updateGameData
+  createUser,
+  updateUser
 };

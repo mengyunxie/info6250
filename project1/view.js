@@ -1,6 +1,6 @@
 "use strict";
 const view = {
-    homePage: function({username, game}) {
+    homePage: function({username, user}) {
       return `
         <!doctype html>
         <html>
@@ -15,22 +15,22 @@ const view = {
                 <button type="submit" class="logout-to-submit">Logout</button>
               </form>
               <div class="guess-records">
-                <div class="recent-guess">
+                <div class="recent-record">
                   <p class="panel-title">Recent Guess</p>
-                  ${view.getRecentGuess(game)}
+                  ${view.getRecentGuess(user)}
                 </div>
                 <div class="previous-guesses">
                   <p class="panel-title">Previous Guesses</p>
-                  ${view.getPreviousGuesses(game)}
+                  ${view.getPreviousGuesses(user)}
                 </div>
               </div>
               <div class="score-records">
-                ${view.getScore(game)}
-                ${view.getStatistics(game)}
+                ${view.getScore(user)}
+                ${view.getStatistics(user)}
               </div>
               <main class="game">
-                ${view.getPossibleWords(game)}
-                ${game.win ? view.getWin(game) : view.getGuessForm(game)}
+                ${view.getPossibleWords(user)}
+                ${user.win ? view.getWin(user) : view.getGuessForm(user)}
                 ${view.getNewGame()}
               </main>
             </div>
@@ -38,16 +38,16 @@ const view = {
         </html>
       `;
     },
-    getWin: function(game) {
+    getWin: function(user) {
       return `<div class="game-win">
-        <span class="game-win-message">Congratulation! You won in ${game.turns} turns!</span>
+        <span class="game-win-message">Congratulation! You won in ${user.turns} turns!</span>
       </div>`;
     },
-    getGuessForm: function(game) {
+    getGuessForm: function(user) {
       return `<form action="/guess" method="POST" class="guess-form">
         <label class="guess-label">
           <span>Your Guess Word:</span>
-          <input type="text" name="word" class="guess-to-send" value="${game.guessWord}" placeholder="Enter your guess word" />
+          <input type="text" name="word" class="guess-to-send" value="${user.guessWord}" placeholder="Enter your guess word" />
         </label>
         <button type="submit" class="guess-to-submit">Guess</button>
       </form>`;
@@ -57,11 +57,11 @@ const view = {
         <button type="submit" class="new-game-submit">Start a New Game</button>
       </form>`;
     },
-    getPossibleWords: function(game) {
+    getPossibleWords: function(user) {
       return `<div class="possible-words">
         <p class="panel-title">Possible Words</p>
         <div class="words">` +
-        Object.values(game.wordList).map( (word) => `
+        Object.values(user.wordList).map( (word) => `
           <span>
           ${word}
           </span>
@@ -69,38 +69,38 @@ const view = {
         `</div>
       </div>`;
     },
-    getRecentGuess: function(game) {
-      if(Object.keys(game.recentGuess).length == 0) {
+    getRecentGuess: function(user) {
+      if(Object.keys(user.recentGuess).length == 0) {
         return `<p class="no-data">No Recent Guess</p>`;
       }
-      if(!game.recentGuess.isValid) {
-        return `<p class="invalid-guess"><span class="word-highlight">${game.recentGuess.guess}</span> is invalid guess. Please enter a word from the list of possible word.</p>`;
+      if(!user.recentGuess.isValid) {
+        return `<p class="invalid-guess"><span class="word-highlight">${user.recentGuess.guess}</span> is invalid guess. Please enter a word from the list of possible word.</p>`;
       }
-      return `<p><span class="word-highlight">${game.recentGuess.guess}</span>, match: <span class="word-highlight">${game.recentGuess.match}</span> letters</p>`;
+      return `<p class="recent-guess"><span class="word-highlight">${user.recentGuess.guess}</span>, match: <span class="word-highlight">${user.recentGuess.match}</span> letters</p>`;
     },
-    getPreviousGuesses: function(game) {
-      if(Object.keys(game.previousGuesses).length == 0) {
+    getPreviousGuesses: function(user) {
+      if(Object.keys(user.previousGuesses).length == 0) {
         return `<p class="no-data">No Previous Valid Guess</p>`;
       }
       return `<ul class="previous-guess">` +
-        Object.entries(game.previousGuesses).map( ([guess, match]) => `
+        Object.entries(user.previousGuesses).map( ([guess, match]) => `
           <li><span class="word-highlight">${guess}</span>, match: <span class="word-highlight">${match}</span> letters</li>
         `).join('') +
       `</ul>`;
     },
-    getScore: function(game) {
+    getScore: function(user) {
       return `<div class="current-score">
         <p class="panel-title">Current Game's Score</p>
-        <p>Your Score: <span class="word-highlight">${game.turns}</span></p>
-        <p class="score-info">(It is the number of valid guesses)</p>
+        <p>Your Score: <span class="word-highlight">${user.turns}</span></p>
+        <p class="score-info">(The score is the number of valid guesses)</p>
       </div>`;
     },
-    getStatistics: function(game) {
-      return `<div class="statistics">
+    getStatistics: function(user) {
+      return `<div class="statistics-records">
         <p class="panel-title">Statistics</p>
-        <p>The number of games: <span class="word-highlight">${game.numberOfGames}</span></p>
-        <p>The number of win games: <span class="word-highlight">${game.numberOfWinGames}</span></p>
-        <p>The best score of win games: ${game.bestScoreOfWinGames == 0 ? `<span class="no-data">You haven't won a game.</span>` : `<span class="word-highlight">${game.bestScoreOfWinGames}</span>`}</p>
+        <p class="statistics-record">Number of games: <span class="word-highlight">${user.numberOfGames}</span></p>
+        <p class="statistics-record">Number of win games: <span class="word-highlight">${user.numberOfWinGames}</span></p>
+        <p class="statistics-record">Best score of win games: ${user.bestScoreOfWinGames == 0 ? `<span class="no-data">You haven't won a game.</span>` : `<span class="word-highlight">${user.bestScoreOfWinGames}</span>`}</p>
       </div>`;
     },
     loginPage: function(message) {
