@@ -79,13 +79,13 @@
   }
 
   .no-data {
-    color: #697075;
+    color: #6c6c6c;
   }
     
   .recent-record {
     display: flex;
     flex-direction: column;
-    padding: 1rem 0;
+    padding: 1rem;
     border: 1px solid #007acc;
     border-radius: 1rem;
     margin-bottom: 1rem;
@@ -94,26 +94,16 @@
 
   .invalid-guess {
     color: #e66119;
-    padding: 0 1rem;
-    overflow-y: auto;
-    max-height: 10rem;
-    word-break: break-word;
   }
 
   .invalid-guess .word-highlight {
     color: #e66119;
   }
 
-  .recent-guess {
-    padding: 0 1rem;
-    overflow-y: auto;
-    max-height: 10rem;
-  }
-
   .previous-guesses {
     display: flex;
     flex-direction: column;
-    padding: 1rem 0;
+    padding: 1rem;
     border: 1px solid #007acc;
     border-radius: 1rem;
     text-align: center;
@@ -122,9 +112,7 @@
   .previous-guess {
     list-style-type: none;
     margin: 0;
-    padding: 0 1rem;
-    overflow-y: auto;
-    max-height: 15rem;
+    padding: 0;
   }
 
   .previous-guess li {
@@ -142,7 +130,7 @@
   }
 
   .score-info {
-    color: #697075;
+    color: #6c6c6c;
     font-size: smaller;
   }
 
@@ -178,10 +166,10 @@
 
   .words span {
     display: inline-block;
-    background-color: cornsilk;
+    background-color: #fff8dc;
     padding: 0.1rem 0.2rem;
     margin: 0 0.3rem 0.3rem 0;
-    border: 1px solid cornsilk;
+    border: 1px solid #fff8dc;
     border-radius: 0.5rem;
     word-break: break-word;
   }

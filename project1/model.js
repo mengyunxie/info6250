@@ -8,7 +8,7 @@ function getCurrentUser(username) {
 /*  Create a default user data for new users */
 function createUser( {username, secretWord, wordList} ) {
   users[username] = {
-    wordList: wordList.map((x) => x.toLowerCase()),
+    wordList,
     secretWord,
     guessWord: "",
     win: false,
@@ -27,7 +27,7 @@ function updateUser({username, secretWord, wordList}) {
   const { win, numberOfGames, numberOfWinGames, bestScoreOfWinGames} = users[username];
 
   users[username] = {
-    wordList: wordList.map((x) => x.toLowerCase()),
+    wordList,
     secretWord,
     guessWord: "",
     win: false,

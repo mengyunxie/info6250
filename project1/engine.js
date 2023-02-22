@@ -1,61 +1,74 @@
 "use strict";
 
-function start(wordList) {
+function pickWord(wordList) {
+  // Pick a random word from the list of available words
   return wordList[Math.floor(Math.random() * wordList.length)];
 }
 
-function takeTurn(game) {
-  game.turns++;
-  const filteredList = game.wordList.filter(function(value, index, arr){ 
-      return value != game.guessWord;
-  });
-  game.wordList = filteredList;
+function takeTurn(user) {
+  // This is a valid guess, turns increases one
+  user.turns++;
 
-  if(exactMatch(game.secretWord, game.guessWord)) {
-    game.win = true;
-    game.recentGuess = {
+  // Remove the current guess from the list of possible words
+  user.wordList = user.wordList.filter(function(value){ 
+    return value.toLowerCase() != user.guessWord.toLowerCase();
+  });
+
+  // If it is a correct guess, update the user's data
+  if(exactMatch(user.secretWord, user.guessWord)) {
+    // If win is true, the user can't continue to guess in this same game
+    user.win = true;
+    user.recentGuess = {
       isValid: true,
-      guess: game.guessWord,
-      match: game.guessWord.length
+      guess: user.guessWord,
+      match: user.guessWord.length
     }
-    game.previousGuesses[game.guessWord] = game.guessWord.length;
-    const { turns, numberOfGames, numberOfWinGames, bestScoreOfWinGames} = game;
-    game.numberOfGames = numberOfGames + 1;
-    game.numberOfWinGames =  numberOfWinGames + 1;
-    game.bestScoreOfWinGames = bestScoreOfWinGames == 0 ? turns : Math.min(turns, bestScoreOfWinGames);
+    user.previousGuesses[user.guessWord] = user.guessWord.length;
+
+    // Update the statistics
+    const { turns, numberOfGames, numberOfWinGames, bestScoreOfWinGames} = user;
+    user.numberOfGames = numberOfGames + 1;
+    user.numberOfWinGames =  numberOfWinGames + 1;
+
+    // If it's the first time, the best score is the current turns
+    user.bestScoreOfWinGames = bestScoreOfWinGames == 0 ? turns : Math.min(turns, bestScoreOfWinGames);
     return;
   }
-  game.win = false;
-  const match = compare(game.secretWord, game.guessWord);
-  game.recentGuess = {
+
+  // If it is a incorrect guess, find the match letters and update the user's data
+  user.win = false;
+  const match = compare(user.secretWord, user.guessWord);
+  user.recentGuess = {
     isValid: true,
-    guess: game.guessWord,
+    guess: user.guessWord,
     match
   }
+  user.previousGuesses[user.guessWord] = match;
 
-  game.previousGuesses[game.guessWord] = match;
-  game.guessWord = "";
+  // After this turn, reset the guess to empty
+  user.guessWord = "";
 }
 
-function isValidGuess(game) {
-
-  return game.wordList.includes(game.guessWord);
+function isValidGuess(user) {
+  // Return true, if the current list of possible words contains the guess
+  return user.wordList.filter((word) => word.toLowerCase()).includes(user.guessWord.toLowerCase())
 }
 
 function exactMatch(word, guess) {
-  return word.toUpperCase() === guess.toUpperCase(); // Case-insensitive compare
+  return word.toLowerCase() === guess.toLowerCase(); // Case-insensitive compare
 }
 
 function compare( word, guess ) {
   let matches = 0;
-  const wordUpperCase = word.toLowerCase();
-  const guessUpperCase = guess.toLowerCase();
+  const wordLowerCase = word.toLowerCase();
+  const guessLowerCase = guess.toLowerCase();
   const letterCount = {};
 
-  for( let letter of wordUpperCase ) {
+  for( let letter of wordLowerCase ) {
     letterCount[letter] = letterCount[letter] + 1 || 1;
   }
-  for( let letter of guessUpperCase ) {
+
+  for( let letter of guessLowerCase ) {
     if( letterCount[letter] ) {
       letterCount[letter] -= 1;
       matches += 1;
@@ -66,7 +79,7 @@ function compare( word, guess ) {
 }
 
 module.exports = {
-  start,
+  pickWord,
   takeTurn,
   isValidGuess
 };

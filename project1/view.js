@@ -5,7 +5,7 @@ const view = {
         <!doctype html>
         <html>
           <head>
-            <title>Express Login</title>
+            <title>Guess Word</title>
             <link rel="stylesheet" href="home.css">
           </head>
           <body>
@@ -74,7 +74,7 @@ const view = {
         return `<p class="no-data">No Recent Guess</p>`;
       }
       if(!user.recentGuess.isValid) {
-        return `<p class="invalid-guess"><span class="word-highlight">${user.recentGuess.guess}</span> is invalid guess. Please enter a word from the list of possible word.</p>`;
+        return `<p class="invalid-guess"><span class="word-highlight">${user.recentGuess.guess}</span> is invalid guess. Please enter a word from the list of possible words.</p>`;
       }
       return `<p class="recent-guess"><span class="word-highlight">${user.recentGuess.guess}</span>, match: <span class="word-highlight">${user.recentGuess.match}</span> letters</p>`;
     },
@@ -108,12 +108,12 @@ const view = {
         <!doctype html>
         <html>
           <head>
-            <title>Express Login</title>
+            <title>Guess Word</title>
             <link rel="stylesheet" href="login.css">
           </head>
           <body>
             <main class="login">
-              <p class="login-greeting">Welcome to Express Login!</p>
+              <p class="login-greeting">Welcome to Guess Word!</p>
               <div class="login-main">
                 <p class="login-message">${message ? `${message}` : ""}</p>
                 <form action="/login" method="POST" class="login-form">

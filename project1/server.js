@@ -43,9 +43,9 @@ app.post('/login', (req,res) => {
         return; 
     }
 
-    // First time login, create a default user data for this new user and start a new game
+    // First time login, create a default user data for this new user and pickWord a new secret word
     if(!model.getCurrentUser(username)) {
-        const secretWord = engine.start(wordList);
+        const secretWord = engine.pickWord(wordList);
         model.createUser({username, secretWord, wordList});
         console.log(`Username: ${username}, SecretWord: ${secretWord}`);
     } 
@@ -81,7 +81,7 @@ app.post('/guess', (req, res) => {
     const guess = req.body.word;
     const { username } = sessions.getSession(sid);
     const user = model.getCurrentUser(username);
-    user.guessWord = guess.toLowerCase();
+    user.guessWord = guess;
 
     // If the guess is not valid, update the user's data and respond with a redirect to the Home Page
     if(!engine.isValidGuess(user)) {
@@ -112,7 +112,7 @@ app.post('/new-game', (req, res) => {
     }
     
     const { username } = sessions.getSession(sid);
-    const secretWord = engine.start(wordList);
+    const secretWord = engine.pickWord(wordList);
     model.updateUser({username, secretWord, wordList});
     console.log(`Username: ${username}, SecretWord: ${secretWord}`);
 
