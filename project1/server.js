@@ -78,13 +78,13 @@ app.post('/guess', (req, res) => {
         return;
     }
 
-    const guess = req.body.word;
     const { username } = sessions.getSession(sid);
     const user = model.getCurrentUser(username);
-    user.guessWord = guess;
+    user.guessWord = req.body.word;
 
     // If the guess is not valid, update the user's data and respond with a redirect to the Home Page
-    if(!engine.isValidGuess(user)) {
+    const regex = /^[a-zA-Z]*$/; // A guess only be letters, but can be capital or lowercase 
+    if(!engine.isValidGuess(user) || !regex.test(user.guessWord)) {
         user.recentGuess = {
             isValid: false,
             guess:user.guessWord,

@@ -74,7 +74,7 @@ const view = {
         return `<p class="no-data">No Recent Guess</p>`;
       }
       if(!user.recentGuess.isValid) {
-        return `<p class="invalid-guess"><span class="word-highlight">${user.recentGuess.guess}</span> is invalid guess. Please enter a word from the list of possible words.</p>`;
+        return `<p class="invalid-guess"><span class="word-highlight">${user.recentGuess.guess}</span> is invalid guess. Only letters are allowed! Please enter a word from the list of possible words.</p>`;
       }
       return `<p class="recent-guess"><span class="word-highlight">${user.recentGuess.guess}</span>, match: <span class="word-highlight">${user.recentGuess.match}</span> letters</p>`;
     },
