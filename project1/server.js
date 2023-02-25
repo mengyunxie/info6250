@@ -28,7 +28,7 @@ app.get('/', (req, res) => {
     }
     
     const { username } = sessions.getSession(sid);
-    const user = model.getCurrentUser(username);
+    const user = model.getCurrentUserData(username);
     res.send(view.homePage({ username,  user}));
 });
 
@@ -44,9 +44,9 @@ app.post('/login', (req,res) => {
     }
 
     // First time login, create a default user data for this new user and pickWord a new secret word
-    if(!model.getCurrentUser(username)) {
+    if(!model.getCurrentUserData(username)) {
         const secretWord = engine.pickWord(wordList);
-        model.createUser({username, secretWord, wordList});
+        model.createUserData({username, secretWord, wordList});
         console.log(`Username: ${username}, SecretWord: ${secretWord}`);
     } 
     
@@ -78,25 +78,34 @@ app.post('/guess', (req, res) => {
         return;
     }
 
+    const guess = req.body.word;
     const { username } = sessions.getSession(sid);
-    const user = model.getCurrentUser(username);
-    user.guessWord = req.body.word;
-
+    
+    const regex = /^[a-zA-Z]*$/; // A guess must be letters, but can be capital or lowercase
     // If the guess is not valid, update the user's data and respond with a redirect to the Home Page
-    const regex = /^[a-zA-Z]*$/; // A guess only be letters, but can be capital or lowercase 
-    if(!engine.isValidGuess(user) || !regex.test(user.guessWord)) {
-        user.recentGuess = {
-            isValid: false,
-            guess:user.guessWord,
-            match: 0,
-        }
-        user.guessWord = "";
+    if(!engine.isValidGuess(model.getwordList(username), guess) || !regex.test(guess)) {
+        model.setRecentGuess({username, isValid: false, guess, match: 0});
+        model.setGuessWord({username, guess: ""});     
         res.redirect('/');
         return;
     }
 
     // If the guess is valid, update the user's data and respond with a redirect to the Home Page
-    engine.takeTurn(user);
+    model.setGuessWord({username, guess});
+    model.addTurnsByone(username);
+    model.removeGuess({username, guess});
+    const secretWord = model.getSecretWord(username);
+    const {win, match} = engine.takeTurn(secretWord, guess);
+    model.setRecentGuess({username, isValid: true, guess, match});
+    model.setPreviousGuesses({username, guess, match});
+
+    if(win) { // If win, the user can't continue to guess in this same game
+        model.setWin({username, win: true})
+        model.setStatisticsForWin(username); // Update the statistics
+    } else {
+        model.setWin({username, win: false});
+        model.setGuessWord({username, guess: ""}); // If it is a incorrect guess, reset the guess to empty after this turn
+    }
     res.redirect('/');
 });
 
@@ -113,7 +122,7 @@ app.post('/new-game', (req, res) => {
     
     const { username } = sessions.getSession(sid);
     const secretWord = engine.pickWord(wordList);
-    model.updateUser({username, secretWord, wordList});
+    model.setUserDataForNewGame({username, secretWord, wordList});
     console.log(`Username: ${username}, SecretWord: ${secretWord}`);
 
     // Respond with a redirect to the Home Page.
