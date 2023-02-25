@@ -1,7 +1,7 @@
 "use strict";
 const users = {};
 
-/*  Create a default user data for new users */
+/*  Create a default user data for new users. numberOfGames, numberOfWinGames, bestScoreOfWinGames these are statistics */
 function createUserData( {username, secretWord, wordList} ) {
   users[username] = {
     wordList,
@@ -29,7 +29,7 @@ function getSecretWord(username) {
   return users[username].secretWord;
 }
 
-/*  Set user data for a new game */
+/*  Set user data for a new game, reset all data except Statistics */
 function setUserDataForNewGame({username, secretWord, wordList}) {
 
   const { win, numberOfGames, numberOfWinGames, bestScoreOfWinGames} = users[username];

@@ -19,7 +19,7 @@ app.use(express.urlencoded({ extended: false }));
 app.get('/', (req, res) => {
     const sid = req.cookies.sid;
 
-    // If there is not a valid session id, the page will display a message and a login form
+    // If there is not a valid session id, the page will display a login form
     if(!sid || !sessions.isValid(sid)) {
         sessions.deleteSession(sid);
         res.clearCookie('sid');
@@ -29,7 +29,7 @@ app.get('/', (req, res) => {
     
     const { username } = sessions.getSession(sid);
     const user = model.getCurrentUserData(username);
-    res.send(view.homePage({ username,  user}));
+    res.send(view.homePage({username,  user}));
 });
 
 app.post('/login', (req,res) => {
@@ -80,24 +80,24 @@ app.post('/guess', (req, res) => {
 
     const guess = req.body.word;
     const { username } = sessions.getSession(sid);
-    
     const regex = /^[a-zA-Z]*$/; // A guess must be letters, but can be capital or lowercase
+
     // If the guess is not valid, update the user's data and respond with a redirect to the Home Page
     if(!engine.isValidGuess(model.getwordList(username), guess) || !regex.test(guess)) {
         model.setRecentGuess({username, isValid: false, guess, match: 0});
-        model.setGuessWord({username, guess: ""});     
+        model.setGuessWord({username, guess: ""}); // If it is a invalid guess, reset the guess to empty after this turn     
         res.redirect('/');
         return;
     }
 
     // If the guess is valid, update the user's data and respond with a redirect to the Home Page
-    model.setGuessWord({username, guess});
-    model.addTurnsByone(username);
-    model.removeGuess({username, guess});
     const secretWord = model.getSecretWord(username);
     const {win, match} = engine.takeTurn(secretWord, guess);
+    model.setGuessWord({username, guess});
     model.setRecentGuess({username, isValid: true, guess, match});
     model.setPreviousGuesses({username, guess, match});
+    model.addTurnsByone(username);
+    model.removeGuess({username, guess}); 
 
     if(win) { // If win, the user can't continue to guess in this same game
         model.setWin({username, win: true})
