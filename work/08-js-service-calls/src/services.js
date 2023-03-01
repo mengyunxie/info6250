@@ -34,5 +34,54 @@ export function fetchLogin(username) {
   });
 }
 
+export function fetchLogout() {
+  return fetch('/api/session', {
+    method: 'DELETE'
+  })
+  .catch( err => Promise.reject({ error: 'network-error' }) )
+  .then( response => {
+    if(!response.ok) {  // response.ok checks the status code from the service
+      return response.json().then( err => Promise.reject(err) );
+    }
+    return response.json(); // happy status code means resolve with data from service
+  });
+}
 
+export function fetchSession() {
+  return fetch('/api/session')
+    .catch( err => Promise.reject({ error: 'network-error' }) )
+    .then( response => {
+      if(!response.ok) {  // response.ok checks the status code from the service
+        return response.json().then( err => Promise.reject(err) );
+      }
+      return response.json(); // happy status code means resolve with data from service
+    });
+}
 
+export function fetchWord() {
+  return fetch('/api/word')
+    .catch( err => Promise.reject({ error: 'network-error' }) )
+    .then( response => {
+      if(!response.ok) {  // response.ok checks the status code from the service
+        return response.json().then( err => Promise.reject(err) );
+      }
+      return response.json(); // happy status code means resolve with data from service
+    });
+}
+
+export function updateWord(word) {
+  return fetch('/api/word/', {
+    method: 'POST',
+    headers: {
+      'content-type': 'application/json', // set this header when sending JSON in the body of request
+    },
+    body: JSON.stringify( { word } ),
+  })
+  .catch( err => Promise.reject({ error: 'network-error' }) )
+  .then( response => {
+    if(!response.ok) {  // response.ok checks the status code from the service
+      return response.json().then( err => Promise.reject(err) );
+    }
+    return response.json(); // happy status code means resolve with data from service
+  });
+}
