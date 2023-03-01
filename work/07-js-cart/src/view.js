@@ -1,4 +1,4 @@
-function generateProductsHtml(products) {
+function generateProductsListHtml(products) {
   const listHtml = Object.keys(products).map( name => {
     return `
       <li class="product">
@@ -13,15 +13,20 @@ function generateProductsHtml(products) {
 }
 
 function generateNavigateHtml({isViewCartPage, totalItems}) {
+  if(isViewCartPage) {
+      return `<button type="button" class="navigate-button to-hide">Hide Cart</button>`;
+  }
   const totalInfo = totalItems == 0 ? "" : ` (${totalItems})`;
-  return isViewCartPage ? `<button type="button" class="navigate-button to-hide">Hide Cart</button>` : `<button type="button" class="navigate-button to-view">View Cart${totalInfo}</button>`
+  return `<button type="button" class="navigate-button to-view">View Cart${totalInfo}</button>`
 }
 
 function generateCartsHtml({products, carts}) {
   if(Object.keys(carts).length == 0) {
     return `<p class="no-data">Nothing in the cart</p>`;
   }
+
   const listHtml = Object.keys(carts).map( name => {
+
     const priceOfItem = (products[name].price * carts[name].quantity).toFixed(2);
     return `
       <li class="cart">
@@ -35,23 +40,43 @@ function generateCartsHtml({products, carts}) {
   return `<ul class="carts">${listHtml}</ul>`;
 }
 
-function generateCheckoutHtml(totalPrice) {
- return `
-  <div class="checkout">
-    <span class="checkout-price"> Total Price: $${totalPrice}</span>
-    <button type="button" class="to-checkout">Checkout</button>
-  </div>
- `;
+function generateCheckoutHtml({carts, totalPrice}) {
+  if(Object.keys(carts).length == 0) {
+    return "";
+  }
+
+  return `
+    <div class="checkout">
+      <span class="checkout-price"> Total Price: $${totalPrice}</span>
+      <button type="button" class="to-checkout">Checkout</button>
+    </div>
+  `;
+}
+
+function generateViewCartContentHtml({products, carts, isViewCartPage, totalPrice}) {
+  if(!isViewCartPage) {
+    return "";
+  }
+
+  const cartsHtml = generateCartsHtml({products, carts});
+  const checkoutHtml = generateCheckoutHtml({carts, totalPrice});
+
+  return `
+    <div class="view-cart-content">
+      ${cartsHtml}
+      ${checkoutHtml}
+    </div>
+  `;
 }
 
 export function renderProducts({products, productsEl}) {
-  const productsHtml = generateProductsHtml(products);
+  const productsHtml = generateProductsListHtml(products);
   productsEl.innerHTML = `${productsHtml}`;
 }
 
-export function renderViewCart({products, carts, isViewCartPage, navigateCartEl}) {
-  const hideClass = isViewCartPage ? "" : "hide";
+export function renderViewCart({products, carts, isViewCartPage, viewCartEl}) {
 
+  // Calculate total items and price in the carts
   let totalItems = 0;
   let totalPrice = 0;
   Object.keys(carts).forEach(name => {
@@ -61,14 +86,10 @@ export function renderViewCart({products, carts, isViewCartPage, navigateCartEl}
   totalPrice = totalPrice.toFixed(2);
 
   const navigateHtml = generateNavigateHtml({isViewCartPage, totalItems});
-  const cartsHtml = generateCartsHtml({products, carts});
-  const checkoutHtml = generateCheckoutHtml(totalPrice);
+  const viewCartContentHtml = generateViewCartContentHtml({products, carts, isViewCartPage, totalPrice});
 
-  navigateCartEl.innerHTML = `
-  ${navigateHtml}
-  <div class="view-carts ${hideClass}">
-    ${!isViewCartPage ? "" : cartsHtml }
-    ${!isViewCartPage || totalItems == 0 ? "" : checkoutHtml}
-  </div>
+  viewCartEl.innerHTML = `
+    ${navigateHtml}
+    ${viewCartContentHtml}
   `;
 }

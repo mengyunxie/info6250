@@ -1,42 +1,39 @@
 let carts = {};
 
-/* Add a new item to cart, each item only has name and quantity. */
-export function createCart(name) {
+export function getCarts() {
+  return carts;
+}
+
+/* Clear the carts */
+export function resetCarts() {
+  carts = {};
+};
+
+/* Add a new item to carts, each item only has name as key and quantity. */
+export function addItemToCarts(name) {
   carts[name] = {
     name,
     quantity: 1
   }
 };
 
-export function deleteCart(name) {
+export function deleteItemFromCarts(name) {
   delete carts[name];
 };
 
-/* Clear the carts object */
-export function resetCarts() {
-  carts = {};
-};
+/* If the item exist, return true */
+export function hasItemInCarts(name) {
+  return carts[name] ? true : false;
+}
 
-export function addCartQuantityByOne(name) {
+/* Increase the quantity by one */
+export function addQuantityByOne(name) {
   carts[name].quantity = carts[name].quantity + 1;
 };
 
-export function setCartQuantity({name, quantity}) {
+export function setQuantity({name, quantity}) {
   carts[name].quantity = quantity;
 };
-
-export function getCartQuantity(name) {
-  return carts[name].quantity;
-};
-
-export function getCarts() {
-  return carts;
-}
-
-/* If the item exist, return true */
-export function hasCart(name) {
-  return carts[name] ? true : false;
-}
 
 /* If the quantity is valid, return true */
 export function isValidQuantity(quantity) {
