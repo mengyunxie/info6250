@@ -1,5 +1,6 @@
 let carts = {};
 
+/* Add a new item to cart, each item only has name and quantity. */
 export function createCart(name) {
   carts[name] = {
     name,
@@ -11,6 +12,7 @@ export function deleteCart(name) {
   delete carts[name];
 };
 
+/* Clear the carts object */
 export function resetCarts() {
   carts = {};
 };
@@ -31,6 +33,12 @@ export function getCarts() {
   return carts;
 }
 
+/* If the item exist, return true */
 export function hasCart(name) {
   return carts[name] ? true : false;
+}
+
+/* If the quantity is valid, return true */
+export function isValidQuantity(quantity) {
+  return (quantity && quantity > 0) ? true : false;
 }

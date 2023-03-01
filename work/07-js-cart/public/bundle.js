@@ -16,10 +16,13 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   "getCartQuantity": () => (/* binding */ getCartQuantity),
 /* harmony export */   "getCarts": () => (/* binding */ getCarts),
 /* harmony export */   "hasCart": () => (/* binding */ hasCart),
+/* harmony export */   "isValidQuantity": () => (/* binding */ isValidQuantity),
 /* harmony export */   "resetCarts": () => (/* binding */ resetCarts),
 /* harmony export */   "setCartQuantity": () => (/* binding */ setCartQuantity)
 /* harmony export */ });
 var carts = {};
+
+/* Add a new item to cart, each item only has name and quantity. */
 function createCart(name) {
   carts[name] = {
     name: name,
@@ -31,6 +34,8 @@ function deleteCart(name) {
   delete carts[name];
 }
 ;
+
+/* Clear the carts object */
 function resetCarts() {
   carts = {};
 }
@@ -52,8 +57,15 @@ function getCartQuantity(name) {
 function getCarts() {
   return carts;
 }
+
+/* If the item exist, return true */
 function hasCart(name) {
   return carts[name] ? true : false;
+}
+
+/* If the quantity is valid, return true */
+function isValidQuantity(quantity) {
+  return quantity && quantity > 0 ? true : false;
 }
 
 /***/ }),
@@ -78,6 +90,8 @@ var currentPage = PAGES.PRODUCTS;
 function setCurrentPage(page) {
   currentPage = page;
 }
+
+/* If currentPage is PAGES.CARTS, return true */
 function isViewCartPage() {
   return currentPage == PAGES.CARTS ? true : false;
 }
@@ -271,14 +285,19 @@ function init() {
     navigateCartEl: navigateCartEl
   });
 }
+
+/* Load the page */
 init();
 productsEl.addEventListener('click', function (e) {
   if (e.target.classList.contains('product-add')) {
+    // Click the "Add to Cart" button
     var name = e.target.dataset.name;
-    if (!_stateOfCarts__WEBPACK_IMPORTED_MODULE_1__.hasCart(name)) {
-      _stateOfCarts__WEBPACK_IMPORTED_MODULE_1__.createCart(name);
-    } else {
+    if (_stateOfCarts__WEBPACK_IMPORTED_MODULE_1__.hasCart(name)) {
+      // Exist item, increase the quantity by one
       _stateOfCarts__WEBPACK_IMPORTED_MODULE_1__.addCartQuantityByOne(name);
+    } else {
+      // Add new item to carts, create this item
+      _stateOfCarts__WEBPACK_IMPORTED_MODULE_1__.createCart(name);
     }
     (0,_view__WEBPACK_IMPORTED_MODULE_3__.renderViewCart)({
       products: _stateOfProducts__WEBPACK_IMPORTED_MODULE_0__["default"],
@@ -291,6 +310,7 @@ productsEl.addEventListener('click', function (e) {
 });
 navigateCartEl.addEventListener('click', function (e) {
   if (e.target.classList.contains('to-view')) {
+    // Click the "View Cart" button
     (0,_stateOfPage__WEBPACK_IMPORTED_MODULE_2__.setCurrentPage)(_stateOfPage__WEBPACK_IMPORTED_MODULE_2__.PAGES.CARTS);
     (0,_view__WEBPACK_IMPORTED_MODULE_3__.renderViewCart)({
       products: _stateOfProducts__WEBPACK_IMPORTED_MODULE_0__["default"],
@@ -301,6 +321,7 @@ navigateCartEl.addEventListener('click', function (e) {
     return;
   }
   if (e.target.classList.contains('to-hide')) {
+    // Click the "Hide Cart" button
     (0,_stateOfPage__WEBPACK_IMPORTED_MODULE_2__.setCurrentPage)(_stateOfPage__WEBPACK_IMPORTED_MODULE_2__.PAGES.PRODUCTS);
     (0,_view__WEBPACK_IMPORTED_MODULE_3__.renderViewCart)({
       products: _stateOfProducts__WEBPACK_IMPORTED_MODULE_0__["default"],
@@ -311,8 +332,9 @@ navigateCartEl.addEventListener('click', function (e) {
     return;
   }
   if (e.target.classList.contains('to-checkout')) {
+    // Click the "Checkout" button
     (0,_stateOfPage__WEBPACK_IMPORTED_MODULE_2__.setCurrentPage)(_stateOfPage__WEBPACK_IMPORTED_MODULE_2__.PAGES.PRODUCTS);
-    _stateOfCarts__WEBPACK_IMPORTED_MODULE_1__.resetCarts();
+    _stateOfCarts__WEBPACK_IMPORTED_MODULE_1__.resetCarts(); // Remove all items from the carts
     (0,_view__WEBPACK_IMPORTED_MODULE_3__.renderViewCart)({
       products: _stateOfProducts__WEBPACK_IMPORTED_MODULE_0__["default"],
       carts: _stateOfCarts__WEBPACK_IMPORTED_MODULE_1__.getCarts(),
@@ -324,21 +346,25 @@ navigateCartEl.addEventListener('click', function (e) {
 });
 navigateCartEl.addEventListener('input', function (e) {
   if (e.target.classList.contains('to-edit-quantity')) {
+    // Change the quantity input of each item
     var name = e.target.dataset.name;
     var quantity = parseInt(e.target.value);
-    _stateOfCarts__WEBPACK_IMPORTED_MODULE_1__.setCartQuantity({
-      name: name,
-      quantity: quantity
-    });
-    if (_stateOfCarts__WEBPACK_IMPORTED_MODULE_1__.getCartQuantity(name) == 0) {
-      _stateOfCarts__WEBPACK_IMPORTED_MODULE_1__.deleteCart(name);
-      (0,_view__WEBPACK_IMPORTED_MODULE_3__.renderViewCart)({
-        products: _stateOfProducts__WEBPACK_IMPORTED_MODULE_0__["default"],
-        carts: _stateOfCarts__WEBPACK_IMPORTED_MODULE_1__.getCarts(),
-        isViewCartPage: (0,_stateOfPage__WEBPACK_IMPORTED_MODULE_2__.isViewCartPage)(),
-        navigateCartEl: navigateCartEl
+    if (_stateOfCarts__WEBPACK_IMPORTED_MODULE_1__.isValidQuantity(quantity)) {
+      // If the quantity is valid, update the item's quantity
+      _stateOfCarts__WEBPACK_IMPORTED_MODULE_1__.setCartQuantity({
+        name: name,
+        quantity: quantity
       });
+    } else {
+      // If this quantity is not valid, delete this item object from carts
+      _stateOfCarts__WEBPACK_IMPORTED_MODULE_1__.deleteCart(name);
     }
+    (0,_view__WEBPACK_IMPORTED_MODULE_3__.renderViewCart)({
+      products: _stateOfProducts__WEBPACK_IMPORTED_MODULE_0__["default"],
+      carts: _stateOfCarts__WEBPACK_IMPORTED_MODULE_1__.getCarts(),
+      isViewCartPage: (0,_stateOfPage__WEBPACK_IMPORTED_MODULE_2__.isViewCartPage)(),
+      navigateCartEl: navigateCartEl
+    });
     return;
   }
 });
