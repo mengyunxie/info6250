@@ -2,42 +2,116 @@
 /******/ 	"use strict";
 /******/ 	var __webpack_modules__ = ({
 
-/***/ "./src/state.js":
-/*!**********************!*\
-  !*** ./src/state.js ***!
-  \**********************/
+/***/ "./src/stateOfCarts.js":
+/*!*****************************!*\
+  !*** ./src/stateOfCarts.js ***!
+  \*****************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "addCartQuantityByOne": () => (/* binding */ addCartQuantityByOne),
+/* harmony export */   "createCart": () => (/* binding */ createCart),
+/* harmony export */   "deleteCart": () => (/* binding */ deleteCart),
+/* harmony export */   "getCartQuantity": () => (/* binding */ getCartQuantity),
+/* harmony export */   "getCarts": () => (/* binding */ getCarts),
+/* harmony export */   "hasCart": () => (/* binding */ hasCart),
+/* harmony export */   "resetCarts": () => (/* binding */ resetCarts),
+/* harmony export */   "setCartQuantity": () => (/* binding */ setCartQuantity)
+/* harmony export */ });
+var carts = {};
+function createCart(name) {
+  carts[name] = {
+    name: name,
+    quantity: 1
+  };
+}
+;
+function deleteCart(name) {
+  delete carts[name];
+}
+;
+function resetCarts() {
+  carts = {};
+}
+;
+function addCartQuantityByOne(name) {
+  carts[name].quantity = carts[name].quantity + 1;
+}
+;
+function setCartQuantity(_ref) {
+  var name = _ref.name,
+    quantity = _ref.quantity;
+  carts[name].quantity = quantity;
+}
+;
+function getCartQuantity(name) {
+  return carts[name].quantity;
+}
+;
+function getCarts() {
+  return carts;
+}
+function hasCart(name) {
+  return carts[name] ? true : false;
+}
+
+/***/ }),
+
+/***/ "./src/stateOfPage.js":
+/*!****************************!*\
+  !*** ./src/stateOfPage.js ***!
+  \****************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "PAGES": () => (/* binding */ PAGES),
+/* harmony export */   "isViewCartPage": () => (/* binding */ isViewCartPage),
+/* harmony export */   "setCurrentPage": () => (/* binding */ setCurrentPage)
+/* harmony export */ });
+var PAGES = {
+  PRODUCTS: 'products',
+  CARTS: 'carts'
+};
+var currentPage = PAGES.PRODUCTS;
+function setCurrentPage(page) {
+  currentPage = page;
+}
+function isViewCartPage() {
+  return currentPage == PAGES.CARTS ? true : false;
+}
+
+/***/ }),
+
+/***/ "./src/stateOfProducts.js":
+/*!********************************!*\
+  !*** ./src/stateOfProducts.js ***!
+  \********************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
-var PAGES = {
-  PRODUCTS: 'products',
-  CARTS: 'carts'
-};
-var state = {
-  products: {
-    'Fluffball': {
-      name: 'Fluffball',
-      price: 0.99,
-      pic: 'http://placekitten.com/150/150?image=1'
-    },
-    'Sunny': {
-      name: 'Sunny',
-      price: 3.14,
-      pic: 'http://placekitten.com/150/150?image=2'
-    },
-    'Kiki': {
-      name: 'Kiki',
-      price: 2.73,
-      pic: 'http://placekitten.com/150/150?image=3'
-    }
+var products = {
+  'Fluffball': {
+    name: 'Fluffball',
+    price: 0.99,
+    pic: 'http://placekitten.com/150/150?image=1'
   },
-  carts: {},
-  page: PAGES.PRODUCTS
+  'Sunny': {
+    name: 'Sunny',
+    price: 3.14,
+    pic: 'http://placekitten.com/150/150?image=2'
+  },
+  'Kiki': {
+    name: 'Kiki',
+    price: 2.73,
+    pic: 'http://placekitten.com/150/150?image=3'
+  }
 };
-/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (state);
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (products);
 
 /***/ }),
 
@@ -58,46 +132,56 @@ function generateProductsHtml(products) {
   }).join('');
   return listHtml;
 }
-function generateNavigateHtml(page, totalItems) {
+function generateNavigateHtml(_ref) {
+  var isViewCartPage = _ref.isViewCartPage,
+    totalItems = _ref.totalItems;
   var totalInfo = totalItems == 0 ? "" : " (".concat(totalItems, ")");
-  if (page === 'carts') {
-    return "<button type=\"button\" class=\"navigate-button to-hide\">Hide Cart</button>";
-  }
-  return "<button type=\"button\" class=\"navigate-button to-view\">View Cart".concat(totalInfo, "</button>");
+  return isViewCartPage ? "<button type=\"button\" class=\"navigate-button to-hide\">Hide Cart</button>" : "<button type=\"button\" class=\"navigate-button to-view\">View Cart".concat(totalInfo, "</button>");
 }
-function generateCartsHtml(page, carts) {
+function generateCartsHtml(_ref2) {
+  var products = _ref2.products,
+    carts = _ref2.carts;
   if (Object.keys(carts).length == 0) {
     return "<p class=\"no-data\">Nothing in the cart</p>";
   }
   var listHtml = Object.keys(carts).map(function (name) {
-    var priceOfItem = (carts[name].price * carts[name].quantity).toFixed(2);
-    return "\n      <li class=\"cart\">\n        <img class=\"cart-avatar\" alt=\"avatar of ".concat(carts[name].name, "\" src=").concat(carts[name].pic, "/>\n        <span class=\"cart-name\">Name: ").concat(carts[name].name, ",</span>\n        <label class=\"cart-quantity\">Quantity: <input type=\"number\" class=\"to-edit-quantity\" data-name=").concat(carts[name].name, " value=").concat(carts[name].quantity, "> ,</label>\n        <span class=\"cart-price\">Price: $").concat(priceOfItem, "</span>\n      </li>\n    ");
+    var priceOfItem = (products[name].price * carts[name].quantity).toFixed(2);
+    return "\n      <li class=\"cart\">\n        <img class=\"cart-avatar\" alt=\"avatar of ".concat(carts[name].name, "\" src=").concat(products[name].pic, "/>\n        <span class=\"cart-name\">Name: ").concat(carts[name].name, ",</span>\n        <label class=\"cart-quantity\">Quantity: <input type=\"number\" min=\"0\" class=\"to-edit-quantity\" data-name=").concat(carts[name].name, " value=").concat(carts[name].quantity, "> ,</label>\n        <span class=\"cart-price\">Price: $").concat(priceOfItem, "</span>\n      </li>\n    ");
   }).join('');
   return "<ul class=\"carts\">".concat(listHtml, "</ul>");
 }
 function generateCheckoutHtml(totalPrice) {
   return "\n  <div class=\"checkout\">\n    <span class=\"checkout-price\"> Total Price: $".concat(totalPrice, "</span>\n    <button type=\"button\" class=\"to-checkout\">Checkout</button>\n  </div>\n ");
 }
-function renderProducts(state, productsEl) {
-  var products = state.products;
+function renderProducts(_ref3) {
+  var products = _ref3.products,
+    productsEl = _ref3.productsEl;
   var productsHtml = generateProductsHtml(products);
   productsEl.innerHTML = "".concat(productsHtml);
 }
-function renderViewCart(state, viewCartEl) {
-  var carts = state.carts,
-    page = state.page;
-  var hideClass = page === 'products' ? "hide" : "";
+function renderViewCart(_ref4) {
+  var products = _ref4.products,
+    carts = _ref4.carts,
+    isViewCartPage = _ref4.isViewCartPage,
+    navigateCartEl = _ref4.navigateCartEl;
+  var hideClass = isViewCartPage ? "" : "hide";
   var totalItems = 0;
   var totalPrice = 0;
   Object.keys(carts).forEach(function (name) {
     totalItems += carts[name].quantity;
-    totalPrice += carts[name].quantity * carts[name].price;
+    totalPrice += carts[name].quantity * products[name].price;
   });
   totalPrice = totalPrice.toFixed(2);
-  var navigateHtml = generateNavigateHtml(page, totalItems);
-  var cartsHtml = generateCartsHtml(page, carts);
+  var navigateHtml = generateNavigateHtml({
+    isViewCartPage: isViewCartPage,
+    totalItems: totalItems
+  });
+  var cartsHtml = generateCartsHtml({
+    products: products,
+    carts: carts
+  });
   var checkoutHtml = generateCheckoutHtml(totalPrice);
-  viewCartEl.innerHTML = "\n  ".concat(navigateHtml, "\n  <div class=\"view-carts ").concat(hideClass, "\">\n    ").concat(page === 'products' ? "" : cartsHtml, "\n    ").concat(page === 'products' || totalItems == 0 ? "" : checkoutHtml, "\n  </div>\n  ");
+  navigateCartEl.innerHTML = "\n  ".concat(navigateHtml, "\n  <div class=\"view-carts ").concat(hideClass, "\">\n    ").concat(!isViewCartPage ? "" : cartsHtml, "\n    ").concat(!isViewCartPage || totalItems == 0 ? "" : checkoutHtml, "\n  </div>\n  ");
 }
 
 /***/ })
@@ -162,71 +246,102 @@ var __webpack_exports__ = {};
 // This entry need to be wrapped in an IIFE because it need to be isolated against other modules in the chunk.
 (() => {
 /*!*********************!*\
-  !*** ./src/cats.js ***!
+  !*** ./src/main.js ***!
   \*********************/
 __webpack_require__.r(__webpack_exports__);
-/* harmony import */ var _state__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./state */ "./src/state.js");
-/* harmony import */ var _view__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./view */ "./src/view.js");
+/* harmony import */ var _stateOfProducts__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./stateOfProducts */ "./src/stateOfProducts.js");
+/* harmony import */ var _stateOfCarts__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./stateOfCarts */ "./src/stateOfCarts.js");
+/* harmony import */ var _stateOfPage__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./stateOfPage */ "./src/stateOfPage.js");
+/* harmony import */ var _view__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./view */ "./src/view.js");
+
+
 
 
 var productsEl = document.querySelector('.products');
 var navigateCartEl = document.querySelector('.navigate-carts');
+function init() {
+  (0,_view__WEBPACK_IMPORTED_MODULE_3__.renderProducts)({
+    products: _stateOfProducts__WEBPACK_IMPORTED_MODULE_0__["default"],
+    productsEl: productsEl
+  });
+  (0,_view__WEBPACK_IMPORTED_MODULE_3__.renderViewCart)({
+    products: _stateOfProducts__WEBPACK_IMPORTED_MODULE_0__["default"],
+    carts: _stateOfCarts__WEBPACK_IMPORTED_MODULE_1__.getCarts(),
+    isViewCartPage: (0,_stateOfPage__WEBPACK_IMPORTED_MODULE_2__.isViewCartPage)(),
+    navigateCartEl: navigateCartEl
+  });
+}
+init();
 productsEl.addEventListener('click', function (e) {
   if (e.target.classList.contains('product-add')) {
     var name = e.target.dataset.name;
-    var products = _state__WEBPACK_IMPORTED_MODULE_0__["default"].products,
-      carts = _state__WEBPACK_IMPORTED_MODULE_0__["default"].carts;
-    if (!carts[name]) {
-      carts[name] = {
-        name: products[name].name,
-        price: products[name].price,
-        pic: products[name].pic,
-        quantity: 1
-      };
+    if (!_stateOfCarts__WEBPACK_IMPORTED_MODULE_1__.hasCart(name)) {
+      _stateOfCarts__WEBPACK_IMPORTED_MODULE_1__.createCart(name);
     } else {
-      carts[name].quantity = carts[name].quantity + 1;
+      _stateOfCarts__WEBPACK_IMPORTED_MODULE_1__.addCartQuantityByOne(name);
     }
-    console.log(carts[name]);
-    (0,_view__WEBPACK_IMPORTED_MODULE_1__.renderViewCart)(_state__WEBPACK_IMPORTED_MODULE_0__["default"], navigateCartEl);
+    (0,_view__WEBPACK_IMPORTED_MODULE_3__.renderViewCart)({
+      products: _stateOfProducts__WEBPACK_IMPORTED_MODULE_0__["default"],
+      carts: _stateOfCarts__WEBPACK_IMPORTED_MODULE_1__.getCarts(),
+      isViewCartPage: (0,_stateOfPage__WEBPACK_IMPORTED_MODULE_2__.isViewCartPage)(),
+      navigateCartEl: navigateCartEl
+    });
+    return;
+  }
+});
+navigateCartEl.addEventListener('click', function (e) {
+  if (e.target.classList.contains('to-view')) {
+    (0,_stateOfPage__WEBPACK_IMPORTED_MODULE_2__.setCurrentPage)(_stateOfPage__WEBPACK_IMPORTED_MODULE_2__.PAGES.CARTS);
+    (0,_view__WEBPACK_IMPORTED_MODULE_3__.renderViewCart)({
+      products: _stateOfProducts__WEBPACK_IMPORTED_MODULE_0__["default"],
+      carts: _stateOfCarts__WEBPACK_IMPORTED_MODULE_1__.getCarts(),
+      isViewCartPage: (0,_stateOfPage__WEBPACK_IMPORTED_MODULE_2__.isViewCartPage)(),
+      navigateCartEl: navigateCartEl
+    });
+    return;
+  }
+  if (e.target.classList.contains('to-hide')) {
+    (0,_stateOfPage__WEBPACK_IMPORTED_MODULE_2__.setCurrentPage)(_stateOfPage__WEBPACK_IMPORTED_MODULE_2__.PAGES.PRODUCTS);
+    (0,_view__WEBPACK_IMPORTED_MODULE_3__.renderViewCart)({
+      products: _stateOfProducts__WEBPACK_IMPORTED_MODULE_0__["default"],
+      carts: _stateOfCarts__WEBPACK_IMPORTED_MODULE_1__.getCarts(),
+      isViewCartPage: (0,_stateOfPage__WEBPACK_IMPORTED_MODULE_2__.isViewCartPage)(),
+      navigateCartEl: navigateCartEl
+    });
+    return;
+  }
+  if (e.target.classList.contains('to-checkout')) {
+    (0,_stateOfPage__WEBPACK_IMPORTED_MODULE_2__.setCurrentPage)(_stateOfPage__WEBPACK_IMPORTED_MODULE_2__.PAGES.PRODUCTS);
+    _stateOfCarts__WEBPACK_IMPORTED_MODULE_1__.resetCarts();
+    (0,_view__WEBPACK_IMPORTED_MODULE_3__.renderViewCart)({
+      products: _stateOfProducts__WEBPACK_IMPORTED_MODULE_0__["default"],
+      carts: _stateOfCarts__WEBPACK_IMPORTED_MODULE_1__.getCarts(),
+      isViewCartPage: (0,_stateOfPage__WEBPACK_IMPORTED_MODULE_2__.isViewCartPage)(),
+      navigateCartEl: navigateCartEl
+    });
     return;
   }
 });
 navigateCartEl.addEventListener('input', function (e) {
   if (e.target.classList.contains('to-edit-quantity')) {
     var name = e.target.dataset.name;
-    var carts = _state__WEBPACK_IMPORTED_MODULE_0__["default"].carts;
-    console.log(e.target.value);
-    carts[name].quantity = parseInt(e.target.value);
-    if (carts[name].quantity == 0) {
-      delete carts[name];
+    var quantity = parseInt(e.target.value);
+    _stateOfCarts__WEBPACK_IMPORTED_MODULE_1__.setCartQuantity({
+      name: name,
+      quantity: quantity
+    });
+    if (_stateOfCarts__WEBPACK_IMPORTED_MODULE_1__.getCartQuantity(name) == 0) {
+      _stateOfCarts__WEBPACK_IMPORTED_MODULE_1__.deleteCart(name);
+      (0,_view__WEBPACK_IMPORTED_MODULE_3__.renderViewCart)({
+        products: _stateOfProducts__WEBPACK_IMPORTED_MODULE_0__["default"],
+        carts: _stateOfCarts__WEBPACK_IMPORTED_MODULE_1__.getCarts(),
+        isViewCartPage: (0,_stateOfPage__WEBPACK_IMPORTED_MODULE_2__.isViewCartPage)(),
+        navigateCartEl: navigateCartEl
+      });
     }
-    (0,_view__WEBPACK_IMPORTED_MODULE_1__.renderViewCart)(_state__WEBPACK_IMPORTED_MODULE_0__["default"], navigateCartEl);
     return;
   }
 });
-navigateCartEl.addEventListener('click', function (e) {
-  if (e.target.classList.contains('to-view')) {
-    _state__WEBPACK_IMPORTED_MODULE_0__["default"].page = "carts";
-    (0,_view__WEBPACK_IMPORTED_MODULE_1__.renderViewCart)(_state__WEBPACK_IMPORTED_MODULE_0__["default"], navigateCartEl);
-    return;
-  }
-  if (e.target.classList.contains('to-hide')) {
-    _state__WEBPACK_IMPORTED_MODULE_0__["default"].page = "products";
-    (0,_view__WEBPACK_IMPORTED_MODULE_1__.renderViewCart)(_state__WEBPACK_IMPORTED_MODULE_0__["default"], navigateCartEl);
-    return;
-  }
-  if (e.target.classList.contains('to-checkout')) {
-    // No longer show the View Cart content
-    // Remove any items from the cart
-    // Update any related HTML (such as the count in the View Cart button)
-    _state__WEBPACK_IMPORTED_MODULE_0__["default"].page = "products";
-    _state__WEBPACK_IMPORTED_MODULE_0__["default"].carts = {};
-    (0,_view__WEBPACK_IMPORTED_MODULE_1__.renderViewCart)(_state__WEBPACK_IMPORTED_MODULE_0__["default"], navigateCartEl);
-    return;
-  }
-});
-(0,_view__WEBPACK_IMPORTED_MODULE_1__.renderProducts)(_state__WEBPACK_IMPORTED_MODULE_0__["default"], productsEl);
-(0,_view__WEBPACK_IMPORTED_MODULE_1__.renderViewCart)(_state__WEBPACK_IMPORTED_MODULE_0__["default"], navigateCartEl);
 })();
 
 /******/ })()

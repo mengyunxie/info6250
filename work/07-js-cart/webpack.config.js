@@ -1,7 +1,7 @@
 const path = require('path');
 module.exports = {
     mode: 'development',
-    entry: './src/cats.js',
+    entry: './src/main.js',
     devtool: 'source-map',
     output: {
         filename: 'bundle.js',

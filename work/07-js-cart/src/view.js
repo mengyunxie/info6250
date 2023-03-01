@@ -12,25 +12,22 @@ function generateProductsHtml(products) {
   return listHtml;
 }
 
-function generateNavigateHtml(page, totalItems) {
+function generateNavigateHtml({isViewCartPage, totalItems}) {
   const totalInfo = totalItems == 0 ? "" : ` (${totalItems})`;
-  if(page === 'carts') {
-    return `<button type="button" class="navigate-button to-hide">Hide Cart</button>`;
-  }
-  return `<button type="button" class="navigate-button to-view">View Cart${totalInfo}</button>`
+  return isViewCartPage ? `<button type="button" class="navigate-button to-hide">Hide Cart</button>` : `<button type="button" class="navigate-button to-view">View Cart${totalInfo}</button>`
 }
 
-function generateCartsHtml(page, carts) {
+function generateCartsHtml({products, carts}) {
   if(Object.keys(carts).length == 0) {
     return `<p class="no-data">Nothing in the cart</p>`;
   }
   const listHtml = Object.keys(carts).map( name => {
-    const priceOfItem = (carts[name].price * carts[name].quantity).toFixed(2);
+    const priceOfItem = (products[name].price * carts[name].quantity).toFixed(2);
     return `
       <li class="cart">
-        <img class="cart-avatar" alt="avatar of ${carts[name].name}" src=${carts[name].pic}/>
+        <img class="cart-avatar" alt="avatar of ${carts[name].name}" src=${products[name].pic}/>
         <span class="cart-name">Name: ${carts[name].name},</span>
-        <label class="cart-quantity">Quantity: <input type="number" class="to-edit-quantity" data-name=${carts[name].name} value=${carts[name].quantity}> ,</label>
+        <label class="cart-quantity">Quantity: <input type="number" min="0" class="to-edit-quantity" data-name=${carts[name].name} value=${carts[name].quantity}> ,</label>
         <span class="cart-price">Price: $${priceOfItem}</span>
       </li>
     `;
@@ -47,31 +44,31 @@ function generateCheckoutHtml(totalPrice) {
  `;
 }
 
-export function renderProducts(state, productsEl) {
-  const {products} = state;
+export function renderProducts({products, productsEl}) {
   const productsHtml = generateProductsHtml(products);
   productsEl.innerHTML = `${productsHtml}`;
 }
 
-export function renderViewCart(state, viewCartEl) {
-  const {carts, page} = state;
-  const hideClass = page === 'products' ? "hide" : "";
+export function renderViewCart({products, carts, isViewCartPage, navigateCartEl}) {
+  const hideClass = isViewCartPage ? "" : "hide";
+
   let totalItems = 0;
   let totalPrice = 0;
   Object.keys(carts).forEach(name => {
     totalItems += carts[name].quantity;
-    totalPrice += carts[name].quantity * carts[name].price;
+    totalPrice += carts[name].quantity * products[name].price;
   });
   totalPrice = totalPrice.toFixed(2);
-  const navigateHtml = generateNavigateHtml(page, totalItems);
-  const cartsHtml = generateCartsHtml(page, carts);
+
+  const navigateHtml = generateNavigateHtml({isViewCartPage, totalItems});
+  const cartsHtml = generateCartsHtml({products, carts});
   const checkoutHtml = generateCheckoutHtml(totalPrice);
 
-  viewCartEl.innerHTML = `
+  navigateCartEl.innerHTML = `
   ${navigateHtml}
   <div class="view-carts ${hideClass}">
-    ${page === 'products' ? "" : cartsHtml}
-    ${page === 'products' || totalItems == 0 ? "" : checkoutHtml}
+    ${!isViewCartPage ? "" : cartsHtml }
+    ${!isViewCartPage || totalItems == 0 ? "" : checkoutHtml}
   </div>
   `;
 }
