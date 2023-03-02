@@ -101,8 +101,8 @@ html, body {
   padding: 0;
   display: grid;
   grid-template-areas: 
-    ". login-greeting ."
-    ". login-form .";
+      ". login-greeting ."
+      ". login-main .";
   grid-template-columns: 1fr 4fr 1fr;
   grid-template-rows: auto 1fr;
 }
@@ -115,8 +115,20 @@ html, body {
   text-align: center;
 }
 
+.login-main {
+  grid-area: login-main;
+  display: flex;
+  flex-direction: column;
+}
+
+.login-message {
+  color: #e66119;
+  margin: 0;
+  text-align: center;
+  margin: 1rem 0;
+}
+
 .login-form {
-  grid-area: login-form;
   display: flex;
   flex-direction: column;
   padding: 2rem 5rem;
@@ -146,31 +158,4 @@ html, body {
   color: #ffffff;
   background-color: #007acc;
   cursor: pointer;
-}
-
-.error {
-  display: flex;
-  margin: 0;
-  padding: 0;
-  align-items: center;
-  flex-direction: column;
-  height: 100%;
-}
-
-.error-code {
-  margin: 10rem 0 1rem;
-  font-size: 3rem;
-  font-weight: bold;
-  color: #007acc;
-}
-
-.error-message {
-  margin: 0 0 5rem;
-  color: #007acc;
-  text-align: center;
-}
-
-.error-link {
-  margin: 0;
-  text-align: center;
 }

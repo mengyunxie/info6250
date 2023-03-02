@@ -21,42 +21,30 @@ function generateHomePageHtml({username, storedWord}) {
   `;
 }
 
-function generateLoginPageHtml() {
+function generateLoginPageHtml(message) {
   return `
     <div class="login">
       <p class="login-greeting">Welcome to Service Calls!</p>
-      <div class="login-form">
-        <label class="login-label">
-          <span>Username:</span>
-          <input type="text" name="username" class="login-to-send" value="" placeholder="Enter your username"/>
-        </label>
-        <button type="submit" class="login-to-submit">Login</button>
+      <div class="login-main">
+        <p class="login-message">${message ? `${message}` : ""}</p>
+        <div class="login-form">
+          <label class="login-label">
+            <span>Username:</span>
+            <input type="text" name="username" class="login-to-send" value="" placeholder="Enter your username"/>
+          </label>
+          <button type="submit" class="login-to-submit">Login</button>
+        </div>
       </div>
     </div>
   `;
 }
 
-function generateErrorPageHtml({statusCode, message}) {
-  return `
-    <div class="error">
-      <p class="error-code">${statusCode}</p>
-      <p class="error-message">${message}</p>
-      <p class="error-link">Please jump to the <a href="/">login</a> page.</p>
-    </div>
-  `;
-}
 export function renderHomePage({username, storedWord, rootEl}) {
   const homePageHtml = generateHomePageHtml({username, storedWord});
   rootEl.innerHTML = `${homePageHtml}`;
 }
 
-export function renderLoginPage(rootEl) {
-  const loginPageHtml = generateLoginPageHtml();
+export function renderLoginPage({message, rootEl}) {
+  const loginPageHtml = generateLoginPageHtml(message);
   rootEl.innerHTML = `${loginPageHtml}`;
 }
-
-export function renderErrorPage({statusCode, message, rootEl}) {
-  const errorPageHtml = generateErrorPageHtml({statusCode, message});
-  rootEl.innerHTML = `${errorPageHtml}`;
-}
-

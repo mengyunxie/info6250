@@ -1,6 +1,7 @@
-import {renderHomePage, renderLoginPage, renderErrorPage} from './view';
+import {renderHomePage, renderLoginPage} from './view';
 import state from './state';
 import {fetchSession, fetchLogin, fetchWord, updateWord, fetchLogout} from './services';
+import MESSAGES from './message';
 
 const rootEl = document.querySelector('.root');
 
@@ -15,9 +16,8 @@ function init() {
         state.username = res.username;
         renderHomePage({username: state.username, storedWord: state.storedWord, rootEl});
     })
-    .catch( error => {
+    .catch( err => {
         logout();
-        console.warn("replace this with actual error reporting", error);
     });
 }
 
@@ -35,22 +35,20 @@ rootEl.addEventListener('click', (e) => {
         state.username = res.username;
         renderHomePage({username: state.username, storedWord: state.storedWord, rootEl});
     })
-    .catch( error => {
-        logout();
-        console.warn("replace this with actual error reporting", error);
+    .catch( err => {
+        const message = MESSAGES[err.error] || MESSAGES.default;
+        logout(message);
     });
     return;
   }
   if(e.target.classList.contains('word-to-submit')) {
     updateWord(state.storedWord)
     .then((res) => {
-        // TODO--: update the word string html
         renderHomePage({username: state.username, storedWord: state.storedWord, rootEl});
     })
-    .catch( error => {
-        // TODO---: Error message
-        logout();
-        console.warn("replace this with actual error reporting", error);
+    .catch( err => {
+        const message = MESSAGES[err.error] || MESSAGES.default;
+        logout(message);
     });
     return;
   }
@@ -58,11 +56,12 @@ rootEl.addEventListener('click', (e) => {
   if(e.target.classList.contains('logout-to-submit')) {
     fetchLogout()
     .then((res) => {
-        logout();
+        const message = MESSAGES[err.error] || MESSAGES.default;
+        logout(message);
     })
-    .catch( error => {
-        logout();
-        console.warn("replace this with actual error reporting", error);
+    .catch( err => {
+        const message = MESSAGES[err.error] || MESSAGES.default;
+        logout(message);
     });
     return;
   }
@@ -79,7 +78,7 @@ rootEl.addEventListener('input', (e) => {
     }
   });
 
-  function logout() {
+  function logout(message) {
     state.clear();
-    renderLoginPage(rootEl);
+    renderLoginPage({message, rootEl});
   }
