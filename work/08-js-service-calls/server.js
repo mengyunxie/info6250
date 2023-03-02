@@ -85,7 +85,7 @@ app.get('/api/word', (req, res) => {
   res.json({ username, storedWord });
 });
 
-app.post('/api/word', (req, res) => {
+app.put('/api/word', (req, res) => {
   // Session checks for these are very repetitive - a good place to abstract out
   // I've left the repetitive sections here for ease of learning
   const sid = req.cookies.sid;
