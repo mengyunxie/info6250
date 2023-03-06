@@ -71,7 +71,7 @@ export function fetchWord() {
 
 export function updateWord(word) {
   return fetch('/api/word/', {
-    method: 'POST',
+    method: 'PUT',
     headers: {
       'content-type': 'application/json', // set this header when sending JSON in the body of request
     },

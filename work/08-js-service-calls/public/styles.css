@@ -52,30 +52,45 @@ html, body {
   display: flex;
   flex-direction: column;
   padding: 0;
+  margin-top: 2rem;
+  border: 1px solid #007acc;
+  border-radius: 1rem;
 }
 
-.current-word {
+.stored-word {
   display: flex;
-  margin: 3rem 0 2rem;
-  text-align: center;
+  margin: 0;
+  padding: 2rem 5rem;
+  border-bottom: 1px dashed #007acc;
 }
 
-.current-word-content {
+.stored-word-content {
   margin-left: 1rem;
+  color: #007acc;
   word-break: break-word;
+}
+
+.no-data {
+  margin-left: 1rem;
+  color: #777777;
 }
 
 .word-form {
   display: flex;
   flex-direction: column;
   padding: 2rem 5rem;
-  border: 1px solid #007acc;
-  border-radius: 1rem;
 }
 
 .word-label {
   display: flex;
   align-items: center;
+}
+
+.word-message{
+  margin: 0;
+  padding: 0 0 2rem;
+  color: #e66119;
+  text-align: center;
 }
 
 .word-to-send {
@@ -87,9 +102,10 @@ html, body {
 }
 
 .word-to-submit {
+  align-self: center;
   margin-top: 2rem;
   border: 1px solid #007acc;
-  padding: 0.5rem;
+  padding: 0.5rem 3rem;
   border-radius: 1rem;
   color: #ffffff;
   background-color: #007acc;
@@ -111,7 +127,7 @@ html, body {
   grid-area: login-greeting;
   color: #333333;
   font-size: 2rem;
-  margin: 10rem 0 5rem;
+  margin: 10rem 0 3rem;
   text-align: center;
 }
 
@@ -123,7 +139,6 @@ html, body {
 
 .login-message {
   color: #e66119;
-  margin: 0;
   text-align: center;
   margin: 1rem 0;
 }

@@ -1,18 +1,19 @@
-function generateHomePageHtml({username, storedWord}) {
+function generateHomePageHtml({state, message}) {
   return `
     <div class="user">
-      <p class="user-greeting">Hello <span class="user-title">${username}</span></p>
+      <p class="user-greeting">Hello <span class="user-title">${state.username}</span></p>
       <div class="logout-form">
         <button type="submit" class="logout-to-submit">Logout</button>
       </div>
       <div class="word">
-        <p class="current-word">
-          ${storedWord ? `<span>Stored word:</span><span class="current-word-content">${storedWord}</span>` : `<span>You don't have a stored word, please update your word.</span>`}
-        </p>
+        <div class="stored-word">
+          <span>Stored word:</span>${state.storedWord ? `<span class="stored-word-content">${state.storedWord}</span>` : `<span class="no-data">No word, please update your word.</span>`}
+        </div>
         <div class="word-form">
+          ${message ? `<p class="word-message">${message}</p>` : ""}
           <label class="word-label">
-            <span>Update Your Word:</span>
-            <input type="text" name="word" class="word-to-send" value="${storedWord}" placeholder="Enter your word" />
+            <span>Update Word:</span>
+            <input type="text" name="word" class="word-to-send" value="${state.updatedWord}" placeholder="Enter your word" />
           </label>
           <button type="submit" class="word-to-submit">Save</button>
         </div>
@@ -26,7 +27,7 @@ function generateLoginPageHtml(message) {
     <div class="login">
       <p class="login-greeting">Welcome to Service Calls!</p>
       <div class="login-main">
-        <p class="login-message">${message ? `${message}` : ""}</p>
+        ${message ? `<p class="login-message">${message}</p>` : ""}
         <div class="login-form">
           <label class="login-label">
             <span>Username:</span>
@@ -39,8 +40,8 @@ function generateLoginPageHtml(message) {
   `;
 }
 
-export function renderHomePage({username, storedWord, rootEl}) {
-  const homePageHtml = generateHomePageHtml({username, storedWord});
+export function renderHomePage({state, message, rootEl}) {
+  const homePageHtml = generateHomePageHtml({state, message});
   rootEl.innerHTML = `${homePageHtml}`;
 }
 

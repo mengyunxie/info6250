@@ -13,13 +13,13 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
 var MESSAGES = {
-  'network-error': "Server unavailable, please try again",
-  'invalid-word': "Invalid Word. Word must be letters, but can be capital or lowercase",
-  'required-word': "Please enter a non-empty Word.",
-  'auth-missing': "Session id is invalid",
-  'auth-insufficient': "Wrong Username! Please enter another username.",
+  'network-error': "Server unavailable, please try again!",
+  'invalid-word': "Invalid Word. Word must be letters, please try again!",
+  'required-word': "Word is required, please try again!",
+  'auth-missing': "Session id is invalid.",
+  'auth-insufficient': "Wrong Username! Please try again!",
   'required-username': "Invalid Username. Username can contain only letters or numbers.",
-  "default": "Something went wrong, please try again"
+  "default": "Something went wrong, please try again!"
 };
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (MESSAGES);
 
@@ -136,7 +136,7 @@ function fetchWord() {
 
 function updateWord(word) {
   return fetch('/api/word/', {
-    method: 'POST',
+    method: 'PUT',
     headers: {
       'content-type': 'application/json' // set this header when sending JSON in the body of request
     },
@@ -173,11 +173,13 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ });
 var state = {
   username: "",
-  storedWord: ""
+  storedWord: "",
+  updatedWord: ""
 };
 state.clear = function () {
   state.username = "";
   state.storedWord = "";
+  state.updatedWord = "";
 };
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (state);
 
@@ -195,20 +197,20 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   "renderLoginPage": () => (/* binding */ renderLoginPage)
 /* harmony export */ });
 function generateHomePageHtml(_ref) {
-  var username = _ref.username,
-    storedWord = _ref.storedWord;
-  return "\n    <div class=\"user\">\n      <p class=\"user-greeting\">Hello <span class=\"user-title\">".concat(username, "</span></p>\n      <div class=\"logout-form\">\n        <button type=\"submit\" class=\"logout-to-submit\">Logout</button>\n      </div>\n      <div class=\"word\">\n        <p class=\"current-word\">\n          ").concat(storedWord ? "<span>Stored word:</span><span class=\"current-word-content\">".concat(storedWord, "</span>") : "<span>You don't have a stored word, please update your word.</span>", "\n        </p>\n        <div class=\"word-form\">\n          <label class=\"word-label\">\n            <span>Update Your Word:</span>\n            <input type=\"text\" name=\"word\" class=\"word-to-send\" value=\"").concat(storedWord, "\" placeholder=\"Enter your word\" />\n          </label>\n          <button type=\"submit\" class=\"word-to-submit\">Save</button>\n        </div>\n      </div>\n    </div>\n  ");
+  var state = _ref.state,
+    message = _ref.message;
+  return "\n    <div class=\"user\">\n      <p class=\"user-greeting\">Hello <span class=\"user-title\">".concat(state.username, "</span></p>\n      <div class=\"logout-form\">\n        <button type=\"submit\" class=\"logout-to-submit\">Logout</button>\n      </div>\n      <div class=\"word\">\n        <div class=\"stored-word\">\n          <span>Stored word:</span>").concat(state.storedWord ? "<span class=\"stored-word-content\">".concat(state.storedWord, "</span>") : "<span class=\"no-data\">No word, please update your word.</span>", "\n        </div>\n        <div class=\"word-form\">\n          ").concat(message ? "<p class=\"word-message\">".concat(message, "</p>") : "", "\n          <label class=\"word-label\">\n            <span>Update Word:</span>\n            <input type=\"text\" name=\"word\" class=\"word-to-send\" value=\"").concat(state.updatedWord, "\" placeholder=\"Enter your word\" />\n          </label>\n          <button type=\"submit\" class=\"word-to-submit\">Save</button>\n        </div>\n      </div>\n    </div>\n  ");
 }
 function generateLoginPageHtml(message) {
-  return "\n    <div class=\"login\">\n      <p class=\"login-greeting\">Welcome to Service Calls!</p>\n      <div class=\"login-main\">\n        <p class=\"login-message\">".concat(message ? "".concat(message) : "", "</p>\n        <div class=\"login-form\">\n          <label class=\"login-label\">\n            <span>Username:</span>\n            <input type=\"text\" name=\"username\" class=\"login-to-send\" value=\"\" placeholder=\"Enter your username\"/>\n          </label>\n          <button type=\"submit\" class=\"login-to-submit\">Login</button>\n        </div>\n      </div>\n    </div>\n  ");
+  return "\n    <div class=\"login\">\n      <p class=\"login-greeting\">Welcome to Service Calls!</p>\n      <div class=\"login-main\">\n        ".concat(message ? "<p class=\"login-message\">".concat(message, "</p>") : "", "\n        <div class=\"login-form\">\n          <label class=\"login-label\">\n            <span>Username:</span>\n            <input type=\"text\" name=\"username\" class=\"login-to-send\" value=\"\" placeholder=\"Enter your username\"/>\n          </label>\n          <button type=\"submit\" class=\"login-to-submit\">Login</button>\n        </div>\n      </div>\n    </div>\n  ");
 }
 function renderHomePage(_ref2) {
-  var username = _ref2.username,
-    storedWord = _ref2.storedWord,
+  var state = _ref2.state,
+    message = _ref2.message,
     rootEl = _ref2.rootEl;
   var homePageHtml = generateHomePageHtml({
-    username: username,
-    storedWord: storedWord
+    state: state,
+    message: message
   });
   rootEl.innerHTML = "".concat(homePageHtml);
 }
@@ -288,89 +290,119 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _state__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./state */ "./src/state.js");
 /* harmony import */ var _services__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./services */ "./src/services.js");
 /* harmony import */ var _message__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./message */ "./src/message.js");
-
-
-
+ // Offer the render methods to generate HTML
+ // 'state' holds the user's state
+ // Offer fetch() calls to communicate with the server
+ // 'MESSAGES' translate the server's Error Messages to user friendly
 
 var rootEl = document.querySelector('.root');
-function init() {
-  // Below runs on load
-  (0,_services__WEBPACK_IMPORTED_MODULE_2__.fetchSession)().then(function (res) {
-    return (0,_services__WEBPACK_IMPORTED_MODULE_2__.fetchWord)();
-  }).then(function (res) {
-    _state__WEBPACK_IMPORTED_MODULE_1__["default"].storedWord = res.storedWord;
-    _state__WEBPACK_IMPORTED_MODULE_1__["default"].username = res.username;
-    (0,_view__WEBPACK_IMPORTED_MODULE_0__.renderHomePage)({
-      username: _state__WEBPACK_IMPORTED_MODULE_1__["default"].username,
-      storedWord: _state__WEBPACK_IMPORTED_MODULE_1__["default"].storedWord,
-      rootEl: rootEl
-    });
-  })["catch"](function (err) {
-    logout();
-  });
-}
-
-/* Load the page */
-init();
 rootEl.addEventListener('click', function (e) {
   if (e.target.classList.contains('login-to-submit')) {
+    // Click the "Login" button
+
     (0,_services__WEBPACK_IMPORTED_MODULE_2__.fetchLogin)(_state__WEBPACK_IMPORTED_MODULE_1__["default"].username).then(function (res) {
+      // If the call to login is successful, call to get the stored word
       return (0,_services__WEBPACK_IMPORTED_MODULE_2__.fetchWord)();
     }).then(function (res) {
+      // If the call to get stored word is successful, update the user's state and show the Word View  
+      _state__WEBPACK_IMPORTED_MODULE_1__["default"].clear();
       _state__WEBPACK_IMPORTED_MODULE_1__["default"].storedWord = res.storedWord;
       _state__WEBPACK_IMPORTED_MODULE_1__["default"].username = res.username;
       (0,_view__WEBPACK_IMPORTED_MODULE_0__.renderHomePage)({
-        username: _state__WEBPACK_IMPORTED_MODULE_1__["default"].username,
-        storedWord: _state__WEBPACK_IMPORTED_MODULE_1__["default"].storedWord,
+        state: _state__WEBPACK_IMPORTED_MODULE_1__["default"],
         rootEl: rootEl
       });
     })["catch"](function (err) {
+      // If the call to login or get stored word is unsuccessful, show Login Page with an error message
       var message = _message__WEBPACK_IMPORTED_MODULE_3__["default"][err.error] || _message__WEBPACK_IMPORTED_MODULE_3__["default"]["default"];
-      logout(message);
+      goLoginPage(message);
     });
     return;
   }
   if (e.target.classList.contains('word-to-submit')) {
-    (0,_services__WEBPACK_IMPORTED_MODULE_2__.updateWord)(_state__WEBPACK_IMPORTED_MODULE_1__["default"].storedWord).then(function (res) {
+    // Click the "Save" word button
+
+    (0,_services__WEBPACK_IMPORTED_MODULE_2__.updateWord)(_state__WEBPACK_IMPORTED_MODULE_1__["default"].updatedWord).then(function (res) {
+      // If the call to update the word is successful, update the user's state and show the Word View
+      _state__WEBPACK_IMPORTED_MODULE_1__["default"].storedWord = res.storedWord;
+      _state__WEBPACK_IMPORTED_MODULE_1__["default"].updatedWord = ""; // After update the word, the updatedWord need to be reset to ""
       (0,_view__WEBPACK_IMPORTED_MODULE_0__.renderHomePage)({
-        username: _state__WEBPACK_IMPORTED_MODULE_1__["default"].username,
-        storedWord: _state__WEBPACK_IMPORTED_MODULE_1__["default"].storedWord,
+        state: _state__WEBPACK_IMPORTED_MODULE_1__["default"],
         rootEl: rootEl
       });
     })["catch"](function (err) {
       var message = _message__WEBPACK_IMPORTED_MODULE_3__["default"][err.error] || _message__WEBPACK_IMPORTED_MODULE_3__["default"]["default"];
-      logout(message);
+      if (err.error == 'invalid-word' || err.error == 'required-word') {
+        // If it is the server's Error Messages: 'invalid-word' and 'required-word', stay in the Word View with an error message
+        message = "".concat(message);
+        _state__WEBPACK_IMPORTED_MODULE_1__["default"].updatedWord = "";
+        (0,_view__WEBPACK_IMPORTED_MODULE_0__.renderHomePage)({
+          state: _state__WEBPACK_IMPORTED_MODULE_1__["default"],
+          message: message,
+          rootEl: rootEl
+        });
+      } else {
+        // Otherwise, show Login Page with an error message
+        goLoginPage(message);
+      }
     });
     return;
   }
   if (e.target.classList.contains('logout-to-submit')) {
+    // Click the "Logout" button
+
     (0,_services__WEBPACK_IMPORTED_MODULE_2__.fetchLogout)().then(function (res) {
-      var message = _message__WEBPACK_IMPORTED_MODULE_3__["default"][err.error] || _message__WEBPACK_IMPORTED_MODULE_3__["default"]["default"];
-      logout(message);
+      // If the call to logout is successful, show Login Page
+      goLoginPage();
     })["catch"](function (err) {
+      // If the call to logout is unsuccessful, show Login Page with an error message
       var message = _message__WEBPACK_IMPORTED_MODULE_3__["default"][err.error] || _message__WEBPACK_IMPORTED_MODULE_3__["default"]["default"];
-      logout(message);
+      goLoginPage(message);
     });
     return;
   }
 });
 rootEl.addEventListener('input', function (e) {
   if (e.target.classList.contains('login-to-send')) {
+    // The value of the username input has changed
     _state__WEBPACK_IMPORTED_MODULE_1__["default"].username = e.target.value;
     return;
   }
   if (e.target.classList.contains('word-to-send')) {
-    _state__WEBPACK_IMPORTED_MODULE_1__["default"].storedWord = e.target.value;
+    // The value of the word input has changed
+    _state__WEBPACK_IMPORTED_MODULE_1__["default"].updatedWord = e.target.value;
     return;
   }
 });
-function logout(message) {
-  _state__WEBPACK_IMPORTED_MODULE_1__["default"].clear();
+function goLoginPage(message) {
+  _state__WEBPACK_IMPORTED_MODULE_1__["default"].clear(); // Clear the user's state
   (0,_view__WEBPACK_IMPORTED_MODULE_0__.renderLoginPage)({
     message: message,
     rootEl: rootEl
+  }); // Render the Login Page
+}
+
+function init() {
+  // Check for an existing session
+  (0,_services__WEBPACK_IMPORTED_MODULE_2__.fetchSession)().then(function (res) {
+    // If there is a session, call to get the stored word
+    return (0,_services__WEBPACK_IMPORTED_MODULE_2__.fetchWord)();
+  }).then(function (res) {
+    // If the call to get stored word is successful, update the user's state and show the Word View  
+    _state__WEBPACK_IMPORTED_MODULE_1__["default"].storedWord = res.storedWord;
+    _state__WEBPACK_IMPORTED_MODULE_1__["default"].username = res.username;
+    (0,_view__WEBPACK_IMPORTED_MODULE_0__.renderHomePage)({
+      state: _state__WEBPACK_IMPORTED_MODULE_1__["default"],
+      rootEl: rootEl
+    });
+  })["catch"](function (err) {
+    // If there is not an existing session or the call to get stored word is unsuccessful, show Login Page
+    goLoginPage();
   });
 }
+
+/* Runs on load */
+init();
 })();
 
 /******/ })()
