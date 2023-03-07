@@ -1,0 +1,231 @@
+*, *::before, *::after { 
+    box-sizing: border-box;
+  }
+  
+  html, body { 
+    height: 100%;
+    margin: 0;
+    font-family: sans-serif;
+  }
+
+  p {
+    margin: 0;
+    padding: 0;
+  }
+  
+  .user {
+    display: grid;
+    grid-template-areas: 
+      ". greeting logout"
+      "guess-records game score-records";
+    grid-template-columns: 1fr 3fr 1fr;
+    grid-template-rows: auto 1fr;
+    height: 100%;
+    justify-items:stretch;
+    gap: 1rem 1rem;
+  }
+  
+  .user-greeting {
+    grid-area: greeting;
+    margin: 2rem 0 0;
+    text-align: center;
+  }
+  
+  .user-title {
+    margin: 0;
+    padding: 0 0.5rem;
+    font-size: 2rem;
+    font-weight: bold;
+    text-align: center;
+    color: #007acc;
+  }
+  
+  .logout-form {
+    grid-area: logout;
+  }
+  
+  .logout-to-submit {
+    margin-top: 2rem;
+    border: 1px solid #007acc;
+    padding: 0.5rem;
+    border-radius: 1rem;
+    color: #007acc;
+    font-size: 1rem;
+    background-color: #ffffff;
+    cursor: pointer;
+  }
+  
+  .game {
+    grid-area: game;
+    display: flex;
+    flex-direction: column;
+    padding: 0;
+  }
+
+  .guess-records {
+    grid-area: guess-records;
+    margin-left: 1rem;
+  }
+
+  .score-records {
+    grid-area: score-records;
+    margin-right: 1rem;
+  }
+
+  .word-highlight {
+    font-weight: bold;
+    color: #007acc;
+    word-break: break-word;
+  }
+
+  .no-data {
+    color: #6c6c6c;
+  }
+    
+  .recent-record {
+    display: flex;
+    flex-direction: column;
+    padding: 1rem;
+    border: 1px solid #007acc;
+    border-radius: 1rem;
+    margin-bottom: 1rem;
+    text-align: center;
+  }
+
+  .invalid-guess {
+    color: #e66119;
+  }
+
+  .invalid-guess .word-highlight {
+    color: #e66119;
+  }
+
+  .previous-guesses {
+    display: flex;
+    flex-direction: column;
+    padding: 1rem;
+    border: 1px solid #007acc;
+    border-radius: 1rem;
+    text-align: center;
+  }
+
+  .previous-guess {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+  }
+
+  .previous-guess li {
+    margin: 0 0 0.2rem;
+    padding: 0;
+  }
+
+  .current-score {
+    display: flex;
+    flex-direction: column;
+    padding: 1rem;
+    border: 1px solid #007acc;
+    border-radius: 1rem;
+    margin-bottom: 1rem;
+  }
+
+  .score-info {
+    color: #6c6c6c;
+    font-size: smaller;
+  }
+
+  .statistics-records {
+    display: flex;
+    flex-direction: column;
+    padding: 1rem;
+    border: 1px solid #007acc;
+    border-radius: 1rem;
+  }
+
+  .statistics-records .statistics-record {
+    margin: 0 0 0.2rem;
+    padding: 0;
+  }
+
+  .possible-words {
+    display: flex;
+    flex-direction: column;
+    padding: 1rem;
+    border: 1px solid #007acc;
+    border-radius: 1rem;
+  }
+
+  .panel-title {
+    margin: 0 0 0.5rem;
+    padding: 0;
+    font-size: 1rem;
+    font-weight: bold;
+    text-align: center;
+    color: #007acc;
+  }
+
+  .words span {
+    display: inline-block;
+    background-color: #fff8dc;
+    padding: 0.1rem 0.2rem;
+    margin: 0 0.3rem 0.3rem 0;
+    border: 1px solid #fff8dc;
+    border-radius: 0.5rem;
+    word-break: break-word;
+  }
+
+  .guess-form {
+    display: flex;
+    padding: 2rem 1rem;
+  }
+  
+  .guess-label {
+    display: flex;
+    align-items: center;
+    flex-grow: 2;
+  }
+  
+  .guess-to-send {
+    flex-grow: 2;
+    border: 1px solid #cacdd1;
+    padding: 0.5rem;
+    border-radius: 1rem;
+    margin-left: 1rem;
+    font-size: 1rem;
+  }
+  
+  .guess-to-submit {
+    margin-left: 1rem;
+    border: 1px solid #007acc;
+    padding: 0.5rem;
+    border-radius: 1rem;
+    color: #ffffff;
+    font-size: 1rem;
+    background-color: #007acc;
+    cursor: pointer;
+  }
+
+  .game-win {
+    margin: 1rem;
+    padding: 1rem;
+    font-size: 2rem;
+    font-weight: bold;
+    text-align: center;
+    color: #007acc;
+  }
+  
+  .new-game-form {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 5rem;
+  }
+
+  .new-game-submit {
+    border: 1px solid #007acc;
+    padding: 0.5rem 2rem;
+    border-radius: 1rem;
+    color: #007acc;
+    font-size: 1rem;
+    background-color: #ffffff;
+    cursor: pointer;
+  }
