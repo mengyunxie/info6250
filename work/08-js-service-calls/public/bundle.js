@@ -14,11 +14,11 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ });
 var MESSAGES = {
   'network-error': "Server unavailable, please try again!",
-  'invalid-word': "Invalid Word. Word must be letters, please try again!",
+  'invalid-word': "Word must be letters, please try again!",
   'required-word': "Word is required, please try again!",
   'auth-missing': "Session id is invalid.",
-  'auth-insufficient': "Wrong Username! Please try again!",
-  'required-username': "Invalid Username. Username can contain only letters or numbers.",
+  'auth-insufficient': "Invalid username. A username should not be a dog! Please try again!",
+  'required-username': "Username must be letters or numbers. Please try again!",
   "default": "Something went wrong, please try again!"
 };
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (MESSAGES);
@@ -315,6 +315,11 @@ rootEl.addEventListener('click', function (e) {
     })["catch"](function (err) {
       // If the call to login or get stored word is unsuccessful, show Login Page with an error message
       var message = _message__WEBPACK_IMPORTED_MODULE_3__["default"][err.error] || _message__WEBPACK_IMPORTED_MODULE_3__["default"]["default"];
+      if (err.error == 'required-username') {
+        // User-friendly error messages for 'required-username' error
+        var isEmpty = !_state__WEBPACK_IMPORTED_MODULE_1__["default"].username || !_state__WEBPACK_IMPORTED_MODULE_1__["default"].username.trim();
+        message = (isEmpty ? "Empty Username. " : "Invalid Username. ") + message;
+      }
       goLoginPage(message);
     });
     return;
@@ -332,9 +337,18 @@ rootEl.addEventListener('click', function (e) {
       });
     })["catch"](function (err) {
       var message = _message__WEBPACK_IMPORTED_MODULE_3__["default"][err.error] || _message__WEBPACK_IMPORTED_MODULE_3__["default"]["default"];
-      if (err.error == 'invalid-word' || err.error == 'required-word') {
-        // If it is the server's Error Messages: 'invalid-word' and 'required-word', stay in the Word View with an error message
-        message = "".concat(message);
+      if (err.error == 'invalid-word') {
+        // If it is the server's 'invalid-word' Error Messages, stay in the Word View with an user-friendly error message
+        var isEmpty = !_state__WEBPACK_IMPORTED_MODULE_1__["default"].updatedWord || !_state__WEBPACK_IMPORTED_MODULE_1__["default"].updatedWord.trim();
+        message = (isEmpty ? "Empty word. " : "Invalid word. ") + message;
+        _state__WEBPACK_IMPORTED_MODULE_1__["default"].updatedWord = "";
+        (0,_view__WEBPACK_IMPORTED_MODULE_0__.renderHomePage)({
+          state: _state__WEBPACK_IMPORTED_MODULE_1__["default"],
+          message: message,
+          rootEl: rootEl
+        });
+      } else if (err.error == 'required-word') {
+        // If it is the server's 'required-word' Error Messages, stay in the Word View with an error message
         _state__WEBPACK_IMPORTED_MODULE_1__["default"].updatedWord = "";
         (0,_view__WEBPACK_IMPORTED_MODULE_0__.renderHomePage)({
           state: _state__WEBPACK_IMPORTED_MODULE_1__["default"],

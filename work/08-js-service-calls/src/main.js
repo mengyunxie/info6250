@@ -22,7 +22,11 @@ rootEl.addEventListener('click', (e) => {
         })
         .catch( err => {
             // If the call to login or get stored word is unsuccessful, show Login Page with an error message
-            const message = MESSAGES[err.error] || MESSAGES.default;
+            let message = MESSAGES[err.error] || MESSAGES.default;
+            if(err.error == 'required-username') { // User-friendly error messages for 'required-username' error
+                const isEmpty = !state.username || !(state.username.trim());
+                message = (isEmpty ? "Empty Username. " : "Invalid Username. ") + message;
+            }
             goLoginPage(message);
         });
 
@@ -40,8 +44,12 @@ rootEl.addEventListener('click', (e) => {
         })
         .catch( err => {
             let message = MESSAGES[err.error] || MESSAGES.default;
-            if(err.error == 'invalid-word' || err.error == 'required-word') { // If it is the server's Error Messages: 'invalid-word' and 'required-word', stay in the Word View with an error message
-                message = `${message}`;
+            if(err.error == 'invalid-word') { // If it is the server's 'invalid-word' Error Messages, stay in the Word View with an user-friendly error message
+                const isEmpty = !state.updatedWord || !(state.updatedWord.trim());
+                message = (isEmpty ? "Empty word. " : "Invalid word. ") + message;
+                state.updatedWord = "";
+                renderHomePage({state, message, rootEl});
+            } else if(err.error == 'required-word') { // If it is the server's 'required-word' Error Messages, stay in the Word View with an error message
                 state.updatedWord = "";
                 renderHomePage({state, message, rootEl});
             } else { // Otherwise, show Login Page with an error message
