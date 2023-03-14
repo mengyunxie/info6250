@@ -1,4 +1,4 @@
-function generateHomePageHtml({state, message}) {
+function generateHomePageHtml(state) {
     return `
       <div class="home">
         <p class="user-greeting">Hello <span class="user-title">${state.username}</span></p>
@@ -14,14 +14,14 @@ function generateHomePageHtml({state, message}) {
 
   function generateMessageListHtml (state) {
     return `<ol class="messages">` +
-    Object.values(state.messages).map( message => `
+    state.messages.map( msg => `
       <li>
         <div class="message">
           <div class="sender-info">
-            <img class="avatar" alt="avatar of ${message.sender}" src="images/avatar-${message.sender}.jpg"/>
-            <span class="username">${message.sender}</span>
+            <img class="avatar" alt="avatar of ${msg.username}" src="images/avatar-${msg.username}.jpg"/>
+            <span class="username">${msg.username}</span>
           </div>
-          <p class="message-text">${message.text}</p>
+          <p class="message-text">${msg.message}</p>
         </div>
       </li>
     `).join('') +
@@ -30,10 +30,10 @@ function generateHomePageHtml({state, message}) {
   
   function generateUserListHtml(state) {
     return `<ul class="users">` +
-    Object.values(state.users).map( user => `
+    Object.entries(state.users).filter(([username, value]) => value?.isLoggedIn).map( ([username, value]) => `
       <li>
         <div class="user">
-          <span class="username">${user}</span>
+          <span class="username">${username}</span>
         </div>
       </li>
     `).join('') +
@@ -42,20 +42,19 @@ function generateHomePageHtml({state, message}) {
 
   function generateOutgoingHtml() {
     return `<div class="outgoing">
-      <form action="/chat" method="POST" class="outgoing-form">
-        <input type="hidden" name="username" value="Amit"/>
-        <input type="text" name="text" class="to-send" value="" placeholder="Enter message to send"/>
-        <button type="submit" class="to-submit">Send</button>
-      </form>
+      <div class="outgoing-form">
+        <input type="text" name="text" class="outgoing-to-send" value="" placeholder="Enter message to send"/>
+        <button type="submit" class="outgoing-to-submit">Send</button>
+      </div>
     </div>`;
   }
 
-  function generateLoginPageHtml(message) {
+  function generateLoginPageHtml(state) {
     return `
       <div class="login">
         <p class="login-greeting">Welcome to JS Chat!</p>
         <div class="login-main">
-          ${message ? `<p class="login-message">${message}</p>` : ""}
+          ${state.error ? `<p class="login-message">${state.error}</p>` : ""}
           <div class="login-form">
             <label class="login-label">
               <span>Username:</span>
@@ -68,12 +67,12 @@ function generateHomePageHtml({state, message}) {
     `;
   }
   
-  export function renderHomePage({state, message, rootEl}) {
-    const homePageHtml = generateHomePageHtml({state, message});
+  export function renderHomePage({state,rootEl}) {
+    const homePageHtml = generateHomePageHtml(state);
     rootEl.innerHTML = `${homePageHtml}`;
   }
   
-  export function renderLoginPage({message, rootEl}) {
-    const loginPageHtml = generateLoginPageHtml(message);
+  export function renderLoginPage({state, rootEl}) {
+    const loginPageHtml = generateLoginPageHtml(state);
     rootEl.innerHTML = `${loginPageHtml}`;
   }

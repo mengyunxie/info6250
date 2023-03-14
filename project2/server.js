@@ -4,6 +4,7 @@ const cookieParser = require('cookie-parser');
 const app = express();
 const PORT = 3000;
 
+const messages = require('./messages');
 const sessions = require('./sessions');
 const users = require('./users');
 
@@ -21,7 +22,7 @@ app.use(express.json()); // Parses requests with json content bodies
 app.get('/api/v1/session', (req, res) => {
   const sid = req.cookies.sid;
   const username = sid ? sessions.getSessionUser(sid) : '';
-  if(!sid || !username) {
+  if(!sid || !users.isValid(username)) {
     res.status(401).json({ error: 'auth-missing' });
     return;
   }
@@ -32,7 +33,7 @@ app.get('/api/v1/session', (req, res) => {
 app.post('/api/v1/session', (req, res) => {
   const { username } = req.body;
 
-  if(!users.isValidUsername(username)) {
+  if(!users.isValid(username)) {
     console.log(username);
     res.status(400).json({ error: 'required-username' });
     return;
@@ -45,6 +46,12 @@ app.post('/api/v1/session', (req, res) => {
 
   const sid = sessions.addSession(username);
 
+  const existingUserData = users.getUserData(username);
+
+  if(!existingUserData) {
+    users.createUserData(username);
+  }
+  console.log(users.getUsers());
   res.cookie('sid', sid);
   res.json({ username });
 });
@@ -60,11 +67,13 @@ app.delete('/api/v1/session', (req, res) => {
   if(username) {
     // Delete the session, but not the user data
     sessions.deleteSession(sid);
+    const isLoggedIn = sessions.getSessionUserStatus(username);
+    users.updateUserData({username, isLoggedIn});
   }
-
+  console.log(users.getUsers());
   // We don't report any error if sid or session didn't exist
   // Because that means we already have what we want
-  res.json({ wasLoggedIn: !!username }); // Provides some extra info that can be safely ignored
+  res.json({ username }); // Provides some extra info that can be safely ignored
 });
 
 app.listen(PORT, () => console.log(`http://localhost:${PORT}`));

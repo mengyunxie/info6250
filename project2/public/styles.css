@@ -125,7 +125,7 @@
     justify-content: flex-start;
   }
   
-  .to-send {
+  .outgoing-to-send {
     flex-shrink: 2;
     flex-grow: 2;
     border: 1px solid #cacdd1;
@@ -133,7 +133,7 @@
     border-radius: 2rem;
   }
   
-  .to-submit {
+  .outgoing-to-submit {
     margin-left: 1rem;
     border: 1px solid #007acc;
     padding: 1rem;

@@ -1,7 +1,7 @@
 const path = require('path');
 module.exports = {
     mode: 'development',
-    entry: './src/main.js',
+    entry: './src/chat.js',
     devtool: 'source-map',
     output: {
         filename: 'bundle.js',
