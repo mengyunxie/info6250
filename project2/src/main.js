@@ -1,6 +1,6 @@
 import {renderHomePage, renderLoginPage} from './view'; // Offer the render methods to generate HTML
 import state from './state'; // 'state' holds the user's state
-import {fetchSession, fetchLogin, fetchWord, updateWord, fetchLogout} from './services'; // Offer fetch() calls to communicate with the server
+import {fetchSession, fetchLogin, fetchLogout} from './services'; // Offer fetch() calls to communicate with the server
 import MESSAGES from './message'; // 'MESSAGES' translate the server's Error Messages to user friendly
 
 const rootEl = document.querySelector('.root');
@@ -9,10 +9,10 @@ rootEl.addEventListener('click', (e) => {
     if(e.target.classList.contains('login-to-submit')) { // Click the "Login" button
 
         fetchLogin(state.username)
-        .then( res => {
-            // If the call to login is successful, call to get the stored word
-            return fetchWord();
-        })
+        // .then( res => {
+        //     // If the call to login is successful, call to get the stored word
+        //     return fetchWord();
+        // })
         .then((res) => {    
             // If the call to get stored word is successful, update the user's state and show the Word View  
             state.clear();
@@ -34,29 +34,7 @@ rootEl.addEventListener('click', (e) => {
     }
 
     if(e.target.classList.contains('word-to-submit')) { // Click the "Save" word button
-
-        updateWord(state.updatedWord)
-        .then((res) => {
-            // If the call to update the word is successful, update the user's state and show the Word View
-            state.storedWord = res.storedWord;
-            state.updatedWord = ""; // After update the word, the updatedWord need to be reset to ""
-            renderHomePage({state, rootEl});
-        })
-        .catch( err => {
-            let message = MESSAGES[err.error] || MESSAGES.default;
-            if(err.error == 'invalid-word') { // If it is the server's 'invalid-word' Error Messages, stay in the Word View with an user-friendly error message
-                const isEmpty = !state.updatedWord || !(state.updatedWord.trim());
-                message = (isEmpty ? "Empty word. " : "Invalid word. ") + message;
-                state.updatedWord = "";
-                renderHomePage({state, message, rootEl});
-            } else if(err.error == 'required-word') { // If it is the server's 'required-word' Error Messages, stay in the Word View with an error message
-                state.updatedWord = "";
-                renderHomePage({state, message, rootEl});
-            } else { // Otherwise, show Login Page with an error message
-                goLoginPage(message);
-            }
-        });
-
+        
         return;
     }
 
@@ -99,10 +77,10 @@ function init() {
 
     // Check for an existing session
     fetchSession()
-    .then( res => {
-        // If there is a session, call to get the stored word
-        return fetchWord();
-    })
+    // .then( res => {
+    //     // If there is a session, call to get the stored word
+    //     return fetchWord();
+    // })
     .then((res) => {
         // If the call to get stored word is successful, update the user's state and show the Word View  
         state.storedWord = res.storedWord;

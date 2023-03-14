@@ -35,9 +35,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "fetchLogin": () => (/* binding */ fetchLogin),
 /* harmony export */   "fetchLogout": () => (/* binding */ fetchLogout),
-/* harmony export */   "fetchSession": () => (/* binding */ fetchSession),
-/* harmony export */   "fetchWord": () => (/* binding */ fetchWord),
-/* harmony export */   "updateWord": () => (/* binding */ updateWord)
+/* harmony export */   "fetchSession": () => (/* binding */ fetchSession)
 /* harmony export */ });
 // This is a sample file that demonstrates
 // how you can write an abstraction around
@@ -104,47 +102,6 @@ function fetchLogout() {
 
 function fetchSession() {
   return fetch('/api/v1/session')["catch"](function (err) {
-    return Promise.reject({
-      error: 'network-error'
-    });
-  }).then(function (response) {
-    if (!response.ok) {
-      // response.ok checks the status code from the service
-      return response.json().then(function (err) {
-        return Promise.reject(err);
-      });
-    }
-    return response.json(); // happy status code means resolve with data from service
-  });
-}
-
-function fetchWord() {
-  return fetch('/api/v1/word')["catch"](function (err) {
-    return Promise.reject({
-      error: 'network-error'
-    });
-  }).then(function (response) {
-    if (!response.ok) {
-      // response.ok checks the status code from the service
-      return response.json().then(function (err) {
-        return Promise.reject(err);
-      });
-    }
-    return response.json(); // happy status code means resolve with data from service
-  });
-}
-
-function updateWord(word) {
-  return fetch('/api/v1/word/', {
-    method: 'PUT',
-    headers: {
-      'content-type': 'application/json' // set this header when sending JSON in the body of request
-    },
-
-    body: JSON.stringify({
-      word: word
-    })
-  })["catch"](function (err) {
     return Promise.reject({
       error: 'network-error'
     });
@@ -487,10 +444,12 @@ rootEl.addEventListener('click', function (e) {
   if (e.target.classList.contains('login-to-submit')) {
     // Click the "Login" button
 
-    (0,_services__WEBPACK_IMPORTED_MODULE_2__.fetchLogin)(_state__WEBPACK_IMPORTED_MODULE_1__["default"].username).then(function (res) {
-      // If the call to login is successful, call to get the stored word
-      return (0,_services__WEBPACK_IMPORTED_MODULE_2__.fetchWord)();
-    }).then(function (res) {
+    (0,_services__WEBPACK_IMPORTED_MODULE_2__.fetchLogin)(_state__WEBPACK_IMPORTED_MODULE_1__["default"].username)
+    // .then( res => {
+    //     // If the call to login is successful, call to get the stored word
+    //     return fetchWord();
+    // })
+    .then(function (res) {
       // If the call to get stored word is successful, update the user's state and show the Word View  
       _state__WEBPACK_IMPORTED_MODULE_1__["default"].clear();
       _state__WEBPACK_IMPORTED_MODULE_1__["default"].storedWord = res.storedWord;
@@ -514,39 +473,6 @@ rootEl.addEventListener('click', function (e) {
   if (e.target.classList.contains('word-to-submit')) {
     // Click the "Save" word button
 
-    (0,_services__WEBPACK_IMPORTED_MODULE_2__.updateWord)(_state__WEBPACK_IMPORTED_MODULE_1__["default"].updatedWord).then(function (res) {
-      // If the call to update the word is successful, update the user's state and show the Word View
-      _state__WEBPACK_IMPORTED_MODULE_1__["default"].storedWord = res.storedWord;
-      _state__WEBPACK_IMPORTED_MODULE_1__["default"].updatedWord = ""; // After update the word, the updatedWord need to be reset to ""
-      (0,_view__WEBPACK_IMPORTED_MODULE_0__.renderHomePage)({
-        state: _state__WEBPACK_IMPORTED_MODULE_1__["default"],
-        rootEl: rootEl
-      });
-    })["catch"](function (err) {
-      var message = _message__WEBPACK_IMPORTED_MODULE_3__["default"][err.error] || _message__WEBPACK_IMPORTED_MODULE_3__["default"]["default"];
-      if (err.error == 'invalid-word') {
-        // If it is the server's 'invalid-word' Error Messages, stay in the Word View with an user-friendly error message
-        var isEmpty = !_state__WEBPACK_IMPORTED_MODULE_1__["default"].updatedWord || !_state__WEBPACK_IMPORTED_MODULE_1__["default"].updatedWord.trim();
-        message = (isEmpty ? "Empty word. " : "Invalid word. ") + message;
-        _state__WEBPACK_IMPORTED_MODULE_1__["default"].updatedWord = "";
-        (0,_view__WEBPACK_IMPORTED_MODULE_0__.renderHomePage)({
-          state: _state__WEBPACK_IMPORTED_MODULE_1__["default"],
-          message: message,
-          rootEl: rootEl
-        });
-      } else if (err.error == 'required-word') {
-        // If it is the server's 'required-word' Error Messages, stay in the Word View with an error message
-        _state__WEBPACK_IMPORTED_MODULE_1__["default"].updatedWord = "";
-        (0,_view__WEBPACK_IMPORTED_MODULE_0__.renderHomePage)({
-          state: _state__WEBPACK_IMPORTED_MODULE_1__["default"],
-          message: message,
-          rootEl: rootEl
-        });
-      } else {
-        // Otherwise, show Login Page with an error message
-        goLoginPage(message);
-      }
-    });
     return;
   }
   if (e.target.classList.contains('logout-to-submit')) {
@@ -585,10 +511,12 @@ function goLoginPage(message) {
 
 function init() {
   // Check for an existing session
-  (0,_services__WEBPACK_IMPORTED_MODULE_2__.fetchSession)().then(function (res) {
-    // If there is a session, call to get the stored word
-    return (0,_services__WEBPACK_IMPORTED_MODULE_2__.fetchWord)();
-  }).then(function (res) {
+  (0,_services__WEBPACK_IMPORTED_MODULE_2__.fetchSession)()
+  // .then( res => {
+  //     // If there is a session, call to get the stored word
+  //     return fetchWord();
+  // })
+  .then(function (res) {
     // If the call to get stored word is successful, update the user's state and show the Word View  
     _state__WEBPACK_IMPORTED_MODULE_1__["default"].storedWord = res.storedWord;
     _state__WEBPACK_IMPORTED_MODULE_1__["default"].username = res.username;

@@ -11,8 +11,6 @@ function addSession(username) {
 }
 
 function getSessionUser(sid) {
-  // Conditional Chaining operator ?.
-  // Use MDN to learn more
   return sessions[sid]?.username;
 }
 
