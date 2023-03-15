@@ -1,23 +1,28 @@
 import {
     fetchLogin,
     fetchLogout,
-    fetchLoggedInUsers,
-    fetchMessages,
     fetchAddMessage
   } from './services';
+
   import {
-    waitOnUsers,
-    setUsers,
     waitOnMessages,
-    setMessages,
     addMessage,
     waitOnLogin,
     login,
     logout,
     setError,
+    setTimeoutId
   } from './state';
-  import {renderHomePage, renderLoginPage} from './render';
+
+  import {renderHomePage, renderLoginPage, renderMessageList} from './render';
+  import loadList from './loadList';
   
+  function load({ state, rootEl }) {
+    loadList({ state,  rootEl }); // fetch and use data
+    const id = setTimeout( load, 5000, { state, rootEl } );
+    setTimeoutId(id);
+  }
+
   export function addListenerToLogin({ state,  rootEl }) {
     // Using 'submit' so we can get both submit via button-click and by "enter"
     rootEl.addEventListener('click', (e) => {
@@ -30,26 +35,15 @@ import {
       renderLoginPage({ state, rootEl }); // show loading state
       fetchLogin( username )
       .then( res => {
-        login(username);
-        waitOnUsers();
+        login(res.username);
         renderHomePage({ state, rootEl });
-        return fetchLoggedInUsers();
-      })
-      .then( users => {
-        setUsers(users);
-        waitOnMessages();
-        renderHomePage({ state, rootEl });
-        return fetchMessages();
-      })
-      .then( messages => {
-        setMessages(messages);
-        renderHomePage({ state, rootEl });
+        load({ state, rootEl });
       })
       .catch( err => {
+        logout();
         setError(err?.error || 'ERROR'); // Ensure that the error ends up truthy
         renderLoginPage({ state, rootEl });
       });
-  
     });
   }
   
@@ -75,15 +69,19 @@ import {
         return;
       }
   
-      const message = rootEl.querySelector('.outgoing-to-send').value;
+      const toSendEl = rootEl.querySelector('.outgoing-to-send');
+      const message = toSendEl.value;
+      const messagesEl = rootEl.querySelector('.messages');
       waitOnMessages();
-      renderHomePage({ state, rootEl }); // show loading state
+      renderMessageList({ state, messagesEl}); // show loading state
       fetchAddMessage( message )
       .then( newMessage => {
         addMessage(newMessage);
-        renderHomePage({ state, rootEl });
+        renderMessageList({ state, messagesEl});
+        toSendEl.value = '';
       })
       .catch( err => {
+        logout();
         setError(err?.error || 'ERROR'); // Ensure that the error ends up truthy
         renderLoginPage({ state, rootEl });
       });

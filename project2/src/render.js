@@ -5,8 +5,12 @@ function generateHomePageHtml(state) {
         <div class="logout-form">
           <button type="submit" class="logout-to-submit">Logout</button>
         </div>
-        ${generateMessageListHtml(state)}
+        <ol class="messages">
+          ${generateMessageListHtml(state)}
+        </ol>
+        <ul class="users">
         ${generateUserListHtml(state)}
+        </ul>
         ${generateOutgoingHtml()}
       </div>
     `;
@@ -15,12 +19,11 @@ function generateHomePageHtml(state) {
   function generateMessageListHtml (state) {
     if(state.isMessagesPending) {
       return `
-        <div class="messages">Loading messages...</div>
+        <li>Loading messages...</li>
       `
     }
 
-    return `<ol class="messages">` +
-    state.messages.map( msg => `
+    return state.messages.map( msg => `
       <li>
         <div class="message">
           <div class="sender-info">
@@ -30,26 +33,23 @@ function generateHomePageHtml(state) {
           <p class="message-text">${msg.message}</p>
         </div>
       </li>
-    `).join('') +
-    `</ol>`;
+    `).join('');
   }
   
   function generateUserListHtml(state) {
     if(state.isUsersPending) {
       return `
-        <div class="users">Loading users...</div>
+        <li class="users">Loading users...</li>
       `
     }
 
-    return `<ul class="users">` +
-    state.users.map((user) => `
+    return state.users.map((user) => `
       <li>
         <div class="user">
           <span class="username">${user.username}</span>
         </div>
       </li>
-    `).join('') +
-    `</ul>`;
+    `).join('');
   }
 
   function generateOutgoingHtml() {
@@ -88,6 +88,16 @@ function generateHomePageHtml(state) {
   export function renderHomePage({state,rootEl}) {
     const homePageHtml = generateHomePageHtml(state);
     rootEl.innerHTML = `${homePageHtml}`;
+  }
+
+  export function renderMessageList({state, messagesEl}) {
+    const messageListHtml = generateMessageListHtml(state);
+    messagesEl.innerHTML = `${messageListHtml}`;
+  }
+
+  export function renderUserList({state, usersEl}) {
+    const userListHtml = generateUserListHtml(state);
+    usersEl.innerHTML = `${userListHtml}`;
   }
   
   export function renderLoginPage({state, rootEl}) {

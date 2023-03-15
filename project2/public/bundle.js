@@ -48,12 +48,27 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _services__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./services */ "./src/services.js");
 /* harmony import */ var _state__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./state */ "./src/state.js");
 /* harmony import */ var _render__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./render */ "./src/render.js");
+/* harmony import */ var _loadList__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./loadList */ "./src/loadList.js");
 
 
 
-function addListenerToLogin(_ref) {
+
+function load(_ref) {
   var state = _ref.state,
     rootEl = _ref.rootEl;
+  (0,_loadList__WEBPACK_IMPORTED_MODULE_3__["default"])({
+    state: state,
+    rootEl: rootEl
+  }); // fetch and use data
+  var id = setTimeout(load, 5000, {
+    state: state,
+    rootEl: rootEl
+  });
+  (0,_state__WEBPACK_IMPORTED_MODULE_1__.setTimeoutId)(id);
+}
+function addListenerToLogin(_ref2) {
+  var state = _ref2.state,
+    rootEl = _ref2.rootEl;
   // Using 'submit' so we can get both submit via button-click and by "enter"
   rootEl.addEventListener('click', function (e) {
     if (!e.target.classList.contains('login-to-submit')) {
@@ -66,28 +81,17 @@ function addListenerToLogin(_ref) {
       rootEl: rootEl
     }); // show loading state
     (0,_services__WEBPACK_IMPORTED_MODULE_0__.fetchLogin)(username).then(function (res) {
-      (0,_state__WEBPACK_IMPORTED_MODULE_1__.login)(username);
-      (0,_state__WEBPACK_IMPORTED_MODULE_1__.waitOnUsers)();
+      (0,_state__WEBPACK_IMPORTED_MODULE_1__.login)(res.username);
       (0,_render__WEBPACK_IMPORTED_MODULE_2__.renderHomePage)({
         state: state,
         rootEl: rootEl
       });
-      return (0,_services__WEBPACK_IMPORTED_MODULE_0__.fetchLoggedInUsers)();
-    }).then(function (users) {
-      (0,_state__WEBPACK_IMPORTED_MODULE_1__.setUsers)(users);
-      (0,_state__WEBPACK_IMPORTED_MODULE_1__.waitOnMessages)();
-      (0,_render__WEBPACK_IMPORTED_MODULE_2__.renderHomePage)({
-        state: state,
-        rootEl: rootEl
-      });
-      return (0,_services__WEBPACK_IMPORTED_MODULE_0__.fetchMessages)();
-    }).then(function (messages) {
-      (0,_state__WEBPACK_IMPORTED_MODULE_1__.setMessages)(messages);
-      (0,_render__WEBPACK_IMPORTED_MODULE_2__.renderHomePage)({
+      load({
         state: state,
         rootEl: rootEl
       });
     })["catch"](function (err) {
+      (0,_state__WEBPACK_IMPORTED_MODULE_1__.logout)();
       (0,_state__WEBPACK_IMPORTED_MODULE_1__.setError)((err === null || err === void 0 ? void 0 : err.error) || 'ERROR'); // Ensure that the error ends up truthy
       (0,_render__WEBPACK_IMPORTED_MODULE_2__.renderLoginPage)({
         state: state,
@@ -96,9 +100,9 @@ function addListenerToLogin(_ref) {
     });
   });
 }
-function addListenerToLogout(_ref2) {
-  var state = _ref2.state,
-    rootEl = _ref2.rootEl;
+function addListenerToLogout(_ref3) {
+  var state = _ref3.state,
+    rootEl = _ref3.rootEl;
   rootEl.addEventListener('click', function (e) {
     if (!e.target.classList.contains('logout-to-submit')) {
       return;
@@ -118,32 +122,115 @@ function addListenerToLogout(_ref2) {
     });
   });
 }
-function addListenerToOutgoing(_ref3) {
-  var state = _ref3.state,
-    rootEl = _ref3.rootEl;
+function addListenerToOutgoing(_ref4) {
+  var state = _ref4.state,
+    rootEl = _ref4.rootEl;
   // Using 'submit' so we can get both submit via button-click and by "enter"
   rootEl.addEventListener('click', function (e) {
     if (!e.target.classList.contains('outgoing-to-submit')) {
       return;
     }
-    var message = rootEl.querySelector('.outgoing-to-send').value;
+    var toSendEl = rootEl.querySelector('.outgoing-to-send');
+    var message = toSendEl.value;
+    var messagesEl = rootEl.querySelector('.messages');
     (0,_state__WEBPACK_IMPORTED_MODULE_1__.waitOnMessages)();
-    (0,_render__WEBPACK_IMPORTED_MODULE_2__.renderHomePage)({
+    (0,_render__WEBPACK_IMPORTED_MODULE_2__.renderMessageList)({
       state: state,
-      rootEl: rootEl
+      messagesEl: messagesEl
     }); // show loading state
     (0,_services__WEBPACK_IMPORTED_MODULE_0__.fetchAddMessage)(message).then(function (newMessage) {
       (0,_state__WEBPACK_IMPORTED_MODULE_1__.addMessage)(newMessage);
-      (0,_render__WEBPACK_IMPORTED_MODULE_2__.renderHomePage)({
+      (0,_render__WEBPACK_IMPORTED_MODULE_2__.renderMessageList)({
         state: state,
-        rootEl: rootEl
+        messagesEl: messagesEl
       });
+      toSendEl.value = '';
     })["catch"](function (err) {
+      (0,_state__WEBPACK_IMPORTED_MODULE_1__.logout)();
       (0,_state__WEBPACK_IMPORTED_MODULE_1__.setError)((err === null || err === void 0 ? void 0 : err.error) || 'ERROR'); // Ensure that the error ends up truthy
       (0,_render__WEBPACK_IMPORTED_MODULE_2__.renderLoginPage)({
         state: state,
         rootEl: rootEl
       });
+    });
+  });
+}
+
+/***/ }),
+
+/***/ "./src/loadList.js":
+/*!*************************!*\
+  !*** ./src/loadList.js ***!
+  \*************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (/* binding */ loadList)
+/* harmony export */ });
+/* harmony import */ var _state__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./state */ "./src/state.js");
+/* harmony import */ var _render__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./render */ "./src/render.js");
+/* harmony import */ var _services__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./services */ "./src/services.js");
+/* harmony import */ var _constants__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./constants */ "./src/constants.js");
+
+ // Offer the render methods to generate HTML
+ // Offer fetch() calls to communicate with the server
+
+function loadList(_ref) {
+  var state = _ref.state,
+    rootEl = _ref.rootEl;
+  // Check for an existing session
+  var usersEl = rootEl.querySelector('.users');
+  var messagesEl = rootEl.querySelector('.messages');
+  (0,_state__WEBPACK_IMPORTED_MODULE_0__.waitOnUsers)();
+  (0,_render__WEBPACK_IMPORTED_MODULE_1__.renderUserList)({
+    state: state,
+    usersEl: usersEl
+  });
+  (0,_services__WEBPACK_IMPORTED_MODULE_2__.fetchLoggedInUsers)()["catch"](function (err) {
+    if ((err === null || err === void 0 ? void 0 : err.error) === _constants__WEBPACK_IMPORTED_MODULE_3__.SERVER.AUTH_MISSING) {
+      return Promise.reject({
+        error: _constants__WEBPACK_IMPORTED_MODULE_3__.CLIENT.NO_SESSION
+      }); // Expected, not a problem
+    }
+
+    return Promise.reject(err); // Pass any other error unchanged
+  }).then(function (users) {
+    (0,_state__WEBPACK_IMPORTED_MODULE_0__.setUsers)(users);
+    (0,_render__WEBPACK_IMPORTED_MODULE_1__.renderUserList)({
+      state: state,
+      usersEl: usersEl
+    });
+    // TODO---: scrollIntoBottom
+    (0,_state__WEBPACK_IMPORTED_MODULE_0__.waitOnMessages)();
+    (0,_render__WEBPACK_IMPORTED_MODULE_1__.renderMessageList)({
+      state: state,
+      messagesEl: messagesEl
+    });
+    return (0,_services__WEBPACK_IMPORTED_MODULE_2__.fetchMessages)();
+  }).then(function (messages) {
+    (0,_state__WEBPACK_IMPORTED_MODULE_0__.setMessages)(messages);
+    (0,_render__WEBPACK_IMPORTED_MODULE_1__.renderMessageList)({
+      state: state,
+      messagesEl: messagesEl
+    });
+    // TODO---: scrollIntoBottom
+  })["catch"](function (err) {
+    (0,_state__WEBPACK_IMPORTED_MODULE_0__.logout)();
+    if ((err === null || err === void 0 ? void 0 : err.error) == _constants__WEBPACK_IMPORTED_MODULE_3__.CLIENT.NO_SESSION) {
+      // expected "error"
+      // No longer waiting, set to logged out case
+      (0,_render__WEBPACK_IMPORTED_MODULE_1__.renderLoginPage)({
+        state: state,
+        rootEl: rootEl
+      });
+      return;
+    }
+    // For unexpected errors, report them
+    (0,_state__WEBPACK_IMPORTED_MODULE_0__.setError)((err === null || err === void 0 ? void 0 : err.error) || 'ERROR'); // Ensure that the error ends up truthy
+    (0,_render__WEBPACK_IMPORTED_MODULE_1__.renderLoginPage)({
+      state: state,
+      rootEl: rootEl
     });
   });
 }
@@ -159,26 +246,28 @@ function addListenerToOutgoing(_ref3) {
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "renderHomePage": () => (/* binding */ renderHomePage),
-/* harmony export */   "renderLoginPage": () => (/* binding */ renderLoginPage)
+/* harmony export */   "renderLoginPage": () => (/* binding */ renderLoginPage),
+/* harmony export */   "renderMessageList": () => (/* binding */ renderMessageList),
+/* harmony export */   "renderUserList": () => (/* binding */ renderUserList)
 /* harmony export */ });
 function generateHomePageHtml(state) {
-  return "\n      <div class=\"home\">\n        <p class=\"user-greeting\">Hello <span class=\"user-title\">".concat(state.username, "</span></p>\n        <div class=\"logout-form\">\n          <button type=\"submit\" class=\"logout-to-submit\">Logout</button>\n        </div>\n        ").concat(generateMessageListHtml(state), "\n        ").concat(generateUserListHtml(state), "\n        ").concat(generateOutgoingHtml(), "\n      </div>\n    ");
+  return "\n      <div class=\"home\">\n        <p class=\"user-greeting\">Hello <span class=\"user-title\">".concat(state.username, "</span></p>\n        <div class=\"logout-form\">\n          <button type=\"submit\" class=\"logout-to-submit\">Logout</button>\n        </div>\n        <ol class=\"messages\">\n          ").concat(generateMessageListHtml(state), "\n        </ol>\n        <ul class=\"users\">\n        ").concat(generateUserListHtml(state), "\n        </ul>\n        ").concat(generateOutgoingHtml(), "\n      </div>\n    ");
 }
 function generateMessageListHtml(state) {
   if (state.isMessagesPending) {
-    return "\n        <div class=\"messages\">Loading messages...</div>\n      ";
+    return "\n        <li>Loading messages...</li>\n      ";
   }
-  return "<ol class=\"messages\">" + state.messages.map(function (msg) {
+  return state.messages.map(function (msg) {
     return "\n      <li>\n        <div class=\"message\">\n          <div class=\"sender-info\">\n            <img class=\"avatar\" alt=\"avatar of ".concat(msg.username, "\" src=\"images/cat.png\"/>\n            <span class=\"username\">").concat(msg.username, "</span>\n          </div>\n          <p class=\"message-text\">").concat(msg.message, "</p>\n        </div>\n      </li>\n    ");
-  }).join('') + "</ol>";
+  }).join('');
 }
 function generateUserListHtml(state) {
   if (state.isUsersPending) {
-    return "\n        <div class=\"users\">Loading users...</div>\n      ";
+    return "\n        <li class=\"users\">Loading users...</li>\n      ";
   }
-  return "<ul class=\"users\">" + state.users.map(function (user) {
+  return state.users.map(function (user) {
     return "\n      <li>\n        <div class=\"user\">\n          <span class=\"username\">".concat(user.username, "</span>\n        </div>\n      </li>\n    ");
-  }).join('') + "</ul>";
+  }).join('');
 }
 function generateOutgoingHtml() {
   return "<div class=\"outgoing\">\n      <div class=\"outgoing-form\">\n        <input type=\"text\" name=\"text\" class=\"outgoing-to-send\" value=\"\" placeholder=\"Enter message to send\"/>\n        <button type=\"submit\" class=\"outgoing-to-submit\">Send</button>\n      </div>\n    </div>";
@@ -195,9 +284,21 @@ function renderHomePage(_ref) {
   var homePageHtml = generateHomePageHtml(state);
   rootEl.innerHTML = "".concat(homePageHtml);
 }
-function renderLoginPage(_ref2) {
+function renderMessageList(_ref2) {
   var state = _ref2.state,
-    rootEl = _ref2.rootEl;
+    messagesEl = _ref2.messagesEl;
+  var messageListHtml = generateMessageListHtml(state);
+  messagesEl.innerHTML = "".concat(messageListHtml);
+}
+function renderUserList(_ref3) {
+  var state = _ref3.state,
+    usersEl = _ref3.usersEl;
+  var userListHtml = generateUserListHtml(state);
+  usersEl.innerHTML = "".concat(userListHtml);
+}
+function renderLoginPage(_ref4) {
+  var state = _ref4.state,
+    rootEl = _ref4.rootEl;
   var loginPageHtml = generateLoginPageHtml(state);
   rootEl.innerHTML = "".concat(loginPageHtml);
 }
@@ -364,6 +465,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   "logout": () => (/* binding */ logout),
 /* harmony export */   "setError": () => (/* binding */ setError),
 /* harmony export */   "setMessages": () => (/* binding */ setMessages),
+/* harmony export */   "setTimeoutId": () => (/* binding */ setTimeoutId),
 /* harmony export */   "setUsers": () => (/* binding */ setUsers),
 /* harmony export */   "waitOnLogin": () => (/* binding */ waitOnLogin),
 /* harmony export */   "waitOnMessages": () => (/* binding */ waitOnMessages),
@@ -380,7 +482,8 @@ var state = {
   isUsersPending: false,
   error: '',
   messages: [],
-  users: []
+  users: [],
+  timeoutId: ''
 };
 function waitOnLogin() {
   state.isLoggedIn = false;
@@ -395,6 +498,8 @@ function login(username) {
   state.error = '';
 }
 function logout() {
+  clearTimeout(state.timeoutId);
+  state.timeoutId = '';
   state.username = '';
   state.isLoggedIn = false;
   state.isLoginPending = false;
@@ -426,6 +531,9 @@ function addMessage(message) {
   state.messages.push(message);
   state.isMessagesPending = false;
   state.error = '';
+}
+function setTimeoutId(timeoutId) {
+  state.timeoutId = timeoutId;
 }
 function setError(error) {
   if (!error) {
@@ -506,9 +614,11 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _services__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./services */ "./src/services.js");
 /* harmony import */ var _constants__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./constants */ "./src/constants.js");
 /* harmony import */ var _listeners__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./listeners */ "./src/listeners.js");
+/* harmony import */ var _loadList__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./loadList */ "./src/loadList.js");
 
  // Offer the render methods to generate HTML
  // Offer fetch() calls to communicate with the server
+
 
 
 var rootEl = document.querySelector('.root');
@@ -524,6 +634,7 @@ var rootEl = document.querySelector('.root');
   state: _state__WEBPACK_IMPORTED_MODULE_0__["default"],
   rootEl: rootEl
 });
+checkForSession();
 function checkForSession() {
   // Check for an existing session
   (0,_state__WEBPACK_IMPORTED_MODULE_0__.waitOnLogin)();
@@ -534,12 +645,14 @@ function checkForSession() {
   (0,_services__WEBPACK_IMPORTED_MODULE_2__.fetchSession)().then(function (res) {
     // The returned object from the service call
     (0,_state__WEBPACK_IMPORTED_MODULE_0__.login)(res.username);
-    (0,_state__WEBPACK_IMPORTED_MODULE_0__.waitOnUsers)();
     (0,_render__WEBPACK_IMPORTED_MODULE_1__.renderHomePage)({
       state: _state__WEBPACK_IMPORTED_MODULE_0__["default"],
       rootEl: rootEl
-    }); // Show we are logged in but don't have todos
-    return (0,_services__WEBPACK_IMPORTED_MODULE_2__.fetchLoggedInUsers)(); // By returning this promise we can chain the original promise
+    });
+    (0,_loadList__WEBPACK_IMPORTED_MODULE_5__["default"])({
+      state: _state__WEBPACK_IMPORTED_MODULE_0__["default"],
+      rootEl: rootEl
+    });
   })["catch"](function (err) {
     if ((err === null || err === void 0 ? void 0 : err.error) === _constants__WEBPACK_IMPORTED_MODULE_3__.SERVER.AUTH_MISSING) {
       return Promise.reject({
@@ -548,20 +661,6 @@ function checkForSession() {
     }
 
     return Promise.reject(err); // Pass any other error unchanged
-  }).then(function (users) {
-    (0,_state__WEBPACK_IMPORTED_MODULE_0__.setUsers)(users);
-    (0,_state__WEBPACK_IMPORTED_MODULE_0__.waitOnMessages)();
-    (0,_render__WEBPACK_IMPORTED_MODULE_1__.renderHomePage)({
-      state: _state__WEBPACK_IMPORTED_MODULE_0__["default"],
-      rootEl: rootEl
-    });
-    return (0,_services__WEBPACK_IMPORTED_MODULE_2__.fetchMessages)();
-  }).then(function (messages) {
-    (0,_state__WEBPACK_IMPORTED_MODULE_0__.setMessages)(messages);
-    (0,_render__WEBPACK_IMPORTED_MODULE_1__.renderHomePage)({
-      state: _state__WEBPACK_IMPORTED_MODULE_0__["default"],
-      rootEl: rootEl
-    });
   })["catch"](function (err) {
     (0,_state__WEBPACK_IMPORTED_MODULE_0__.logout)();
     if ((err === null || err === void 0 ? void 0 : err.error) == _constants__WEBPACK_IMPORTED_MODULE_3__.CLIENT.NO_SESSION) {
@@ -581,13 +680,6 @@ function checkForSession() {
     });
   });
 }
-function load() {
-  checkForSession(); // fetch and use data
-  setTimeout(load, 5000);
-}
-
-/* Runs on load */
-load();
 })();
 
 /******/ })()

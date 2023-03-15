@@ -8,7 +8,8 @@ const state = {
     isUsersPending: false,
     error: '',
     messages: [],
-    users: []
+    users: [],
+    timeoutId: ''
   };
 
   export function waitOnLogin() {
@@ -26,6 +27,8 @@ const state = {
   }
   
   export function logout() {
+    clearTimeout(state.timeoutId);
+    state.timeoutId = '';
     state.username = '';
     state.isLoggedIn = false;
     state.isLoginPending = false;
@@ -63,6 +66,10 @@ const state = {
     state.messages.push(message);
     state.isMessagesPending = false;
     state.error = '';
+  }
+
+  export function setTimeoutId(timeoutId) {
+    state.timeoutId = timeoutId;
   }
   
   export function setError(error) {
