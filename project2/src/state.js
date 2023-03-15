@@ -8,7 +8,7 @@ const state = {
     isUsersPending: false,
     error: '',
     messages: [],
-    users: {}
+    users: []
   };
 
   export function waitOnLogin() {
@@ -26,14 +26,17 @@ const state = {
   }
   
   export function logout() {
+    state.username = '';
     state.isLoggedIn = false;
     state.isLoginPending = false;
-    state.username = '';
+    state.isMessagesPending = false;
+    state.isUsersPending = false;
     state.error = '';
+    state.users = [];
+    state.messages = [];
   }
 
   export function waitOnUsers() {
-    state.users = {};
     state.isUsersPending = true;
     state.error = '';
   }
@@ -45,7 +48,6 @@ const state = {
   }
 
   export function waitOnMessages() {
-    state.messages = [];
     state.isMessagesPending = true;
     state.error = '';
   }
@@ -59,11 +61,11 @@ const state = {
   
   export function addMessage(message) {
     state.messages.push(message);
+    state.isMessagesPending = false;
     state.error = '';
   }
   
   export function setError(error) {
-    console.log(error);
     if(!error) {
       state.error = '';
       return;

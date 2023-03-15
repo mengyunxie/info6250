@@ -13,12 +13,18 @@ function generateHomePageHtml(state) {
   }
 
   function generateMessageListHtml (state) {
+    if(state.isMessagesPending) {
+      return `
+        <div class="messages">Loading messages...</div>
+      `
+    }
+
     return `<ol class="messages">` +
     state.messages.map( msg => `
       <li>
         <div class="message">
           <div class="sender-info">
-            <img class="avatar" alt="avatar of ${msg.username}" src="images/avatar-${msg.username}.jpg"/>
+            <img class="avatar" alt="avatar of ${msg.username}" src="images/cat.png"/>
             <span class="username">${msg.username}</span>
           </div>
           <p class="message-text">${msg.message}</p>
@@ -29,11 +35,17 @@ function generateHomePageHtml(state) {
   }
   
   function generateUserListHtml(state) {
+    if(state.isUsersPending) {
+      return `
+        <div class="users">Loading users...</div>
+      `
+    }
+
     return `<ul class="users">` +
-    Object.entries(state.users).filter(([username, value]) => value?.isLoggedIn).map( ([username, value]) => `
+    state.users.map((user) => `
       <li>
         <div class="user">
-          <span class="username">${username}</span>
+          <span class="username">${user.username}</span>
         </div>
       </li>
     `).join('') +
@@ -50,6 +62,12 @@ function generateHomePageHtml(state) {
   }
 
   function generateLoginPageHtml(state) {
+    if(state.isLoginPending) {
+      return `
+        <div class="login">Loading user...</div>
+      `
+    }
+
     return `
       <div class="login">
         <p class="login-greeting">Welcome to JS Chat!</p>

@@ -1,6 +1,9 @@
 import {
     fetchLogin,
-    fetchLogout
+    fetchLogout,
+    fetchLoggedInUsers,
+    fetchMessages,
+    fetchAddMessage
   } from './services';
   import {
     waitOnUsers,
@@ -8,9 +11,10 @@ import {
     waitOnMessages,
     setMessages,
     addMessage,
-    setError,
+    waitOnLogin,
     login,
-    logout
+    logout,
+    setError,
   } from './state';
   import {renderHomePage, renderLoginPage} from './render';
   
@@ -22,14 +26,23 @@ import {
       }
   
       const username = rootEl.querySelector('.login-to-send').value;
-    //   waitOnUsers();
-    //   waitOnMessages();
-      renderHomePage({ state, rootEl }); // show loading state
+      waitOnLogin();
+      renderLoginPage({ state, rootEl }); // show loading state
       fetchLogin( username )
-      .then( todos => {
+      .then( res => {
         login(username);
-        // setUsers(users);
-        // setMessages(messages);
+        waitOnUsers();
+        renderHomePage({ state, rootEl });
+        return fetchLoggedInUsers();
+      })
+      .then( users => {
+        setUsers(users);
+        waitOnMessages();
+        renderHomePage({ state, rootEl });
+        return fetchMessages();
+      })
+      .then( messages => {
+        setMessages(messages);
         renderHomePage({ state, rootEl });
       })
       .catch( err => {
@@ -46,7 +59,7 @@ import {
         return;
       }
       logout();
-      renderHomePage({ state, rootEl });
+      renderLoginPage({ state, rootEl });
       fetchLogout() // We don't really care about results
       .catch( err => {
         setError(err?.error || 'ERROR'); // Ensure that the error ends up truthy
@@ -63,21 +76,17 @@ import {
       }
   
       const message = rootEl.querySelector('.outgoing-to-send').value;
-      console.log(message);
-    //   waitOnUsers();
-    //   waitOnMessages();
-    //   renderHomePage({ state, rootEl }); // show loading state
-    //   fetchLogin( username )
-    //   .then( todos => {
-    //     login(username);
-    //     // setUsers(users);
-    //     // setMessages(messages);
-    //     renderHomePage({ state, rootEl });
-    //   })
-    //   .catch( err => {
-    //     setError(err?.error || 'ERROR'); // Ensure that the error ends up truthy
-    //     renderLoginPage({ state, rootEl });
-    //   });
+      waitOnMessages();
+      renderHomePage({ state, rootEl }); // show loading state
+      fetchAddMessage( message )
+      .then( newMessage => {
+        addMessage(newMessage);
+        renderHomePage({ state, rootEl });
+      })
+      .catch( err => {
+        setError(err?.error || 'ERROR'); // Ensure that the error ends up truthy
+        renderLoginPage({ state, rootEl });
+      });
   
     });
   }

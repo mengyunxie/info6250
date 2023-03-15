@@ -1,26 +1,19 @@
-  const uuid = require('uuid').v4;
-
-  const messages = {};
-
-  function contains(id) {
-    return !!messages[id];
-  };
+ const messages = [];
 
   function getMessages() {
     return messages;
   };
 
-  function addMessage(username, message) {
-    const id = uuid();
-    messages[id] = {
-        username,
-        message,
-    };
-    return id;
+  function addMessage({username, message}) {
+    const newMessage = {
+      username,
+      message
+    }
+    messages.push(newMessage);
+    return newMessage;
   };
 
 module.exports = {
-  contains,
   getMessages,
   addMessage
 };

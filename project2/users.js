@@ -11,18 +11,20 @@ function getUserData(username) {
   return users[username];
 }
 
-function getUsers() {
-  return users;
+function getLoggedInUsers() {
+  return Object.values(users).filter((value) => value?.isLoggedIn);
 }
 
 function createUserData(username) {
   users[username] = {
+    username,
     isLoggedIn: true
   };
 }
 
 function updateUserData({username, isLoggedIn}) {
   users[username] = {
+    username,
     isLoggedIn: isLoggedIn
   };
 }
@@ -32,5 +34,5 @@ module.exports = {
   getUserData,
   createUserData,
   updateUserData,
-  getUsers
+  getLoggedInUsers
 };

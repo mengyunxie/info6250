@@ -34,7 +34,6 @@ app.post('/api/v1/session', (req, res) => {
   const { username } = req.body;
 
   if(!users.isValid(username)) {
-    console.log(username);
     res.status(400).json({ error: 'required-username' });
     return;
   }
@@ -51,7 +50,7 @@ app.post('/api/v1/session', (req, res) => {
   if(!existingUserData) {
     users.createUserData(username);
   }
-  console.log(users.getUsers());
+  users.updateUserData({username, isLoggedIn: true});
   res.cookie('sid', sid);
   res.json({ username });
 });
@@ -70,10 +69,51 @@ app.delete('/api/v1/session', (req, res) => {
     const isLoggedIn = sessions.getSessionUserStatus(username);
     users.updateUserData({username, isLoggedIn});
   }
-  console.log(users.getUsers());
-  // We don't report any error if sid or session didn't exist
-  // Because that means we already have what we want
+
   res.json({ username }); // Provides some extra info that can be safely ignored
+});
+
+// Users
+app.get('/api/v1/users', (req, res) => {
+  // TODO---: Session checks for these are very repetitive - a good place to abstract out
+
+  const sid = req.cookies.sid;
+  const username = sid ? sessions.getSessionUser(sid) : '';
+  if(!sid || !users.isValid(username)) {
+    res.status(401).json({ error: 'auth-missing' });
+    return;
+  }
+  res.json(users.getLoggedInUsers());
+});
+
+// Messages
+app.get('/api/v1/messages', (req, res) => {
+  // TODO---: Session checks for these are very repetitive - a good place to abstract out
+
+  const sid = req.cookies.sid;
+  const username = sid ? sessions.getSessionUser(sid) : '';
+  if(!sid || !users.isValid(username)) {
+    res.status(401).json({ error: 'auth-missing' });
+    return;
+  }
+  res.json(messages.getMessages());
+});
+
+app.post('/api/v1/messages', (req, res) => {
+  const sid = req.cookies.sid;
+  const username = sid ? sessions.getSessionUser(sid) : '';
+  if(!sid || !users.isValid(username)) {
+    res.status(401).json({ error: 'auth-missing' });
+    return;
+  }
+  const { message } = req.body;
+  if(!message) {
+    res.status(400).json({ error: 'required-message' });
+    return;
+  }
+
+  const newMessage = messages.addMessage({username, message});
+  res.json(newMessage);
 });
 
 app.listen(PORT, () => console.log(`http://localhost:${PORT}`));

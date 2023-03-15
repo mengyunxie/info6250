@@ -15,7 +15,7 @@ function getSessionUser(sid) {
 }
 
 function getSessionUserStatus(username) {
-  const userList  = Object.values(sessions).filter((values) => values.username == username )
+  const userList  = Object.values(sessions).filter((values) => values.username == username);
   return userList.length > 0;
 }
 
