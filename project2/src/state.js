@@ -3,7 +3,7 @@ import { MESSAGES } from './constants';
 const state = {
     username: '',
     isLoggedIn: false,
-    isLoginPending: true, // We start with our login status unknown
+    isLoginPending: true,
     isMessagesPending: false,
     isUsersPending: false,
     error: '',
@@ -60,7 +60,6 @@ const state = {
     state.isMessagesPending = false;
     state.error = '';
   }
-
   
   export function addMessage(message) {
     state.messages.push(message);

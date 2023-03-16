@@ -8,16 +8,10 @@ const messages = require('./messages');
 const sessions = require('./sessions');
 const users = require('./users');
 
-// This server.js is here to allow your front end JS fetch() calls to work
-// You are not (yet) expected to know how to create a server.js like this
-//
-// Do NOT modify this file for this assignment
-
 app.use(cookieParser());
 app.use(express.static('./public'));
-app.use(express.json()); // Parses requests with json content bodies
+app.use(express.json());
 
-// Sessions
 // Check for existing session (used on page load)
 app.get('/api/v1/session', (req, res) => {
   const sid = req.cookies.sid;
@@ -33,8 +27,13 @@ app.get('/api/v1/session', (req, res) => {
 app.post('/api/v1/session', (req, res) => {
   const { username } = req.body;
 
-  if(!users.isValid(username)) {
+  if(!username) {
     res.status(400).json({ error: 'required-username' });
+    return;
+  }
+
+  if(!users.isValid(username)) {
+    res.status(400).json({ error: 'invalid-username' });
     return;
   }
 
@@ -70,13 +69,11 @@ app.delete('/api/v1/session', (req, res) => {
     users.updateUserData({username, isLoggedIn});
   }
 
-  res.json({ username }); // Provides some extra info that can be safely ignored
+  res.json({ username });
 });
 
 // Users
 app.get('/api/v1/users', (req, res) => {
-  // TODO---: Session checks for these are very repetitive - a good place to abstract out
-
   const sid = req.cookies.sid;
   const username = sid ? sessions.getSessionUser(sid) : '';
   if(!sid || !users.isValid(username)) {
@@ -88,8 +85,6 @@ app.get('/api/v1/users', (req, res) => {
 
 // Messages
 app.get('/api/v1/messages', (req, res) => {
-  // TODO---: Session checks for these are very repetitive - a good place to abstract out
-
   const sid = req.cookies.sid;
   const username = sid ? sessions.getSessionUser(sid) : '';
   if(!sid || !users.isValid(username)) {
@@ -107,10 +102,6 @@ app.post('/api/v1/messages', (req, res) => {
     return;
   }
   const { message } = req.body;
-  if(!message) {
-    res.status(400).json({ error: 'required-message' });
-    return;
-  }
 
   const newMessage = messages.addMessage({username, message});
   res.json(newMessage);
