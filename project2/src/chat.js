@@ -1,17 +1,9 @@
-
-
 import { SERVER, CLIENT } from './constants';
 import {fetchSession} from './services'; // Offer fetch() calls to communicate with the server
-import refreshList from './refreshList';
+import state, { login, logout, setError } from './state'; // The user's state in client side
 import {renderHomePage, renderLoginPage} from './render'; // Offer the render methods to generate HTML
-
-import state, {
-  waitOnLogin,
-  login,
-  logout,
-  setError
-} from './state';
-
+import refreshList from './refreshList'; // Make calls to get the lists of logged-in users and messages
+import polling from './polling'; // Set a polling to refresh the list of message and user
 import { 
   addListenerToLogin,
   addListenerToLogout,
@@ -19,7 +11,6 @@ import {
   addListenerToLoginSend,
   addListenerToOutgoingSend 
 } from './listeners';
-
 
 const rootEl = document.querySelector('.root');
 
@@ -30,10 +21,9 @@ addListenerToLoginSend(rootEl);
 addListenerToOutgoingSend(rootEl);
 checkForSession();
 
+/* Check for an existing session */
 function checkForSession() {
-  // Check for an existing session
-  waitOnLogin();
-  renderHomePage({ state, rootEl }); // show loading state
+
   fetchSession()
   .catch( err => {
     if( err?.error === SERVER.AUTH_MISSING ) {
@@ -42,19 +32,24 @@ function checkForSession() {
     return Promise.reject(err); // Pass any other error unchanged
   })
   .then( res => {
+
+    // Login successful, show home page
     login(res.username);
     renderHomePage({state, rootEl});
+
+    // Refresh the list of message and users
     refreshList({state, rootEl});
+
+    // Set polling
+    polling({state, rootEl});
   })
   .catch( err => {
+
+    // If there is an error, update state and show login page
     logout();
-    if( err?.error == CLIENT.NO_SESSION ) { // expected "error"
-      // No longer waiting, set to logged out case
-      renderLoginPage({state, rootEl});
-      return;
+    if( err?.error != CLIENT.NO_SESSION ) { // For unexpected errors, report them
+      setError(err?.error || 'ERROR');
     }
-    // For unexpected errors, report them
-    setError(err?.error || 'ERROR'); // Ensure that the error ends up truthy
     renderLoginPage({state, rootEl});
   });
 }

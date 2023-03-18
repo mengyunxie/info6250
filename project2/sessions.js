@@ -14,6 +14,7 @@ function getSessionUser(sid) {
   return sessions[sid]?.username;
 }
 
+/* Returns true if there are still sessions using this username */
 function getSessionUserStatus(username) {
   const userList  = Object.values(sessions).filter((values) => values.username == username);
   return userList.length > 0;

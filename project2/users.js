@@ -1,5 +1,6 @@
 const users = {};
 
+/* Check whether the username is valid */
 function isValid(username) {
   let isValid = true;
   isValid = !!username && username.trim();
@@ -11,6 +12,7 @@ function getUserData(username) {
   return users[username];
 }
 
+/* Returns a list of users whose isLoggedIn attribute is true */
 function getLoggedInUsers() {
   return Object.values(users).filter((value) => value?.isLoggedIn);
 }

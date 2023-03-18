@@ -52,7 +52,7 @@ function generateUserListHtml(state) {
   }
 
   if(state.users.length == 0) {
-    return `<p class="no-data">No Message</p>`;
+    return `<p class="no-data">No Users</p>`;
   }
 
   const listHtml = state.users.map((user) => `

@@ -2,7 +2,7 @@ export const SERVER = {
     AUTH_MISSING: 'auth-missing',
     AUTH_INSUFFICIENT: 'auth-insufficient',
     REQUIRED_USERNAME: 'required-username',
-    INVALID_USERNAME: 'invalid-username'
+    INVALID_USERNAME: 'invalid-username',
   };
   
   export const CLIENT = {
@@ -15,6 +15,6 @@ export const SERVER = {
     [SERVER.AUTH_MISSING]: 'Session id is invalid',
     [SERVER.AUTH_INSUFFICIENT]: 'Your username/password combination does not match any records, please try again.',
     [SERVER.REQUIRED_USERNAME]: 'The username can not be empty, please try again.',
-    [SERVER.INVALID_USERNAME]: 'Please enter a valid (letters and/or numbers) username of up to 20 characters',
+    [SERVER.INVALID_USERNAME]: 'Please enter a valid username of up to 20 characters (letters and/or numbers)',
     default: 'Something went wrong.  Please try again',
   };

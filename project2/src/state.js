@@ -41,30 +41,25 @@ const state = {
 
   export function waitOnUsers() {
     state.isUsersPending = true;
-    state.error = '';
   }
   
   export function setUsers(users) {
     state.users = users;
     state.isUsersPending = false;
-    state.error = '';
   }
 
   export function waitOnMessages() {
     state.isMessagesPending = true;
-    state.error = '';
   }
   
   export function setMessages(messages) {
     state.messages = messages;
     state.isMessagesPending = false;
-    state.error = '';
   }
   
   export function addMessage(message) {
     state.messages.push(message);
     state.isMessagesPending = false;
-    state.error = '';
   }
 
   export function setTimeoutId(timeoutId) {

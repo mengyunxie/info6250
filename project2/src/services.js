@@ -1,3 +1,4 @@
+/* Login */
 export function fetchLogin(username) {
   return fetch('/api/v1/session', {
     method: 'POST',
@@ -17,6 +18,7 @@ export function fetchLogin(username) {
   });
 }
 
+/* Logout */
 export function fetchLogout() {
   return fetch('/api/v1/session', {
     method: 'DELETE',
@@ -32,6 +34,7 @@ export function fetchLogout() {
   });
 }
 
+/* Check for an existing session */
 export function fetchSession() {
   return fetch('/api/v1/session', {
     method: 'GET',
@@ -47,7 +50,7 @@ export function fetchSession() {
   });
 }
 
-
+/* Get the list of logged-in users */
 export function fetchLoggedInUsers() {
   return fetch('/api/v1/users')
   .catch( () => Promise.reject({ error: 'networkError' }) )
@@ -61,7 +64,7 @@ export function fetchLoggedInUsers() {
   });
 }
 
-
+/* Add a new message to the list of messages */
 export function fetchAddMessage(message) {
   return fetch('/api/v1/messages', {
     method: 'POST',
@@ -81,7 +84,7 @@ export function fetchAddMessage(message) {
   });
 }
 
-
+/* Get the list of messages */
 export function fetchMessages() {
   return fetch('/api/v1/messages')
   .catch( () => Promise.reject({ error: 'networkError' }) )
