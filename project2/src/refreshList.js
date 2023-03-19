@@ -20,14 +20,21 @@ export default function refreshList({ state, rootEl }) {
     // Show users' list
     setUsers(users);
     renderUserList({state, usersEl});
-
-    // Show loading state of messages' list
-    waitOnMessages();
-    renderMessageList({state, messagesEl});
-
-    // Make a call to get the messages' list
-    return fetchMessages(); 
   })
+  .catch( err => {
+
+    // If there is an error, update state and show login page
+    logout();
+    setError(err?.error || 'ERROR');
+    renderLoginPage({state, rootEl});
+  });
+
+  // Show loading state of messages' list
+  waitOnMessages();
+  renderMessageList({state, messagesEl});
+
+  // Make a call to get the messages' list
+  fetchMessages()
   .then( messages => {
 
     // Show messages' list

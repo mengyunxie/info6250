@@ -27,7 +27,7 @@ const state = {
   }
   
   export function logout() {
-    clearTimeout(state.timeoutId);
+    clearTimeout(state.timeoutId); // Cancel the polling
     state.timeoutId = '';
     state.username = '';
     state.isLoggedIn = false;

@@ -280,17 +280,25 @@ function refreshList(_ref) {
       state: state,
       usersEl: usersEl
     });
-
-    // Show loading state of messages' list
-    (0,_state__WEBPACK_IMPORTED_MODULE_1__.waitOnMessages)();
-    (0,_render__WEBPACK_IMPORTED_MODULE_2__.renderMessageList)({
+  })["catch"](function (err) {
+    // If there is an error, update state and show login page
+    (0,_state__WEBPACK_IMPORTED_MODULE_1__.logout)();
+    (0,_state__WEBPACK_IMPORTED_MODULE_1__.setError)((err === null || err === void 0 ? void 0 : err.error) || 'ERROR');
+    (0,_render__WEBPACK_IMPORTED_MODULE_2__.renderLoginPage)({
       state: state,
-      messagesEl: messagesEl
+      rootEl: rootEl
     });
+  });
 
-    // Make a call to get the messages' list
-    return (0,_services__WEBPACK_IMPORTED_MODULE_0__.fetchMessages)();
-  }).then(function (messages) {
+  // Show loading state of messages' list
+  (0,_state__WEBPACK_IMPORTED_MODULE_1__.waitOnMessages)();
+  (0,_render__WEBPACK_IMPORTED_MODULE_2__.renderMessageList)({
+    state: state,
+    messagesEl: messagesEl
+  });
+
+  // Make a call to get the messages' list
+  (0,_services__WEBPACK_IMPORTED_MODULE_0__.fetchMessages)().then(function (messages) {
     // Show messages' list
     (0,_state__WEBPACK_IMPORTED_MODULE_1__.setMessages)(messages);
     (0,_render__WEBPACK_IMPORTED_MODULE_2__.renderMessageList)({
@@ -598,7 +606,7 @@ function login(username) {
   state.error = '';
 }
 function logout() {
-  clearTimeout(state.timeoutId);
+  clearTimeout(state.timeoutId); // Cancel the polling
   state.timeoutId = '';
   state.username = '';
   state.isLoggedIn = false;
