@@ -2,7 +2,6 @@ import { SERVER, CLIENT } from './constants';
 import {fetchSession} from './services'; // Offer fetch() calls to communicate with the server
 import state, { login, logout, setError } from './state'; // The user's state in client side
 import {renderHomePage, renderLoginPage} from './render'; // Offer the render methods to generate HTML
-import refreshList from './refreshList'; // Make calls to get the lists of logged-in users and messages
 import polling from './polling'; // Set a polling to refresh the list of message and user
 import { 
   addListenerToLogin,
@@ -37,11 +36,8 @@ function checkForSession() {
     login(res.username);
     renderHomePage({state, rootEl});
 
-    // Refresh the list of message and users
-    refreshList({state, rootEl});
-
     // Set polling
-    polling({state, rootEl});
+    polling({state, rootEl, isFirstTime: false});
   })
   .catch( err => {
 

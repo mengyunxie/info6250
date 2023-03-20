@@ -25,7 +25,7 @@ export function addListenerToLogin({ state,  rootEl }) {
       // Login successful, show home page and set polling
       login(res.username);
       renderHomePage({ state, rootEl });
-      polling({ state, rootEl });
+      polling({ state, rootEl, isFirstTime: true });
     })
     .catch( err => {
 

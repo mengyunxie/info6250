@@ -85,7 +85,8 @@ function addListenerToLogin(_ref) {
       });
       (0,_polling__WEBPACK_IMPORTED_MODULE_3__["default"])({
         state: state,
-        rootEl: rootEl
+        rootEl: rootEl,
+        isFirstTime: true
       });
     })["catch"](function (err) {
       // If there is an error, update state and show login page
@@ -216,102 +217,110 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (/* binding */ polling)
 /* harmony export */ });
-/* harmony import */ var _refreshList__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./refreshList */ "./src/refreshList.js");
-/* harmony import */ var _state__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./state */ "./src/state.js");
- // Make calls to get the lists of logged-in users and messages
+/* harmony import */ var _state__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./state */ "./src/state.js");
+/* harmony import */ var _services__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./services */ "./src/services.js");
+/* harmony import */ var _render__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./render */ "./src/render.js");
  // The user's state in client side
+ // Offer fetch() calls to communicate with the server
+ // The user's state in client side
+ // Offer the render methods to generate HTML
 
 /* Every 5 seconds (roughly) refresh the list of message and users */
 function polling(_ref) {
   var state = _ref.state,
-    rootEl = _ref.rootEl;
+    rootEl = _ref.rootEl,
+    isFirstTime = _ref.isFirstTime;
   // Refresh the list of message and users
-  (0,_refreshList__WEBPACK_IMPORTED_MODULE_0__["default"])({
+  refreshUserList({
     state: state,
     rootEl: rootEl
+  });
+  refreshMessageList({
+    state: state,
+    rootEl: rootEl,
+    forceScrollToBottom: isFirstTime
   });
 
   // Update the Timeout Id into state
   var id = setTimeout(polling, 5000, {
     state: state,
-    rootEl: rootEl
+    rootEl: rootEl,
+    isFirstTime: false
   });
-  (0,_state__WEBPACK_IMPORTED_MODULE_1__.setTimeoutId)(id);
+  (0,_state__WEBPACK_IMPORTED_MODULE_0__.setTimeoutId)(id);
 }
 
-/***/ }),
-
-/***/ "./src/refreshList.js":
-/*!****************************!*\
-  !*** ./src/refreshList.js ***!
-  \****************************/
-/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
-
-__webpack_require__.r(__webpack_exports__);
-/* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "default": () => (/* binding */ refreshList)
-/* harmony export */ });
-/* harmony import */ var _services__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./services */ "./src/services.js");
-/* harmony import */ var _state__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./state */ "./src/state.js");
-/* harmony import */ var _render__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./render */ "./src/render.js");
- // Offer fetch() calls to communicate with the server
- // The user's state in client side
- // Offer the render methods to generate HTML
-
-/* Make calls to get the lists of logged-in users and messages, then show html for these lists */
-function refreshList(_ref) {
-  var state = _ref.state,
-    rootEl = _ref.rootEl;
+/* Make a call to get the lists of logged-in user, then show lists */
+function refreshUserList(_ref2) {
+  var state = _ref2.state,
+    rootEl = _ref2.rootEl;
   var usersEl = rootEl.querySelector('.users');
-  var messagesEl = rootEl.querySelector('.messages');
 
   // Show loading state of users' list
-  (0,_state__WEBPACK_IMPORTED_MODULE_1__.waitOnUsers)();
+  (0,_state__WEBPACK_IMPORTED_MODULE_0__.waitOnUsers)();
   (0,_render__WEBPACK_IMPORTED_MODULE_2__.renderUserList)({
     state: state,
     usersEl: usersEl
   });
 
   // Make a call to get the logged-in users' list
-  (0,_services__WEBPACK_IMPORTED_MODULE_0__.fetchLoggedInUsers)().then(function (users) {
+  (0,_services__WEBPACK_IMPORTED_MODULE_1__.fetchLoggedInUsers)().then(function (users) {
     // Show users' list
-    (0,_state__WEBPACK_IMPORTED_MODULE_1__.setUsers)(users);
+    (0,_state__WEBPACK_IMPORTED_MODULE_0__.setUsers)(users);
     (0,_render__WEBPACK_IMPORTED_MODULE_2__.renderUserList)({
       state: state,
       usersEl: usersEl
     });
   })["catch"](function (err) {
     // If there is an error, update state and show login page
-    (0,_state__WEBPACK_IMPORTED_MODULE_1__.logout)();
-    (0,_state__WEBPACK_IMPORTED_MODULE_1__.setError)((err === null || err === void 0 ? void 0 : err.error) || 'ERROR');
+    (0,_state__WEBPACK_IMPORTED_MODULE_0__.logout)();
+    (0,_state__WEBPACK_IMPORTED_MODULE_0__.setError)((err === null || err === void 0 ? void 0 : err.error) || 'ERROR');
     (0,_render__WEBPACK_IMPORTED_MODULE_2__.renderLoginPage)({
       state: state,
       rootEl: rootEl
     });
   });
+}
+
+/* Make a call to get the lists of message, then show lists */
+function refreshMessageList(_ref3) {
+  var state = _ref3.state,
+    rootEl = _ref3.rootEl,
+    forceScrollToBottom = _ref3.forceScrollToBottom;
+  var messagesEl = rootEl.querySelector('.messages');
+
+  // Check the scrolling status of messages' list
+  var needScrollToBottom = forceScrollToBottom ? true : messagesEl.scrollHeight - messagesEl.scrollTop < messagesEl.clientHeight + 33;
+
+  // Save the previous scrollTop of messagesEl
+  var preScrollTop = messagesEl.scrollTop;
 
   // Show loading state of messages' list
-  (0,_state__WEBPACK_IMPORTED_MODULE_1__.waitOnMessages)();
+  (0,_state__WEBPACK_IMPORTED_MODULE_0__.waitOnMessages)();
   (0,_render__WEBPACK_IMPORTED_MODULE_2__.renderMessageList)({
     state: state,
     messagesEl: messagesEl
   });
 
   // Make a call to get the messages' list
-  (0,_services__WEBPACK_IMPORTED_MODULE_0__.fetchMessages)().then(function (messages) {
+  (0,_services__WEBPACK_IMPORTED_MODULE_1__.fetchMessages)().then(function (messages) {
     // Show messages' list
-    (0,_state__WEBPACK_IMPORTED_MODULE_1__.setMessages)(messages);
+    (0,_state__WEBPACK_IMPORTED_MODULE_0__.setMessages)(messages);
     (0,_render__WEBPACK_IMPORTED_MODULE_2__.renderMessageList)({
       state: state,
       messagesEl: messagesEl
     });
-
-    // See the most recent messages
-    messagesEl.scrollTop = messagesEl.scrollHeight;
+    if (needScrollToBottom) {
+      // Scroll to the bottom
+      messagesEl.scrollTop = messagesEl.scrollHeight;
+    } else {
+      // Keep in the same position
+      messagesEl.scrollTop = preScrollTop;
+    }
   })["catch"](function (err) {
     // If there is an error, update state and show login page
-    (0,_state__WEBPACK_IMPORTED_MODULE_1__.logout)();
-    (0,_state__WEBPACK_IMPORTED_MODULE_1__.setError)((err === null || err === void 0 ? void 0 : err.error) || 'ERROR');
+    (0,_state__WEBPACK_IMPORTED_MODULE_0__.logout)();
+    (0,_state__WEBPACK_IMPORTED_MODULE_0__.setError)((err === null || err === void 0 ? void 0 : err.error) || 'ERROR');
     (0,_render__WEBPACK_IMPORTED_MODULE_2__.renderLoginPage)({
       state: state,
       rootEl: rootEl
@@ -716,31 +725,29 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _services__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./services */ "./src/services.js");
 /* harmony import */ var _state__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./state */ "./src/state.js");
 /* harmony import */ var _render__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./render */ "./src/render.js");
-/* harmony import */ var _refreshList__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./refreshList */ "./src/refreshList.js");
-/* harmony import */ var _polling__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./polling */ "./src/polling.js");
-/* harmony import */ var _listeners__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./listeners */ "./src/listeners.js");
+/* harmony import */ var _polling__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./polling */ "./src/polling.js");
+/* harmony import */ var _listeners__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./listeners */ "./src/listeners.js");
 
  // Offer fetch() calls to communicate with the server
  // The user's state in client side
  // Offer the render methods to generate HTML
- // Make calls to get the lists of logged-in users and messages
  // Set a polling to refresh the list of message and user
 
 var rootEl = document.querySelector('.root');
-(0,_listeners__WEBPACK_IMPORTED_MODULE_6__.addListenerToLogin)({
+(0,_listeners__WEBPACK_IMPORTED_MODULE_5__.addListenerToLogin)({
   state: _state__WEBPACK_IMPORTED_MODULE_2__["default"],
   rootEl: rootEl
 });
-(0,_listeners__WEBPACK_IMPORTED_MODULE_6__.addListenerToLogout)({
+(0,_listeners__WEBPACK_IMPORTED_MODULE_5__.addListenerToLogout)({
   state: _state__WEBPACK_IMPORTED_MODULE_2__["default"],
   rootEl: rootEl
 });
-(0,_listeners__WEBPACK_IMPORTED_MODULE_6__.addListenerToOutgoing)({
+(0,_listeners__WEBPACK_IMPORTED_MODULE_5__.addListenerToOutgoing)({
   state: _state__WEBPACK_IMPORTED_MODULE_2__["default"],
   rootEl: rootEl
 });
-(0,_listeners__WEBPACK_IMPORTED_MODULE_6__.addListenerToLoginSend)(rootEl);
-(0,_listeners__WEBPACK_IMPORTED_MODULE_6__.addListenerToOutgoingSend)(rootEl);
+(0,_listeners__WEBPACK_IMPORTED_MODULE_5__.addListenerToLoginSend)(rootEl);
+(0,_listeners__WEBPACK_IMPORTED_MODULE_5__.addListenerToOutgoingSend)(rootEl);
 checkForSession();
 
 /* Check for an existing session */
@@ -761,16 +768,11 @@ function checkForSession() {
       rootEl: rootEl
     });
 
-    // Refresh the list of message and users
-    (0,_refreshList__WEBPACK_IMPORTED_MODULE_4__["default"])({
-      state: _state__WEBPACK_IMPORTED_MODULE_2__["default"],
-      rootEl: rootEl
-    });
-
     // Set polling
-    (0,_polling__WEBPACK_IMPORTED_MODULE_5__["default"])({
+    (0,_polling__WEBPACK_IMPORTED_MODULE_4__["default"])({
       state: _state__WEBPACK_IMPORTED_MODULE_2__["default"],
-      rootEl: rootEl
+      rootEl: rootEl,
+      isFirstTime: false
     });
   })["catch"](function (err) {
     // If there is an error, update state and show login page
