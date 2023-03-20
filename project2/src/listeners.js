@@ -1,7 +1,7 @@
 import { fetchLogin, fetchLogout, fetchAddMessage } from './services'; // Offer fetch() calls to communicate with the server
 import { waitOnMessages, addMessage, waitOnLogin, login, logout, setError } from './state'; // The user's state in client side
-import {renderHomePage, renderLoginPage, renderMessageList} from './render'; // Offer the render methods to generate HTML
-import polling from './polling'; // Set a polling to refresh the list of message and user
+import { renderHomePage, renderLoginPage, renderMessageList } from './render'; // Offer the render methods to generate HTML
+import pollingRefreshList from './pollingRefreshList'; // Set a polling to refresh the list of message and user
 
 /* Listen to the submit event of login form */
 export function addListenerToLogin({ state,  rootEl }) {
@@ -25,7 +25,7 @@ export function addListenerToLogin({ state,  rootEl }) {
       // Login successful, show home page and set polling
       login(res.username);
       renderHomePage({ state, rootEl });
-      polling({ state, rootEl, isFirstTime: true });
+      pollingRefreshList({ state, rootEl, isFirstTime: true });
     })
     .catch( err => {
 

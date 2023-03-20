@@ -50,7 +50,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _services__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./services */ "./src/services.js");
 /* harmony import */ var _state__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./state */ "./src/state.js");
 /* harmony import */ var _render__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./render */ "./src/render.js");
-/* harmony import */ var _polling__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./polling */ "./src/polling.js");
+/* harmony import */ var _pollingRefreshList__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./pollingRefreshList */ "./src/pollingRefreshList.js");
  // Offer fetch() calls to communicate with the server
  // The user's state in client side
  // Offer the render methods to generate HTML
@@ -83,7 +83,7 @@ function addListenerToLogin(_ref) {
         state: state,
         rootEl: rootEl
       });
-      (0,_polling__WEBPACK_IMPORTED_MODULE_3__["default"])({
+      (0,_pollingRefreshList__WEBPACK_IMPORTED_MODULE_3__["default"])({
         state: state,
         rootEl: rootEl,
         isFirstTime: true
@@ -207,15 +207,15 @@ function addListenerToOutgoingSend(rootEl) {
 
 /***/ }),
 
-/***/ "./src/polling.js":
-/*!************************!*\
-  !*** ./src/polling.js ***!
-  \************************/
+/***/ "./src/pollingRefreshList.js":
+/*!***********************************!*\
+  !*** ./src/pollingRefreshList.js ***!
+  \***********************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "default": () => (/* binding */ polling)
+/* harmony export */   "default": () => (/* binding */ pollingRefreshList)
 /* harmony export */ });
 /* harmony import */ var _state__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./state */ "./src/state.js");
 /* harmony import */ var _services__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./services */ "./src/services.js");
@@ -226,7 +226,7 @@ __webpack_require__.r(__webpack_exports__);
  // Offer the render methods to generate HTML
 
 /* Every 5 seconds (roughly) refresh the list of message and users */
-function polling(_ref) {
+function pollingRefreshList(_ref) {
   var state = _ref.state,
     rootEl = _ref.rootEl,
     isFirstTime = _ref.isFirstTime;
@@ -242,7 +242,7 @@ function polling(_ref) {
   });
 
   // Update the Timeout Id into state
-  var id = setTimeout(polling, 5000, {
+  var id = setTimeout(pollingRefreshList, 5000, {
     state: state,
     rootEl: rootEl,
     isFirstTime: false
@@ -725,7 +725,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _services__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./services */ "./src/services.js");
 /* harmony import */ var _state__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./state */ "./src/state.js");
 /* harmony import */ var _render__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./render */ "./src/render.js");
-/* harmony import */ var _polling__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./polling */ "./src/polling.js");
+/* harmony import */ var _pollingRefreshList__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./pollingRefreshList */ "./src/pollingRefreshList.js");
 /* harmony import */ var _listeners__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./listeners */ "./src/listeners.js");
 
  // Offer fetch() calls to communicate with the server
@@ -769,7 +769,7 @@ function checkForSession() {
     });
 
     // Set polling
-    (0,_polling__WEBPACK_IMPORTED_MODULE_4__["default"])({
+    (0,_pollingRefreshList__WEBPACK_IMPORTED_MODULE_4__["default"])({
       state: _state__WEBPACK_IMPORTED_MODULE_2__["default"],
       rootEl: rootEl,
       isFirstTime: false

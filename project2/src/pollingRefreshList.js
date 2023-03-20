@@ -1,17 +1,17 @@
 import { setTimeoutId } from './state'; // The user's state in client side
-import { fetchLoggedInUsers, fetchMessages} from './services'; // Offer fetch() calls to communicate with the server
+import { fetchLoggedInUsers, fetchMessages } from './services'; // Offer fetch() calls to communicate with the server
 import { waitOnUsers, setUsers, waitOnMessages, setMessages, logout, setError } from './state'; // The user's state in client side
 import { renderLoginPage, renderUserList, renderMessageList } from './render'; // Offer the render methods to generate HTML
 
 /* Every 5 seconds (roughly) refresh the list of message and users */
-export default function polling({ state, rootEl, isFirstTime }) {
+export default function pollingRefreshList({ state, rootEl, isFirstTime }) {
 
   // Refresh the list of message and users
   refreshUserList({state, rootEl});
   refreshMessageList({state, rootEl, forceScrollToBottom: isFirstTime});
 
   // Update the Timeout Id into state
-  const id = setTimeout( polling, 5000, { state, rootEl, isFirstTime: false } );
+  const id = setTimeout( pollingRefreshList, 5000, { state, rootEl, isFirstTime: false } );
   setTimeoutId(id);
 }
 

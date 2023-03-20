@@ -1,8 +1,8 @@
 import { SERVER, CLIENT } from './constants';
-import {fetchSession} from './services'; // Offer fetch() calls to communicate with the server
+import { fetchSession } from './services'; // Offer fetch() calls to communicate with the server
 import state, { login, logout, setError } from './state'; // The user's state in client side
-import {renderHomePage, renderLoginPage} from './render'; // Offer the render methods to generate HTML
-import polling from './polling'; // Set a polling to refresh the list of message and user
+import { renderHomePage, renderLoginPage } from './render'; // Offer the render methods to generate HTML
+import pollingRefreshList from './pollingRefreshList'; // Set a polling to refresh the list of message and user
 import { 
   addListenerToLogin,
   addListenerToLogout,
@@ -37,7 +37,7 @@ function checkForSession() {
     renderHomePage({state, rootEl});
 
     // Set polling
-    polling({state, rootEl, isFirstTime: false});
+    pollingRefreshList({state, rootEl, isFirstTime: false});
   })
   .catch( err => {
 
