@@ -44,8 +44,10 @@ function refreshUserList({ state, rootEl }) {
 function refreshMessageList({ state, rootEl, forceScrollToBottom }) {
   const messagesEl = rootEl.querySelector('.messages');
 
+  const offset = 50; // 50 pixels from the bottom is considered to scroll to the bottom
+
   // Check the scrolling status of messages' list
-  const needScrollToBottom = forceScrollToBottom ? true : (messagesEl.scrollHeight - messagesEl.scrollTop) < (messagesEl.clientHeight + 33);
+  const needScrollToBottom = forceScrollToBottom ? true : (messagesEl.scrollHeight - messagesEl.scrollTop) < (messagesEl.clientHeight + offset);
 
   // Save the previous scrollTop of messagesEl
   const preScrollTop = messagesEl.scrollTop;

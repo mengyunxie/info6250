@@ -288,9 +288,10 @@ function refreshMessageList(_ref3) {
     rootEl = _ref3.rootEl,
     forceScrollToBottom = _ref3.forceScrollToBottom;
   var messagesEl = rootEl.querySelector('.messages');
+  var offset = 50; // 50 pixels from the bottom is considered to scroll to the bottom
 
   // Check the scrolling status of messages' list
-  var needScrollToBottom = forceScrollToBottom ? true : messagesEl.scrollHeight - messagesEl.scrollTop < messagesEl.clientHeight + 33;
+  var needScrollToBottom = forceScrollToBottom ? true : messagesEl.scrollHeight - messagesEl.scrollTop < messagesEl.clientHeight + offset;
 
   // Save the previous scrollTop of messagesEl
   var preScrollTop = messagesEl.scrollTop;
