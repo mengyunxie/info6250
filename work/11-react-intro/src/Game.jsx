@@ -17,7 +17,7 @@ function Game({ username, onLogout }) {
       return;
     }
 
-    if(guess.toUpperCase() === SECRETWORD.toUpperCase()) { // If the guess is identical (regardless of case) to the secret word, show the message
+    if(guess.toUpperCase() === SECRETWORD) { // If the guess is identical (regardless of case) to the secret word, show the message
       setMessage(`${guess} is the secret word!`);
       return;
     }
