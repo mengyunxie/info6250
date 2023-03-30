@@ -4,6 +4,7 @@ function Login({ onLogin }) {
   const [username, setUsername] = useState('');
   const [message, setMessage] = useState('');
 
+  // Using 'onSubmit' to get both submit via button-click and by "enter"
   function handleLogin(e) {
     // Prevent the browser from reloading the page
     e.preventDefault();

@@ -94,7 +94,7 @@ body {
   text-align: center;
 }
 
-.game-name {
+.game-username {
   margin: 0;
   padding: 0 0.5rem;
   font-size: 2rem;
@@ -125,9 +125,17 @@ body {
 }
 
 .guess-message {
-  margin: 3rem 0 1rem;
+  margin: 5rem 0 1rem;
   text-align: center;
   word-break: break-word;
+}
+
+.guess-message.error {
+  color: #e66119;
+}
+
+.guess-message.success {
+  color: #1cc978;
 }
 
 .guess-form {
