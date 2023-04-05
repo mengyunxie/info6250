@@ -8,23 +8,23 @@ html, body {
   font-family: sans-serif;
 }
 
-.user {
+.dashboard {
   display: grid;
   grid-template-areas: 
     ". greeting logout"
-    ". word .";
+    ". panel .";
   grid-template-columns: 1fr 4fr 1fr;
   grid-template-rows: auto 1fr;
   height: 100%;
 }
 
-.user-greeting {
+.dashboard-greeting {
   grid-area: greeting;
   margin: 5rem 0 0;
   text-align: center;
 }
 
-.user-title {
+.dashboard-username {
   margin: 0;
   padding: 0 0.5rem;
   font-size: 2rem;
@@ -46,9 +46,11 @@ html, body {
   background-color: #ffffff;
   cursor: pointer;
 }
+.panel {
+  grid-area: panel;
+}
 
 .word {
-  grid-area: word;
   display: flex;
   flex-direction: column;
   padding: 0;
@@ -66,7 +68,7 @@ html, body {
 
 .stored-word-item {
   display: flex;
-    flex-grow: 2;
+  flex-grow: 2;
 }
 
 .stored-word-content {
@@ -216,13 +218,11 @@ html, body {
   cursor: pointer;
 }
 
-.spinner {
+.loading {
+  flex-direction: column;
   display: flex;
   justify-content: center;
-  margin-top: 2rem;
-}
-
-.spinner-img {
-  width: 2rem;
-  height: 2rem;
+  align-items: center;
+  margin-top: 5rem;
+  color: #007acc;
 }

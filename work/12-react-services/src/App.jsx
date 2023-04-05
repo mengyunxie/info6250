@@ -32,7 +32,7 @@ function App() {
     setIsWordPending(true);
     fetchLogin(username)
     .then( res => {
-      setError(''); // in case another action had set an error
+      setError('');
       setStoredWord(res.storedWord);
       setIsWordPending(false);
       setUsername(username);
@@ -40,6 +40,7 @@ function App() {
     })
     .catch( err => {
       setError(err?.error || 'ERROR');
+      setIsWordPending(false);
     });
   };
 
@@ -59,13 +60,19 @@ function App() {
   }
 
   function onUpdateWord(word) {
+    setError('');
+    setIsWordPending(true); // Show loading state
     updateWord(word)
     .then( res => {
+      setError('');
+      setIsWordPending(false);
       setStoredWord(res.storedWord);
+      
     })
     .catch( err => {
       setError(err?.error || 'ERROR'); // Ensure that the error ends up truthy
-      if( err?.error === SERVER.AUTH_MISSING ) { // expected "error"
+      setIsWordPending(false);
+      if( err?.error === SERVER.AUTH_MISSING ) {
         setLoginStatus(LOGIN_STATUS.NOT_LOGGED_IN);
       }
     });
@@ -76,12 +83,14 @@ function App() {
     setIsWordPending(true); // Show loading state
     fetchDeleteWord()
       .then( res => {
+        setError('');
         setStoredWord(res.storedWord);
         setIsWordPending(false);
       })
       .catch( err => {
         setError(err?.error || 'ERROR'); // Ensure that the error ends up truthy
-        if( err?.error === SERVER.AUTH_MISSING ) { // expected "error"
+        setIsWordPending(false);
+        if( err?.error === SERVER.AUTH_MISSING ) {
           setLoginStatus(LOGIN_STATUS.NOT_LOGGED_IN);
         }
       });
@@ -125,7 +134,7 @@ function App() {
   return (
     <div className="app">
       { error && <Status error={error} onClearStatus={onClearStatus} /> }
-      { loginStatus === LOGIN_STATUS.PENDING && <Loading className="login-waiting">Loading user...</Loading> }
+      { loginStatus === LOGIN_STATUS.PENDING && <Loading>Loading user...</Loading> }
       { loginStatus === LOGIN_STATUS.NOT_LOGGED_IN && <Login onLogin={onLogin}/> }
       { loginStatus === LOGIN_STATUS.IS_LOGGED_IN && <Dashboard
             username={username}

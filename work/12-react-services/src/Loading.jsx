@@ -1,9 +1,9 @@
-import spinner from './images/loading.gif';
+import Spinner from './Spinner';
 
-function Loading({ className, children='Loading...' }) {
+function Loading({ children='Loading...' }) {
   return (
-    <div className={`spinner ${className}`}>
-      <img className="spinner-img" alt="loading" src={spinner} />
+    <div className="loading" >
+      <Spinner />
       <p>{children}</p>
     </div>
   );

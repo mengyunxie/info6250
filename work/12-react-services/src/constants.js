@@ -21,7 +21,7 @@ export const SERVER = {
   export const MESSAGES = {
     [CLIENT.NETWORK_ERROR]: 'Trouble connecting to the network.  Please try again',
     [SERVER.AUTH_MISSING]: 'Session id is invalid',
-    [SERVER.AUTH_INSUFFICIENT]: 'Your username/password combination does not match any records, please try again.',
+    [SERVER.AUTH_INSUFFICIENT]: 'This is a denied user, please try again.',
     [SERVER.REQUIRED_USERNAME]: 'The username can not be empty, please try again.',
     [SERVER.INVALID_USERNAME]: 'Please enter a valid (letters and/or numbers) username',
     [SERVER.INVALID_WORD]: 'Word must be letters, please try again!',

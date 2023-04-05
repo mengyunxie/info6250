@@ -4,8 +4,8 @@ import UserWord from './UserWord';
 function Dashboard({ username, storedWord, isWordPending, onLogout, onUpdateWord, onDeleteWord }) {
 
   return (
-    <main className="user">
-      <p className="user-greeting">Hello <span className="user-title">{username}</span></p>
+    <main className="dashboard">
+      <p className="dashboard-greeting">Hello <span className="dashboard-username">{username}</span></p>
       <div className="logout-form">
         <button 
           type="button" 
@@ -15,7 +15,8 @@ function Dashboard({ username, storedWord, isWordPending, onLogout, onUpdateWord
           Logout
         </button>
       </div>
-      { isWordPending && <Loading className="word-waiting">Loading Word...</Loading> }
+      <div className="panel">
+      { isWordPending && <Loading >Loading Word...</Loading> }
       { !isWordPending &&
         <UserWord
           storedWord={storedWord}
@@ -23,6 +24,7 @@ function Dashboard({ username, storedWord, isWordPending, onLogout, onUpdateWord
           onDeleteWord={onDeleteWord}
         />
       }
+      </div>
     </main>
   );
 }
