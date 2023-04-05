@@ -11,6 +11,7 @@ function Login({ onLogin }) {
     // Don't allow blank username to try login
     if(username) {
       onLogin(username);
+      setUsername(''); // Clear the username after clicking
     }
   }
 

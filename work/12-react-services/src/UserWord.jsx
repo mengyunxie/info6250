@@ -2,16 +2,19 @@ import { useState } from 'react';
 
 function UserWord({ storedWord, onUpdateWord, onDeleteWord }) {
 
-  const [word, setWord] = useState('');
+    const [word, setWord] = useState('');
 
-  // Using 'onSubmit' to get both submit via button-click and by "enter"
-  function updateWord(e) {
-    // Prevent the browser from reloading the page
-    e.preventDefault();
-    // Don't allow blank username to try login
-    onUpdateWord(word);
-    setWord(''); // Reset the guess state
-  }
+    // Using 'onSubmit' to get both submit via button-click and by "enter"
+    function updateWord(e) {
+        // Prevent the browser from reloading the page
+        e.preventDefault();
+
+        // Don't allow blank word to try update
+        if(word) {
+            onUpdateWord(word);
+            setWord(''); // Clear the word after updating
+        }
+    }
 
     return (
         <div className="word">

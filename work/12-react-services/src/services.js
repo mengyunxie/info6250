@@ -1,3 +1,4 @@
+/* Login */
 export function fetchLogin(username) {
   return fetch('/api/v1/session/', {
     method: 'POST',
@@ -17,6 +18,7 @@ export function fetchLogin(username) {
   });
 }
 
+/* Logout */
 export function fetchLogout() {
   return fetch('/api/v1/session', {
     method: 'DELETE'
@@ -32,6 +34,7 @@ export function fetchLogout() {
   });
 }
 
+/* Check for an existing session */
 export function fetchSession() {
   return fetch('/api/v1/session')
     .catch( err => Promise.reject({ error: 'network-error' }) )
@@ -45,6 +48,7 @@ export function fetchSession() {
     });
 }
 
+/* Get user's word */
 export function fetchWord() {
   return fetch('/api/v1/word')
     .catch( err => Promise.reject({ error: 'network-error' }) )
@@ -58,11 +62,12 @@ export function fetchWord() {
     });
 }
 
+/* Update user's word */
 export function updateWord(word) {
   return fetch('/api/v1/word/', {
     method: 'PUT',
     headers: {
-      'content-type': 'application/json', // set this header when sending JSON in the body of request
+      'content-type': 'application/json',
     },
     body: JSON.stringify( { word } ),
   })
@@ -77,6 +82,7 @@ export function updateWord(word) {
   });
 }
 
+/* Delete user's word */
 export function fetchDeleteWord() {
   return fetch(`/api/v1/word`, {
     method: 'DELETE',

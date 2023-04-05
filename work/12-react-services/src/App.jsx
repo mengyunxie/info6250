@@ -24,15 +24,16 @@ import Status from './Status';
 function App() {
   const [ error, setError ] = useState('');
   const [ username, setUsername] = useState('');
-  const [ loginStatus, setLoginStatus ] = useState(LOGIN_STATUS.PENDING); // one variable covers multiple cases
+  const [ loginStatus, setLoginStatus ] = useState(LOGIN_STATUS.PENDING);
   const [ isWordPending, setIsWordPending ] = useState(false);
   const [ storedWord, setStoredWord] = useState('');
 
   function onLogin(username) {
-    setIsWordPending(true);
+    setError(''); // Clear the error status
+    setIsWordPending(true); // Show loading state
+    setLoginStatus(LOGIN_STATUS.PENDING);
     fetchLogin(username)
     .then( res => {
-      setError('');
       setStoredWord(res.storedWord);
       setIsWordPending(false);
       setUsername(username);
@@ -41,6 +42,7 @@ function App() {
     .catch( err => {
       setError(err?.error || 'ERROR');
       setIsWordPending(false);
+      setLoginStatus(LOGIN_STATUS.NOT_LOGGED_IN);
     });
   };
 
@@ -51,26 +53,25 @@ function App() {
     setStoredWord('');
     fetchLogout() // We don't really care about results
     .catch( err => {
-      setError(err?.error || 'ERROR'); // Ensure that the error ends up truthy
+      setError(err?.error || 'ERROR');
     });
   };
 
+  /* Rmove the Status component and clear the error message */
   function onClearStatus() {
     setError('');
   }
 
   function onUpdateWord(word) {
-    setError('');
+    setError(''); // Clear the error status
     setIsWordPending(true); // Show loading state
     updateWord(word)
-    .then( res => {
-      setError('');
+    .then( res => { 
       setIsWordPending(false);
       setStoredWord(res.storedWord);
-      
     })
     .catch( err => {
-      setError(err?.error || 'ERROR'); // Ensure that the error ends up truthy
+      setError(err?.error || 'ERROR');
       setIsWordPending(false);
       if( err?.error === SERVER.AUTH_MISSING ) {
         setLoginStatus(LOGIN_STATUS.NOT_LOGGED_IN);
@@ -79,16 +80,15 @@ function App() {
   }
 
   function onDeleteWord() {
-    setError('');
+    setError(''); // Clear the error status
     setIsWordPending(true); // Show loading state
     fetchDeleteWord()
       .then( res => {
-        setError('');
         setStoredWord(res.storedWord);
         setIsWordPending(false);
       })
       .catch( err => {
-        setError(err?.error || 'ERROR'); // Ensure that the error ends up truthy
+        setError(err?.error || 'ERROR');
         setIsWordPending(false);
         if( err?.error === SERVER.AUTH_MISSING ) {
           setLoginStatus(LOGIN_STATUS.NOT_LOGGED_IN);
@@ -100,19 +100,23 @@ function App() {
     fetchSession()
     .then( session => { // The returned object from the service call
       setUsername(session.username);
-      setLoginStatus(LOGIN_STATUS.IS_LOGGED_IN); // We do not have todos yet!
+      setLoginStatus(LOGIN_STATUS.IS_LOGGED_IN);
+      setIsWordPending(true); // Show loading state
       return fetchWord(); // By returning this promise we can chain the original promise
     })
     .catch( err => {
+      setIsWordPending(false);
       if( err?.error === SERVER.AUTH_MISSING ) {
         return Promise.reject({ error: CLIENT.NO_SESSION }) // Expected, not a problem
       }
       return Promise.reject(err); // Pass any other error unchanged
     })
     .then( res => {
+      setIsWordPending(false);
       setStoredWord(res.storedWord);
     })
     .catch( err => {
+      setIsWordPending(false);
       if( err?.error === CLIENT.NO_SESSION ) { // expected "error"
         setLoginStatus(LOGIN_STATUS.NOT_LOGGED_IN);
         return;
@@ -122,7 +126,7 @@ function App() {
     });
   }
 
-    // Here we use a useEffect to perform the initial loading
+  // Here we use a useEffect to perform the initial loading
   // Initial loading isn't triggered by an event like most service calls
   useEffect(
     () => {

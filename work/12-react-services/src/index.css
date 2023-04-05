@@ -46,17 +46,18 @@ html, body {
   background-color: #ffffff;
   cursor: pointer;
 }
+
 .panel {
   grid-area: panel;
+  padding: 0;
+  margin-top: 2rem;
+  border: 1px solid #007acc;
+  border-radius: 1rem;
 }
 
 .word {
   display: flex;
   flex-direction: column;
-  padding: 0;
-  margin-top: 2rem;
-  border: 1px solid #007acc;
-  border-radius: 1rem;
 }
 
 .stored-word {
@@ -223,6 +224,6 @@ html, body {
   display: flex;
   justify-content: center;
   align-items: center;
-  margin-top: 5rem;
+  margin: 5rem 0;
   color: #007acc;
 }
