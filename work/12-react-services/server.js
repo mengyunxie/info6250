@@ -106,5 +106,18 @@ app.put('/api/v1/word', (req, res) => {
   res.json({ username, storedWord: word });
 });
 
+app.delete('/api/v1/word', (req, res) => {
+  const sid = req.cookies.sid;
+  const username = sid ? sessions.getSessionUser(sid) : '';
+  if(!sid || !username) {
+    res.status(401).json({ error: 'auth-missing' });
+    return;
+  }
+
+  users.wordFor[username] = "";
+
+  res.json({ username, storedWord: users.wordFor[username] });
+});
+
 app.listen(PORT, () => console.log(`http://localhost:${PORT}`));
 

@@ -64,10 +64,25 @@ html, body {
   border-bottom: 1px dashed #007acc;
 }
 
+.stored-word-item {
+  display: flex;
+    flex-grow: 2;
+}
+
 .stored-word-content {
+  flex-grow: 2;
   margin-left: 1rem;
   color: #007acc;
   word-break: break-word;
+}
+
+.word-to-delete {
+  border: 1px solid #007acc;
+  padding: 0.5rem 1rem;
+  border-radius: 1rem;
+  color: #007acc;
+  background-color: #fff;
+  cursor: pointer;
 }
 
 .no-data {
@@ -84,13 +99,6 @@ html, body {
 .word-label {
   display: flex;
   align-items: center;
-}
-
-.word-message{
-  margin: 0;
-  padding: 0 0 2rem;
-  color: #e66119;
-  text-align: center;
 }
 
 .word-to-send {
@@ -144,12 +152,6 @@ html, body {
   flex-direction: column;
 }
 
-.login-message {
-  color: #e66119;
-  text-align: center;
-  margin: 1rem 0;
-}
-
 .login-form {
   display: flex;
   flex-direction: column;
@@ -187,4 +189,40 @@ html, body {
   color: #333;
   background-color: #d6dadd;
   cursor: not-allowed;
+}
+
+.status {
+  display: flex;
+  margin: 1rem;
+  padding: 1rem 0;
+  color: #f00300;
+  background-color: #fefbfb;
+  border: 1px solid #f00300;
+  text-align: center;
+  justify-content: center;
+}
+
+.status-message {
+  flex-grow: 2;
+}
+
+.status-delete {
+  font-weight: bold;
+  margin: 0 1rem 0 0;
+  border: 1px solid #fefbfb;
+  padding: 0 0.5rem;
+  color: #f00300;
+  background-color: #fefbfb;
+  cursor: pointer;
+}
+
+.spinner {
+  display: flex;
+  justify-content: center;
+  margin-top: 2rem;
+}
+
+.spinner-img {
+  width: 2rem;
+  height: 2rem;
 }
