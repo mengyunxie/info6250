@@ -21,17 +21,17 @@
     height: 3rem;
     content: "";
     position: absolute;
-    border-radius: 10rem
+    border-radius: 10rem;
   }
   .gg-spinner-two::before {
     animation: spinner-two 1s cubic-bezier(.6,0,.4,1) infinite;
     border: 0.4rem solid transparent;
     border-bottom-color: currentColor;
-    border-top-color: currentColor
+    border-top-color: currentColor;
   }
   .gg-spinner-two::after {
     border: 0.4rem solid;
-    opacity: .2
+    opacity: .2;
   }
 
   /* Small size */
@@ -48,9 +48,9 @@
     animation: spinner-two 1s cubic-bezier(.6,0,.4,1) infinite;
     border: 0.2rem solid transparent;
     border-bottom-color: currentColor;
-    border-top-color: currentColor
+    border-top-color: currentColor;
   }
   .gg-spinner-two.small::after {
     border: 0.2rem solid;
-    opacity: .2
+    opacity: .2;
   }
