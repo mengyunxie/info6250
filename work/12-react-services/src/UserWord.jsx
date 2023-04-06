@@ -1,6 +1,7 @@
 import { useState } from 'react';
+import Loading from './Loading';
 
-function UserWord({ storedWord, onUpdateWord, onDeleteWord }) {
+function UserWord({ storedWord, isWordPending, onUpdateWord, onDeleteWord }) {
 
     const [word, setWord] = useState('');
 
@@ -19,21 +20,26 @@ function UserWord({ storedWord, onUpdateWord, onDeleteWord }) {
     return (
         <div className="word">
             <div className="stored-word">
-                <span>Stored word:</span>
-                {!storedWord && <span className="no-data">No word, please update your word.</span>}
-                {storedWord && 
-                    <div className="stored-word-item">
-                        <span className="stored-word-content">{storedWord}</span>
-                        <button 
-                            type="button"
-                            className="word-to-delete"
-                            onClick={ (e) => {
-                                onDeleteWord();
-                            }}
-                        >
-                            Delete
-                        </button>
-                    </div>
+                { isWordPending && <Loading className="word-loading" size='small'>Loading Word...</Loading> }
+                { !isWordPending && 
+                    <>
+                        <span>Stored word:</span>
+                        {!storedWord && <span className="no-data">No word, please update your word.</span>}
+                        {storedWord && 
+                            <div className="stored-word-item">
+                                <span className="stored-word-content">{storedWord}</span>
+                                <button 
+                                    type="button"
+                                    className="word-to-delete"
+                                    onClick={ (e) => {
+                                        onDeleteWord();
+                                    }}
+                                >
+                                    Delete
+                                </button>
+                            </div>
+                        }
+                    </>
                 }
             </div>
             <form className="word-form" method="post" onSubmit={updateWord}>

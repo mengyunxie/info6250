@@ -1,10 +1,10 @@
 import Spinner from './Spinner';
 
-function Loading({ children='Loading...' }) {
+function Loading({ className, size, children='Loading...' }) {
   return (
-    <div className="loading" >
-      <Spinner />
-      <p>{children}</p>
+    <div className={`loading ${className}`} >
+      <Spinner size={size} />
+      <p className='loading-message'>{children}</p>
     </div>
   );
 }

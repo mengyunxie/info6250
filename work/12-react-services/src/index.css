@@ -47,21 +47,19 @@ html, body {
   cursor: pointer;
 }
 
-.panel {
+.word {
   grid-area: panel;
+  display: flex;
+  flex-direction: column;
   padding: 0;
   margin-top: 2rem;
   border: 1px solid #007acc;
   border-radius: 1rem;
 }
 
-.word {
-  display: flex;
-  flex-direction: column;
-}
-
 .stored-word {
   display: flex;
+  align-items: center;
   margin: 0;
   padding: 2rem 5rem;
   border-bottom: 1px dashed #007acc;
@@ -70,6 +68,7 @@ html, body {
 .stored-word-item {
   display: flex;
   flex-grow: 2;
+  align-items: center;
 }
 
 .stored-word-content {
@@ -82,6 +81,7 @@ html, body {
 .word-to-delete {
   border: 1px solid #007acc;
   padding: 0.5rem 1rem;
+  margin-left: 1rem;
   border-radius: 1rem;
   color: #007acc;
   background-color: #fff;
@@ -226,4 +226,17 @@ html, body {
   align-items: center;
   margin: 5rem 0;
   color: #007acc;
+}
+
+.loading-message {
+  margin: 2rem;
+}
+
+.loading.word-loading {
+  flex-direction: row;
+  margin: 0;
+}
+
+.word-loading .loading-message {
+  margin: 0 1rem;
 }

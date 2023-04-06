@@ -1,4 +1,3 @@
-import Loading from './Loading';
 import UserWord from './UserWord';
 
 function Dashboard({ username, storedWord, isWordPending, onLogout, onUpdateWord, onDeleteWord }) {
@@ -15,16 +14,12 @@ function Dashboard({ username, storedWord, isWordPending, onLogout, onUpdateWord
           Logout
         </button>
       </div>
-      <div className="panel">
-      { isWordPending && <Loading >Loading Word...</Loading> }
-      { !isWordPending &&
-        <UserWord
-          storedWord={storedWord}
-          onUpdateWord={onUpdateWord}
-          onDeleteWord={onDeleteWord}
-        />
-      }
-      </div>
+      <UserWord
+        storedWord={storedWord}
+        isWordPending={isWordPending}
+        onUpdateWord={onUpdateWord}
+        onDeleteWord={onDeleteWord}
+      />
     </main>
   );
 }

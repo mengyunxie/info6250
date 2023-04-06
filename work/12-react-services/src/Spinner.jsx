@@ -1,7 +1,7 @@
 import './spinner.css';
 
-function Spinner() {
-    return <i className="gg-spinner-two"></i>;
+function Spinner({size}) {
+    return <i className={`gg-spinner-two ${size}`}></i>;
 }
 
 export default Spinner;
