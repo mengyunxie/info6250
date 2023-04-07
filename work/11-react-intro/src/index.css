@@ -1,0 +1,177 @@
+*, *::before, *::after { 
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  font-family: sans-serif;
+}
+
+.login {
+  margin: 0;
+  padding: 0;
+  display: grid;
+  grid-template-areas: 
+    ". login-greeting ."
+    ". login-main .";
+  grid-template-columns: 1fr 4fr 1fr;
+  grid-template-rows: auto 1fr;
+}
+
+.login-greeting {
+  grid-area: login-greeting;
+  color: #333333;
+  font-size: 2rem;
+  margin: 10rem 0 5rem;
+  text-align: center;
+}
+
+.login-main {
+  grid-area: login-main;
+  display: flex;
+  flex-direction: column;
+}
+
+.login-message {
+  color: #e66119;
+  margin: 1rem 0;
+  text-align: center;
+  word-break: break-word;
+}
+
+.login-form {
+  display: flex;
+  flex-direction: column;
+  padding: 2rem 5rem;
+  border: 1px solid #007acc;
+  border-radius: 1rem;
+  margin: 0 5rem;
+}
+
+.login-label {
+  display: flex;
+  align-items: center;
+}
+
+.login-to-send {
+  flex-grow: 2;
+  border: 1px solid #cacdd1;
+  padding: 0.5rem;
+  border-radius: 1rem;
+  margin-left: 1rem;
+}
+
+.login-to-submit {
+  margin-top: 2rem;
+  border: 1px solid #007acc;
+  padding: 0.5rem;
+  border-radius: 1rem;
+  color: #ffffff;
+  background-color: #007acc;
+  cursor: pointer;
+}
+
+.login-to-submit:disabled {
+  border: 1px solid #d6dadd;
+  color: #333;
+  background-color: #d6dadd;
+  cursor: not-allowed;
+}
+
+.game {
+  display: grid;
+  grid-template-areas: 
+    ". greeting logout"
+    ". guess .";
+  grid-template-columns: 1fr 4fr 1fr;
+  grid-template-rows: auto 1fr;
+  height: 100%;
+}
+
+.game-greeting {
+  grid-area: greeting;
+  margin: 5rem 0 0;
+  text-align: center;
+}
+
+.game-username {
+  margin: 0;
+  padding: 0 0.5rem;
+  font-size: 2rem;
+  font-weight: bold;
+  text-align: center;
+  color: #007acc;
+}
+
+.logout-form {
+  grid-area: logout;
+}
+
+.logout-to-submit {
+  margin-top: 5rem;
+  border: 1px solid #007acc;
+  padding: 0.5rem;
+  border-radius: 1rem;
+  color: #007acc;
+  background-color: #ffffff;
+  cursor: pointer;
+}
+
+.guess {
+  grid-area: guess;
+  display: flex;
+  flex-direction: column;
+  padding: 0;
+}
+
+.guess-message {
+  margin: 5rem 0 1rem;
+  text-align: center;
+  word-break: break-word;
+}
+
+.guess-message.error {
+  color: #e66119;
+}
+
+.guess-message.success {
+  color: #1cc978;
+}
+
+.guess-form {
+  display: flex;
+  flex-direction: column;
+  padding: 2rem 5rem;
+  border: 1px solid #007acc;
+  border-radius: 1rem;
+}
+
+.guess-label {
+  display: flex;
+  align-items: center;
+}
+
+.guess-to-send {
+  flex-grow: 2;
+  border: 1px solid #cacdd1;
+  padding: 0.5rem;
+  border-radius: 1rem;
+  margin-left: 1rem;
+}
+
+.guess-to-submit {
+  margin-top: 2rem;
+  border: 1px solid #007acc;
+  padding: 0.5rem;
+  border-radius: 1rem;
+  color: #ffffff;
+  background-color: #007acc;
+  cursor: pointer;
+}
+
+.guess-to-submit:disabled {
+  border: 1px solid #d6dadd;
+  color: #333;
+  background-color: #d6dadd;
+  cursor: not-allowed;
+}
