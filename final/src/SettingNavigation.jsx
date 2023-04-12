@@ -6,7 +6,7 @@ function SettingNavigation() {
     return (
         <ul className="navigation-contents">
             <li 
-                className={`navigation-item ${navigation == NAVIGATION.SETTING.PROFILE ? "focus" : ""}`}
+                className={`navigation-item ${navigation === NAVIGATION.SETTING.PROFILE ? "focus" : ""}`}
                 onClick={ (e) => {
                     setNavigation(NAVIGATION.SETTING.PROFILE)
                 }}
@@ -14,7 +14,7 @@ function SettingNavigation() {
                 <span>{NAVIGATION.SETTING.PROFILE}</span>
             </li>
             <li 
-                className={`navigation-item ${navigation == NAVIGATION.SETTING.LABEL ? "focus" : ""}`}
+                className={`navigation-item ${navigation === NAVIGATION.SETTING.LABEL ? "focus" : ""}`}
                 onClick={ (e) => {
                     setNavigation(NAVIGATION.SETTING.LABEL)
                 }}

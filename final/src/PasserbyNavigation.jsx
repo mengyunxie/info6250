@@ -6,7 +6,7 @@ function PasserbyNavigation() {
     return (
         <ul className="navigation-contents">
             <li 
-                className={`navigation-item ${navigation == NAVIGATION.PASSERBY.LATEST ? "focus" : ""}`}
+                className={`navigation-item ${navigation === NAVIGATION.PASSERBY.LATEST ? "focus" : ""}`}
                 onClick={ (e) => {
                     setNavigation(NAVIGATION.PASSERBY.LATEST)
                 }}
@@ -14,7 +14,7 @@ function PasserbyNavigation() {
                 <span>{NAVIGATION.PASSERBY.LATEST}</span>
             </li>
             <li 
-                className={`navigation-item ${navigation == NAVIGATION.PASSERBY.HOT ? "focus" : ""}`}
+                className={`navigation-item ${navigation === NAVIGATION.PASSERBY.HOT ? "focus" : ""}`}
                 onClick={ (e) => {
                     setNavigation(NAVIGATION.PASSERBY.HOT)
                 }}
@@ -22,7 +22,7 @@ function PasserbyNavigation() {
                 <span>{NAVIGATION.PASSERBY.HOT}</span>
             </li>
             <li 
-                className={`navigation-item ${navigation == NAVIGATION.PASSERBY.MINE ? "focus" : ""}`}
+                className={`navigation-item ${navigation === NAVIGATION.PASSERBY.MINE ? "focus" : ""}`}
                 onClick={ (e) => {
                     setNavigation(NAVIGATION.PASSERBY.MINE)
                 }}

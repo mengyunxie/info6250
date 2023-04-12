@@ -6,6 +6,9 @@ const PORT = process.env.PORT || 3000;
 
 const sessions = require('./sessions');
 const users = require('./users');
+const diaries = require('./diaries');
+const avatars = require('./avatars');
+const labels = require('./labels');
 
 app.use(cookieParser());
 app.use(express.static('./build'));
@@ -37,10 +40,10 @@ app.post('/api/v1/session', (req, res) => {
     res.status(403).json({ error: 'auth-insufficient' });
     return;
   }
+  const userData = users.getUser({username});
   const sid = sessions.addSession(username);
-  const storedWord = users.wordFor[username] || "";
   res.cookie('sid', sid);
-  res.json({ username, storedWord });
+  res.json({ userData });
 });
 
 // Logout
@@ -57,50 +60,48 @@ app.delete('/api/v1/session', (req, res) => {
   res.json({ wasLoggedIn: !!username }); // Provides some extra info that can be safely ignored
 });
 
-// Get stored Word
-app.get('/api/v1/word', (req, res) => {
+
+app.get('/api/v1/diaries', (req, res) => {
   const sid = req.cookies.sid;
   const username = sid ? sessions.getSessionUser(sid) : '';
   if(!sid || !username) {
     res.status(401).json({ error: 'auth-missing' });
     return;
   }
-  const storedWord = users.wordFor[username] || "";
-  res.json({ username, storedWord });
+
+  res.json(diaries.getDiaries({username}));
 });
 
-// Update stored Word
-app.put('/api/v1/word', (req, res) => {
+
+app.post('/api/v1/diaries', (req, res) => {
   const sid = req.cookies.sid;
   const username = sid ? sessions.getSessionUser(sid) : '';
   if(!sid || !username) {
     res.status(401).json({ error: 'auth-missing' });
     return;
   }
-  const { word } = req.body;
-  if(!word) {
-    res.status(400).json({ error: 'required-word' });
+  const form = req.body;
+  if(!form.detail) {
+    res.status(400).json({ error: 'required-detail' });
     return;
   }
-  if(!users.isValidWord(word)) {
-    res.status(400).json({ error: 'invalid-word' });
-    return;
-  }
-  users.wordFor[username] = word;
-  res.json({ username, storedWord: word });
+
+  const id = diaries.addDiary(form);
+  res.json(diaries.getDiary({username, id}));
 });
 
-// Delete stored Word
-app.delete('/api/v1/word', (req, res) => {
+
+app.get('/api/v1/passerbydiaries', (req, res) => {
   const sid = req.cookies.sid;
   const username = sid ? sessions.getSessionUser(sid) : '';
   if(!sid || !username) {
     res.status(401).json({ error: 'auth-missing' });
     return;
   }
-  users.wordFor[username] = "";
-  res.json({ username, storedWord: users.wordFor[username] });
+
+  res.json(diaries.getLatestPasserbyDiaries());
 });
+
 
 app.listen(PORT, () => console.log(`http://localhost:${PORT}`));
 

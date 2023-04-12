@@ -48,9 +48,8 @@ export function fetchSession() {
     });
 }
 
-/* Get user's word */
-export function fetchWord() {
-  return fetch('/api/v1/word')
+export function fetchDiaries() {
+  return fetch('/api/v1/diaries')
     .catch( err => Promise.reject({ error: 'network-error' }) )
     .then( response => {
       if (response.ok) {
@@ -62,38 +61,15 @@ export function fetchWord() {
     });
 }
 
-/* Update user's word */
-export function updateWord(word) {
-  return fetch('/api/v1/word/', {
-    method: 'PUT',
-    headers: {
-      'content-type': 'application/json',
-    },
-    body: JSON.stringify( { word } ),
-  })
-  .catch( err => Promise.reject({ error: 'network-error' }) )
-  .then( response => {
-    if (response.ok) {
-      return response.json();
-    }
-    return response.json()
-    .catch( error => Promise.reject({ error }) )
-    .then( err => Promise.reject(err) );
-  });
-}
-
-/* Delete user's word */
-export function fetchDeleteWord() {
-  return fetch(`/api/v1/word`, {
-    method: 'DELETE',
-  })
-  .catch( () => Promise.reject({ error: 'networkError' }) )
-  .then( response => {
-    if (response.ok) {
-      return response.json();
-    }
-    return response.json()
-    .catch( error => Promise.reject({ error }) )
-    .then( err => Promise.reject(err) );
-  });
+export function fetchPasserbyDiaries() {
+  return fetch('/api/v1/passerbydiaries')
+    .catch( err => Promise.reject({ error: 'network-error' }) )
+    .then( response => {
+      if (response.ok) {
+        return response.json();
+      }
+      return response.json()
+      .catch( error => Promise.reject({ error }) )
+      .then( err => Promise.reject(err) );
+    });
 }
