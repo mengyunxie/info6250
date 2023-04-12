@@ -24,6 +24,10 @@ import Loading from './Loading';
 function App() {
   const [ error, setError ] = useState('');
   const [ username, setUsername] = useState('');
+  const [ avatar, setAvatar] = useState({
+    key: 'Default',
+    url: 'avatar.png'
+  });
   const [ loginStatus, setLoginStatus ] = useState(LOGIN_STATUS.PENDING);
   const [menu, setMenu] = useState(SIDE_MENU.PASSERBY);
 
@@ -33,6 +37,7 @@ function App() {
     fetchLogin(username)
     .then( res => {
       setUsername(username);
+      setAvatar(res.avatar);
       setLoginStatus(LOGIN_STATUS.IS_LOGGED_IN);
       return fetchPasserbyDiaries();
     })
@@ -48,6 +53,10 @@ function App() {
   function onLogout() {
     setError('');
     setUsername('');
+    setAvatar({
+      key: 'Default',
+      url: 'avatar.png'
+    });
     setLoginStatus(LOGIN_STATUS.NOT_LOGGED_IN);
     fetchLogout() // We don't really care about results
     .catch( err => {
@@ -66,8 +75,9 @@ function App() {
 
   function checkForSession() {
     fetchSession()
-    .then( session => { // The returned object from the service call
-      setUsername(session.username);
+    .then( res => { // The returned object from the service call
+      setUsername(res.username);
+      setAvatar(res.avatar);
       setLoginStatus(LOGIN_STATUS.IS_LOGGED_IN);
       return fetchPasserbyDiaries(); // By returning this promise we can chain the original promise
     })
@@ -106,6 +116,7 @@ function App() {
       { loginStatus === LOGIN_STATUS.NOT_LOGGED_IN && <Login onLogin={onLogin} error={error} onClearStatus={onClearStatus}/> }
       { loginStatus === LOGIN_STATUS.IS_LOGGED_IN && <Dashboard
             username={username}
+            avatar={avatar}
             onLogout={onLogout}
             menu={menu}
             onSetMenu={onSetMenu}

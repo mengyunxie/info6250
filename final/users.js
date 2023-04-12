@@ -1,4 +1,12 @@
-const users = {};
+const users = {
+  'aa': {
+    username: 'aa',
+    avatar: {
+      key: 'Girl',
+      url: 'avatar-girl.png'
+    }
+  }
+};
 
 /*  Create a default user data for new users */
 function createUser( {username, defaultAvatar} ) {
@@ -6,6 +14,7 @@ function createUser( {username, defaultAvatar} ) {
     username,
     avatar: defaultAvatar
   };
+  return users[username];
 }
 
 function getUsers() {

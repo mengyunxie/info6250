@@ -3,12 +3,12 @@ import NavigationControls from './NavigationControls';
 import PanelControls from './PanelControls';
 import Avatar from './Avatar';
 
-function Dashboard({username, menu, onSetMenu, onLogout}) {
+function Dashboard({username, avatar, menu, onSetMenu, onLogout}) {
 
   return (
     <main className="dashboard">
       <div className='dashboard-user'>
-        <Avatar username={username}/>
+        <Avatar username={username} avatar={avatar}/>
       </div>
       <SideMenu
         menu={menu}

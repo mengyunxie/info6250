@@ -22,7 +22,7 @@ app.get('/api/v1/session', (req, res) => {
     res.status(401).json({ error: 'auth-missing' });
     return;
   }
-  res.json({ username });
+  res.json(users.getUser({username}));
 });
 
 // Create a new session (login)
@@ -40,10 +40,10 @@ app.post('/api/v1/session', (req, res) => {
     res.status(403).json({ error: 'auth-insufficient' });
     return;
   }
-  const userData = users.getUser({username});
+  const defaultAvatar = avatars.getDefaultAvatar();
   const sid = sessions.addSession(username);
   res.cookie('sid', sid);
-  res.json({ userData });
+  res.json(users.createUser({username, defaultAvatar}));
 });
 
 // Logout
