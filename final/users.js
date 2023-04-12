@@ -1,12 +1,4 @@
-const users = {
-  'aa': {
-    username: 'aa',
-    avatar: {
-      key: 'Girl',
-      url: 'avatar-girl.png'
-    }
-  }
-};
+const users = {};
 
 /*  Create a default user data for new users */
 function createUser( {username, defaultAvatar} ) {
@@ -17,11 +9,16 @@ function createUser( {username, defaultAvatar} ) {
   return users[username];
 }
 
+function updateUserAvatar( {username, avatar} ) {
+  users[username].avatar = avatar;
+  return users[username];
+}
+
 function getUsers() {
   return users;
 }
 
-function getUser({username}) {
+function getUser(username) {
   return users[username];
 }
 
@@ -32,16 +29,10 @@ function isValidUsername(username) {
   return isValid;
 }
 
-function isValidWord(word) {
-  let isValid = true;
-  isValid = isValid && word.match(/^[A-Za-z]*$/);
-  return isValid;
-}
-
 module.exports = {
   isValidUsername,
-  isValidWord,
   getUsers,
   createUser,
   getUser,
+  updateUserAvatar,
 };

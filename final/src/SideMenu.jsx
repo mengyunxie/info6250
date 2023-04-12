@@ -8,6 +8,7 @@ function SideMenu({menu, onSetMenu}) {
                 <li 
                     className={`side-menu-item ${menu == SIDE_MENU.PASSERBY ? "focus" : ""}`}
                     onClick={ (e) => {
+                        e.preventDefault();
                         onSetMenu(SIDE_MENU.PASSERBY);
                     }}
                 >
@@ -17,6 +18,7 @@ function SideMenu({menu, onSetMenu}) {
                 <li
                     className={`side-menu-item ${menu == SIDE_MENU.MYDIARY ? "focus" : ""}`}
                     onClick={ (e) => {
+                        e.preventDefault();
                         onSetMenu(SIDE_MENU.MYDIARY);
                     }}
                 >
@@ -26,6 +28,7 @@ function SideMenu({menu, onSetMenu}) {
                 <li
                     className={`side-menu-item ${menu == SIDE_MENU.SETTING ? "focus" : ""}`}
                     onClick={ (e) => {
+                        e.preventDefault();
                         onSetMenu(SIDE_MENU.SETTING);
                     }}
                 >

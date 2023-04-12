@@ -19,104 +19,79 @@ const diaries = {
     },
 };
 
-const passerbyDiaries = {
-    2: {
-            id: 2,
-            username: '22',
-            date: 1681276419346,
-            label: 'Movies',
-            isPasserby: true, 
-            details: "HHHisPasserbyisPasserbyisPasserbyisPasserbyisPasserbyisPasserbyHH",
-            intro: "HHHisPasserbyisPasserbyisPasserbyisPasserbyisPass...",
-    }
-};
+
+function contains({id, username}) {
+    return diaries[id] && diaries[id].username == username;
+}
 
 function addDiary({username, form}) {
     const id = uuid();
     const date = Date.now();
-    
-    const diary = {
+    diaries[id] = {
         id,
         username,
         date,
         label: form.label,
         isPasserby: form.isPasserby, 
         details: form.details,
-        intro,
+        intro: diary.details.length > 50 ? `${diary.details.substring(0, 50)}...` : diary.details,
     };
-    diaries[username][id] = diary;
-
-    const intro = diary.details.length > 50 ? `${diary.details.substring(0, 50)}...` : diary.details;
-
-    if(diary.isPasserby) {
-        passerbyDiaries[id] = diary;
-    }
 
     return id;
 }
 
-function deleteDiary({username, id}) {
-    const diary = diaries[username][id];
-    if(diary.isPasserby) {
-        delete passerbyDiaries
-    }
-    delete diary;
+function deleteDiary(id) {
+    delete diaries[id];
 }
 
-function getDiaries({username}) {
-    return diaries[username];
+function getDiary(id) {
+    return diaries[id];
 }
 
-function getDiary({username, id}) {
-    return diaries[username][id];
-}
-
-function updateDiary({username, id, form}) {
-    // Todo: edge case
-    const diary = diaries[username][id];
+function updateDiary({id, form}) {
+    const diary = diaries[id];
     diary.label = form.label;
     diary.isPasserby = form.isPasserby;
     diary.details = form.details;
 
     const intro = diary.details.length > 50 ? `${diary.details.substring(0, 50)}...` : diary.details;
     diary.intro = intro;
-    if(diary.isPasserby) {
-        passerbyDiaries[id] = diary;
-    }
 }
 
-function togglePasserbyDiary({username, id}) {
-    const status = passerbyDiaries[id].isPasserby;
-    passerbyDiaries[id].isPasserby = !status;
-    diaries[username][id].isPasserby = !status;
+function togglePasserbyDiary(id) {
+    diaries[id].isPasserby = !diaries[id].isPasserby
+}
+
+function getDiaries(username) {
+    return Object.values(diaries).filter((item) => item?.username == username);
+}
+
+function getDiariesByLabel({username, label}) {
+    return Object.values(diaries).filter((item) => item?.username == username && item?.label == label);
 }
 
 function getPasserbyDiaries() {
-    return passerbyDiaries;
+    return Object.values(diaries).filter((item) => item?.isPasserby);
 }
 
 function getLatestPasserbyDiaries() {
-    return Object.values(passerbyDiaries).sort((item1,item2) => item1.date - item2.date);
+    return Object.values(diaries).filter((item) => item?.isPasserby).sort((item1,item2) => item1.date - item2.date);
 }
 
-function getMinePasserbyDiaries({username}) {
-    return Object.values(passerbyDiaries).filter((item) => item?.username == username);;
+function getMinePasserbyDiaries(username) {
+    return Object.values(diaries).filter((item) => item?.isPasserby && item?.username == username);
 }
-
-function getPasserbyDiary({id}) {
-    return  passerbyDiaries[id];
-}
-
 
 module.exports = {
+    contains,
     addDiary,
     deleteDiary,
     getDiaries,
     getDiary,
     updateDiary,
     getPasserbyDiaries,
-    getPasserbyDiary,
     togglePasserbyDiary,
     getMinePasserbyDiaries,
     getLatestPasserbyDiaries,
+    getDiariesByLabel,
   };

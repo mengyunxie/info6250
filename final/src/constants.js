@@ -16,6 +16,24 @@ export const NAVIGATION = {
   }
 };
 
+export const AVATARS_KEY = {
+  DEFAULT: 'Default',
+  GIRL: 'Girl',
+  BOY: 'Boy',
+  FEMALE: 'Female',
+  MALE: 'Male',
+  GRANDMA: 'Grandma',
+  GRANDPA: 'Grandpa',
+  CAT: 'Cat',
+  BEAR: 'Bear',
+  DEER: 'Deer',
+  DOG: 'Dog',
+  FOX: 'Fox',
+  HAPPY: 'Happy',
+  WONDER: 'Wonder',
+  BATMAN: 'Batman',
+};
+
 export const LOGIN_STATUS = {
   PENDING: 'pending',
   NOT_LOGGED_IN: 'notLoggedIn',

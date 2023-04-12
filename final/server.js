@@ -22,7 +22,7 @@ app.get('/api/v1/session', (req, res) => {
     res.status(401).json({ error: 'auth-missing' });
     return;
   }
-  res.json(users.getUser({username}));
+  res.json(users.getUser(username));
 });
 
 // Create a new session (login)
@@ -46,6 +46,20 @@ app.post('/api/v1/session', (req, res) => {
   res.json(users.createUser({username, defaultAvatar}));
 });
 
+// Update user's avatar
+app.patch('/api/v1/session', (req, res) => {
+  const sid = req.cookies.sid;
+  const username = sid ? sessions.getSessionUser(sid) : '';
+  if(!sid || !users.isValidUsername(username)) {
+    res.status(401).json({ error: 'auth-missing' });
+    return;
+  }
+  const {avatar} = req.body;
+
+  users.updateUserAvatar({username, avatar});
+  res.json(users.getUser(username));
+});
+
 // Logout
 app.delete('/api/v1/session', (req, res) => {
   const sid = req.cookies.sid;
@@ -60,19 +74,7 @@ app.delete('/api/v1/session', (req, res) => {
   res.json({ wasLoggedIn: !!username }); // Provides some extra info that can be safely ignored
 });
 
-
-app.get('/api/v1/diaries', (req, res) => {
-  const sid = req.cookies.sid;
-  const username = sid ? sessions.getSessionUser(sid) : '';
-  if(!sid || !username) {
-    res.status(401).json({ error: 'auth-missing' });
-    return;
-  }
-
-  res.json(diaries.getDiaries({username}));
-});
-
-
+// Add a new diary
 app.post('/api/v1/diaries', (req, res) => {
   const sid = req.cookies.sid;
   const username = sid ? sessions.getSessionUser(sid) : '';
@@ -80,18 +82,98 @@ app.post('/api/v1/diaries', (req, res) => {
     res.status(401).json({ error: 'auth-missing' });
     return;
   }
-  const form = req.body;
+  const { form } = req.body;
   if(!form.detail) {
     res.status(400).json({ error: 'required-detail' });
     return;
   }
 
-  const id = diaries.addDiary(form);
-  res.json(diaries.getDiary({username, id}));
+  const id = diaries.addDiary({username, form});
+  res.json(diaries.getDiary(id));
 });
 
+// Update user's diary
+app.patch('/api/v1/diaries/:id', (req, res) => {
+  const sid = req.cookies.sid;
+  const username = sid ? sessions.getSessionUser(sid) : '';
+  if(!sid || !users.isValidUsername(username)) {
+    res.status(401).json({ error: 'auth-missing' });
+    return;
+  }
+  const { id } = req.params;
+  const {form} = req.body;
+  if(!form.detail) {
+    res.status(400).json({ error: 'required-detail' });
+    return;
+  }
+  if(!diaries.contains(id)) {
+    res.status(404).json({ error: `noSuchId`, message: `No todo with id ${id}` });
+    return;
+  }
+  const diary = diaries.getDiary(id);
+  if(diary.username != username) {
+    res.status(404).json({ error: `notMatchUser`, message: `User id is not match` });
+    return;
+  }
+  diaries.updateDiary({id, form})
+  res.json(diaries.getDiary(id));
+});
 
-app.get('/api/v1/passerbydiaries', (req, res) => {
+// Delete user's diary
+app.delete('/api/v1/diaries/:id', (req, res) => {
+  const sid = req.cookies.sid;
+  const username = sid ? sessions.getSessionUser(sid) : '';
+  if(!sid || !users.isValidUsername(username)) {
+    res.status(401).json({ error: 'auth-missing' });
+    return;
+  }
+  const { id } = req.params;
+  const exists = diaries.contains(id);
+  if(exists) {
+    diaries.deleteDiary(id);
+  }
+  res.json({ message: exists ? `diary ${id} deleted` : `diary ${id} did not exist` });
+});
+
+// Get user's diary
+app.get('/api/v1/diaries/:id', (req, res) => {
+  const sid = req.cookies.sid;
+  const username = sid ? sessions.getSessionUser(sid) : '';
+  if(!sid || !users.isValidUsername(username)) {
+    res.status(401).json({ error: 'auth-missing' });
+    return;
+  }
+  const { id } = req.params;
+  if(!diaries.contains(id)) {
+    res.status(404).json({ error: `noSuchId`, message: `No todo with id ${id}` });
+    return;
+  }
+  res.json(diaries.getDiary(id));
+});
+
+// Get user's diaries of different labels
+app.get('/api/v1/diariesbylabel/:label', (req, res) => {
+  const sid = req.cookies.sid;
+  const username = sid ? sessions.getSessionUser(sid) : '';
+  if(!sid || !username) {
+    res.status(401).json({ error: 'auth-missing' });
+    return;
+  }
+
+  const { label } = req.params;
+
+  let response;
+  if(label == labels.getDefaultLabel().key) {
+    response = diaries.getDiaries(username);
+  } else {
+    response = diaries.getDiariesByLabel({username, label});
+  }
+  
+  res.json(response);
+});
+
+// Get passersby's diaries
+app.get('/api/v1/passersby/all', (req, res) => {
   const sid = req.cookies.sid;
   const username = sid ? sessions.getSessionUser(sid) : '';
   if(!sid || !username) {
@@ -102,6 +184,41 @@ app.get('/api/v1/passerbydiaries', (req, res) => {
   res.json(diaries.getLatestPasserbyDiaries());
 });
 
+// Get user's passersby's diaries
+app.get('/api/v1/passersby/mine', (req, res) => {
+  const sid = req.cookies.sid;
+  const username = sid ? sessions.getSessionUser(sid) : '';
+  if(!sid || !username) {
+    res.status(401).json({ error: 'auth-missing' });
+    return;
+  }
+
+  res.json(diaries.getMinePasserbyDiaries(username));
+});
+
+// Get avatars
+app.get('/api/v1/avatars', (req, res) => {
+  const sid = req.cookies.sid;
+  const username = sid ? sessions.getSessionUser(sid) : '';
+  if(!sid || !username) {
+    res.status(401).json({ error: 'auth-missing' });
+    return;
+  }
+
+  res.json(avatars.getAvatars());
+});
+
+// Get labels
+app.get('/api/v1/labels', (req, res) => {
+  const sid = req.cookies.sid;
+  const username = sid ? sessions.getSessionUser(sid) : '';
+  if(!sid || !username) {
+    res.status(401).json({ error: 'auth-missing' });
+    return;
+  }
+
+  res.json(labels.getLabels());
+});
 
 app.listen(PORT, () => console.log(`http://localhost:${PORT}`));
 

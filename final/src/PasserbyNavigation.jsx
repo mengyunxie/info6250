@@ -8,6 +8,7 @@ function PasserbyNavigation() {
             <li 
                 className={`navigation-item ${navigation === NAVIGATION.PASSERBY.LATEST ? "focus" : ""}`}
                 onClick={ (e) => {
+                    e.preventDefault();
                     setNavigation(NAVIGATION.PASSERBY.LATEST)
                 }}
             >
@@ -16,6 +17,7 @@ function PasserbyNavigation() {
             <li 
                 className={`navigation-item ${navigation === NAVIGATION.PASSERBY.HOT ? "focus" : ""}`}
                 onClick={ (e) => {
+                    e.preventDefault();
                     setNavigation(NAVIGATION.PASSERBY.HOT)
                 }}
             >
@@ -24,6 +26,7 @@ function PasserbyNavigation() {
             <li 
                 className={`navigation-item ${navigation === NAVIGATION.PASSERBY.MINE ? "focus" : ""}`}
                 onClick={ (e) => {
+                    e.preventDefault();
                     setNavigation(NAVIGATION.PASSERBY.MINE)
                 }}
             >

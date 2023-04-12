@@ -17,66 +17,21 @@ const AVATARS_KEY = {
 };
 
 const avatars = {
-  [AVATARS_KEY.DEFAULT]: {
-    key: AVATARS_KEY.DEFAULT,
-    url: 'avatar.png'
-  },
-  [AVATARS_KEY.GIRL]: {
-    key: AVATARS_KEY.GIRL,
-    url: 'avatar-girl.png'
-  },
-  [AVATARS_KEY.BOY]: {
-    key: AVATARS_KEY.BOY,
-    url: 'avatar-boy.png'
-  },
-  [AVATARS_KEY.FEMALE]: {
-    key: AVATARS_KEY.FEMALE,
-    url: 'avatar-female.png'
-  },
-  [AVATARS_KEY.MALE]: {
-    key: AVATARS_KEY.MALE,
-    url: 'avatar-male.png'
-  },
-  [AVATARS_KEY.GRANDMA]: {
-    key: AVATARS_KEY.GRANDMA,
-    url: 'avatar-grandma.png'
-  },
-  [AVATARS_KEY.GRANDPA]: {
-    key: AVATARS_KEY.GRANDPA,
-    url: 'avatar-grandpa.png'
-  },
-  [AVATARS_KEY.CAT]: {
-    key: AVATARS_KEY.CAT,
-    url: 'avatar-cat.png'
-  },
-  [AVATARS_KEY.BEAR]: {
-    key: AVATARS_KEY.BEAR,
-    url: 'avatar-bear.png'
-  },
-  [AVATARS_KEY.DEER]: {
-    key: AVATARS_KEY.DEER,
-    url: 'avatar-deer.png'
-  },
-  [AVATARS_KEY.DOG]: {
-    key: AVATARS_KEY.DOG,
-    url: 'avatar-dog.png'
-  },
-  [AVATARS_KEY.FOX]: {
-    key: AVATARS_KEY.FOX,
-    url: 'avatar-fox.png'
-  },
-  [AVATARS_KEY.HAPPY]: {
-    key: AVATARS_KEY.HAPPY,
-    url: 'avatar-happy.png'
-  },
-  [AVATARS_KEY.WONDER]: {
-    key: AVATARS_KEY.WONDER,
-    url: 'avatar-wonder.png'
-  },
-  [AVATARS_KEY.BATMAN]: {
-    key: AVATARS_KEY.BATMAN,
-    url: 'avatar-batman.png'
-  }
+  [AVATARS_KEY.DEFAULT]: AVATARS_KEY.DEFAULT,
+  [AVATARS_KEY.GIRL]: AVATARS_KEY.GIRL,
+  [AVATARS_KEY.BOY]: AVATARS_KEY.BOY,
+  [AVATARS_KEY.FEMALE]: AVATARS_KEY.FEMALE,
+  [AVATARS_KEY.MALE]: AVATARS_KEY.MALE,
+  [AVATARS_KEY.GRANDMA]: AVATARS_KEY.GRANDMA,
+  [AVATARS_KEY.GRANDPA]: AVATARS_KEY.GRANDPA,
+  [AVATARS_KEY.CAT]: AVATARS_KEY.CAT,
+  [AVATARS_KEY.BEAR]: AVATARS_KEY.BEAR,
+  [AVATARS_KEY.DEER]: AVATARS_KEY.DEER,
+  [AVATARS_KEY.DOG]:  AVATARS_KEY.DOG,
+  [AVATARS_KEY.FOX]: AVATARS_KEY.FOX,
+  [AVATARS_KEY.HAPPY]: AVATARS_KEY.HAPPY,
+  [AVATARS_KEY.WONDER]: AVATARS_KEY.WONDER,
+  [AVATARS_KEY.BATMAN]: AVATARS_KEY.BATMAN,
 };
 
 function getDefaultAvatar() {

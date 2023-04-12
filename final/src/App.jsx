@@ -3,6 +3,7 @@ import { useState, useEffect } from 'react';
 import './App.css';
 import './icons.css';
 import {
+  AVATARS_KEY,
   SIDE_MENU,
   LOGIN_STATUS,
   CLIENT,
@@ -24,10 +25,7 @@ import Loading from './Loading';
 function App() {
   const [ error, setError ] = useState('');
   const [ username, setUsername] = useState('');
-  const [ avatar, setAvatar] = useState({
-    key: 'Default',
-    url: 'avatar.png'
-  });
+  const [ avatar, setAvatar] = useState(AVATARS_KEY.DEFAULT);
   const [ loginStatus, setLoginStatus ] = useState(LOGIN_STATUS.PENDING);
   const [menu, setMenu] = useState(SIDE_MENU.PASSERBY);
 
@@ -53,10 +51,8 @@ function App() {
   function onLogout() {
     setError('');
     setUsername('');
-    setAvatar({
-      key: 'Default',
-      url: 'avatar.png'
-    });
+    setMenu(SIDE_MENU.PASSERBY);
+    setAvatar(AVATARS_KEY.DEFAULT);
     setLoginStatus(LOGIN_STATUS.NOT_LOGGED_IN);
     fetchLogout() // We don't really care about results
     .catch( err => {
