@@ -1,3 +1,21 @@
+export const SIDE_MENU = {
+  PASSERBY: 'Passerby',
+  MYDIARY: 'My Diary',
+  SETTING: 'Setting',
+};
+
+export const NAVIGATION = {
+  PASSERBY: {
+    LATEST: 'Latest',
+    HOT: 'Hot',
+    MINE: 'Mine'
+  },
+  SETTING: {
+    PROFILE: 'Profile',
+    LABEL: 'Label'
+  }
+};
+
 export const LOGIN_STATUS = {
   PENDING: 'pending',
   NOT_LOGGED_IN: 'notLoggedIn',

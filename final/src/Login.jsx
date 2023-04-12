@@ -31,6 +31,7 @@ function Login({ onLogin, error, onClearStatus }) {
             className="login-to-send"
             placeholder="Enter your username"
             value={username}
+            maxLength={20}
             onChange={(e) => setUsername(e.target.value)}
           />
           <button

@@ -1,7 +1,7 @@
 /* CSS files linked from https://css.gg/ for spinners */
 
 /* Add */
-.gg-add-r {
+.gg-add {
     box-sizing: border-box;
     position: relative;
     display: block;
@@ -9,11 +9,11 @@
     height: 22px;
     border: 2px solid;
     transform: scale(var(--ggs,1));
-    border-radius: 4px
-   }
-   
-   .gg-add-r::after,
-   .gg-add-r::before {
+    border-radius: 22px;
+}
+
+.gg-add::after,
+.gg-add::before {
     content: "";
     display: block;
     box-sizing: border-box;
@@ -23,93 +23,16 @@
     background: currentColor;
     border-radius: 5px;
     top: 8px;
-    left: 4px
-   }
-   
-   .gg-add-r::after {
+    left: 4px;
+}
+
+.gg-add::after {
     width: 2px;
     height: 10px;
     top: 4px;
-    left: 8px
-   }
-
-   /* Notes */
-   .gg-notes {
-    box-sizing: border-box;
-    position: relative;
-    display: block;
-    transform: scale(var(--ggs,1));
-    width: 20px;
-    height: 22px;
-    border: 2px solid;
-    border-radius: 3px
-   }
-   
-   .gg-notes::after,
-   .gg-notes::before {
-    content: "";
-    display: block;
-    box-sizing: border-box;
-    position: absolute;
-    border-radius: 3px;
-    height: 2px;
-    background: currentColor;
-    left: 2px
-   }
-   
-   .gg-notes::before {
-    box-shadow:
-    0 4px 0,
-    0 8px 0;
-    width: 12px;
-    top: 2px
-   }
-   
-   .gg-notes::after {
-    width: 6px;
-    top: 14px
-   } 
-
-   /* Cloud */
-   .gg-cloud {
-    box-sizing: border-box;
-    position: relative;
-    display: block;
-    transform: scale(var(--ggs,1));
-    width: 8px;
-    height: 2px;
-    background: currentColor;
-    margin-bottom: -20px
-   }
-   
-   .gg-cloud::after,
-   .gg-cloud::before {
-    content: "";
-    display: block;
-    position: absolute;
-    border: 2px solid;
-    box-sizing: border-box;
-    bottom: 0
-   }
-   
-   .gg-cloud::before {
-    border-top-left-radius: 100px;
-    border-bottom-left-radius: 100px;
-    border-right: 0;
-    left: -6px;
-    width: 7px;
-    height: 12px
-   }
-   
-   .gg-cloud::after {
-    width: 16px;
-    height: 16px;
-    border-radius: 100px;
-    border-left-color: transparent;
-    right: -8px;
-    transform: rotate(-45deg)
-   } 
-
+    left: 8px;
+}
+ 
 /* Trash */
 .gg-trash {
     box-sizing: border-box;
@@ -125,27 +48,27 @@
     inset 2px 0 0;
     border-bottom-left-radius: 1px;
     border-bottom-right-radius: 1px;
-    margin-top: 4px
-   }
+    margin-top: 4px;
+}
    
-   .gg-trash::after,
-   .gg-trash::before {
+.gg-trash::after,
+.gg-trash::before {
     content: "";
     display: block;
     box-sizing: border-box;
-    position: absolute
+    position: absolute;
    }
    
-   .gg-trash::after {
+.gg-trash::after {
     background: currentColor;
     border-radius: 3px;
     width: 16px;
     height: 2px;
     top: -4px;
-    left: -5px
-   }
+    left: -5px;
+}
    
-   .gg-trash::before {
+.gg-trash::before {
     width: 10px;
     height: 4px;
     border: 2px solid;
@@ -153,6 +76,141 @@
     border-top-left-radius: 2px;
     border-top-right-radius: 2px;
     top: -7px;
-    left: -2px
-   } 
+    left: -2px;
+}
 
+/* Data */
+.gg-data {
+    transform: scale(var(--ggs,1))
+}
+
+.gg-data,
+.gg-data::after,
+.gg-data::before {
+    box-sizing: border-box;
+    position: relative;
+    display: block;
+    border: 2px solid;
+    border-radius: 50%;
+    width: 14px;
+    height: 14px;
+}
+
+.gg-data::after,
+.gg-data::before {
+    content: "";
+    position: absolute;
+    width: 6px;
+    height: 6px;
+    top: 2px;
+    left: 2px;
+}
+
+.gg-data::after {
+background: linear-gradient( to left,
+currentColor 8px,transparent 0)
+no-repeat bottom center/2px 8px;
+    width: 22px;
+    height: 22px;
+    top: -6px;
+    left: -6px;
+}
+
+.gg-data,
+.gg-data::after {
+    border-top-color: transparent;
+    border-bottom-color: transparent;
+} 
+
+
+/* Details */
+.gg-details-more {
+    box-sizing: border-box;
+    position: relative;
+    display: block;
+    transform: scale(var(--ggs,1));
+    width: 20px;
+    height: 14px;
+    border: 2px solid transparent;
+}
+
+.gg-details-more::after,
+.gg-details-more::before {
+    content: "";
+    display: block;
+    box-sizing: border-box;
+    position: absolute;
+    height: 2px;
+    border-radius: 3px;
+    background: currentColor;
+}
+
+.gg-details-more::before {
+    box-shadow: 0 4px 0 0;
+    top: 0;
+    width: 16px;
+}
+
+.gg-details-more::after {
+    width: 10px;
+    bottom: 0;
+}
+
+   
+/* Grid */
+.gg-layout-grid-small {
+    transform: scale(var(--ggs,1));
+}
+
+.gg-layout-grid-small,
+.gg-layout-grid-small::after,
+.gg-layout-grid-small::before {
+    box-sizing: border-box;
+    position: relative;
+    display: block;
+    width: 10px;
+    height: 2px;
+    border-left: 6px double;
+    border-right: 2px solid;
+}
+
+.gg-layout-grid-small::after,
+.gg-layout-grid-small::before {
+    content: "";
+    position: absolute;
+    left: -6px;
+}
+
+.gg-layout-grid-small::after {
+    bottom: 4px;
+}
+
+.gg-layout-grid-small::before {
+    top: 4px;
+}
+
+/* Log Off */
+.gg-log-off {
+    box-sizing: border-box;
+    position: relative;
+    display: block;
+    border-radius: 16px;
+    border: 2px solid;
+    transform: scale(var(--ggs,1));
+    width: 16px;
+    height: 16px;
+    border-top: 2px solid transparent;
+}
+
+.gg-log-off::before {
+    content: "";
+    display: block;
+    box-sizing: border-box;
+    position: absolute;
+    border-radius: 3px;
+    height: 8px;
+    width: 2px;
+    background: currentColor;
+    left: 5px;
+    bottom: 6px;
+} 

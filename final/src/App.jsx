@@ -1,7 +1,9 @@
 import { useState, useEffect } from 'react';
 
 import './App.css';
+import './icons.css';
 import {
+  SIDE_MENU,
   LOGIN_STATUS,
   CLIENT,
   SERVER,
@@ -27,6 +29,7 @@ function App() {
   const [ loginStatus, setLoginStatus ] = useState(LOGIN_STATUS.PENDING);
   const [ isWordPending, setIsWordPending ] = useState(false);
   const [ storedWord, setStoredWord] = useState('');
+  const [menu, setMenu] = useState(SIDE_MENU.PASSERBY);
 
   function onLogin(username) {
     setError(''); // Clear the error status
@@ -60,6 +63,10 @@ function App() {
   /* Rmove the Status component and clear the error message */
   function onClearStatus() {
     setError('');
+  }
+
+  function onSetMenu(menu) {
+    setMenu(menu);
   }
 
   function onUpdateWord(word) {
@@ -147,6 +154,8 @@ function App() {
             onLogout={onLogout}
             onUpdateWord={onUpdateWord}
             onDeleteWord={onDeleteWord}
+            menu={menu}
+            onSetMenu={onSetMenu}
           />
       }
     </div>
