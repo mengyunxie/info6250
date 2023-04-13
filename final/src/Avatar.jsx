@@ -16,7 +16,7 @@ import Happy from './assets/avatar-happy.png';
 import Wonder from './assets/avatar-wonder.png';
 import Batman from './assets/avatar-batman.png';
 
-function Avatar({avatar, username}) {
+function Avatar({avatar, child }) {
     let url = Default;
     switch(avatar) {
         case AVATARS_KEY.DEFAULT:
@@ -75,7 +75,7 @@ function Avatar({avatar, username}) {
                 className="avatar-img" 
                 alt="avatar"
             />
-            <span className="avatar-username">{username}</span>
+            {child}
         </div>
     );
 }

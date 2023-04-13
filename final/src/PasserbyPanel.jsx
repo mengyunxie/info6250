@@ -1,8 +1,10 @@
 import PasserbyItem from './PasserbyItem';
-function PasserbyPanel() {
+function PasserbyPanel({passerbyDiaries}) {   
     return (
         <div className='passerby-panel'>
-            <PasserbyItem />
+             { Object.values(passerbyDiaries).map( diary => (
+                <PasserbyItem diary={diary} key={diary.id}/>
+             ))} 
         </div>
     );
 }

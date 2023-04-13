@@ -2,6 +2,7 @@ const diaries = {
     1: {
             id: 1,
             username: '11',
+            avatar:'Cat',
             date: 1681276418346,
             label: 'Travel',
             isPasserby: false, 
@@ -11,6 +12,7 @@ const diaries = {
     2: {
             id: 2,
             username: '22',
+            avatar:'Batman',
             date: 1681276419346,
             label: 'Movies',
             isPasserby: true, 
@@ -24,12 +26,13 @@ function contains({id, username}) {
     return diaries[id] && diaries[id].username == username;
 }
 
-function addDiary({username, form}) {
+function addDiary({user, form}) {
     const id = uuid();
     const date = Date.now();
     diaries[id] = {
         id,
-        username,
+        username: user.username,
+        avatar: user.avatar,
         date,
         label: form.label,
         isPasserby: form.isPasserby, 
@@ -53,9 +56,7 @@ function updateDiary({id, form}) {
     diary.label = form.label;
     diary.isPasserby = form.isPasserby;
     diary.details = form.details;
-
-    const intro = diary.details.length > 50 ? `${diary.details.substring(0, 50)}...` : diary.details;
-    diary.intro = intro;
+    diary.intro = diary.details.length > 50 ? `${diary.details.substring(0, 50)}...` : diary.details;
 }
 
 function togglePasserbyDiary(id) {

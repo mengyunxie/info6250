@@ -23,22 +23,22 @@ const LABEL_TYPE = {
 };
 
 const LABEL_KEY = {
-    ALL: 'All',
-    TRAVEL: 'Travel',
-    FOOD: 'Food',
-    HEALTH: 'Health',
-    WORK: 'Work',
-    ACADEMIC: 'Academic',
-    FINANCIAL: 'Financial',
-    MOOD: 'Mood',
-    DREAM: 'Dream',
-    TODO: 'Todo',
-    SCHOOL: 'School',
-    INTEREST: 'Interest',
-    READING: 'Reading',
-    GRATITUDE: 'Gratitude',
-    IDEAS: 'Ideas',
-    MOVIES: 'Movies'
+    ALL: 'all',
+    TRAVEL: 'travel',
+    FOOD: 'food',
+    HEALTH: 'health',
+    WORK: 'work',
+    ACADEMIC: 'academic',
+    FINANCIAL: 'financial',
+    MOOD: 'mood',
+    DREAM: 'dream',
+    TODO: 'todo',
+    SCHOOL: 'school',
+    INTEREST: 'interest',
+    READING: 'reading',
+    GRATITUDE: 'gratitude',
+    IDEAS: 'ideas',
+    MOVIES: 'movies'
 };
 
 const labels = {

@@ -139,7 +139,7 @@ export function fetchDiary(id) {
 }
 
 // Get user's diaries of different labels
-export function fetchDiaries(label) {
+export function fetchDiariesByLabel(label) {
   return fetch(`/api/v1/diariesbylabel/${label}`)
     .catch( err => Promise.reject({ error: 'network-error' }) )
     .then( response => {
@@ -169,34 +169,6 @@ export function fetchPasserbyDiaries() {
 // Get user's passersby's diaries
 export function fetchMyPasserbyDiaries() {
   return fetch('/api/v1/passersby/mine')
-    .catch( err => Promise.reject({ error: 'network-error' }) )
-    .then( response => {
-      if (response.ok) {
-        return response.json();
-      }
-      return response.json()
-      .catch( error => Promise.reject({ error }) )
-      .then( err => Promise.reject(err) );
-    });
-}
-
-// Get avatars
-export function fetchAvatars() {
-  return fetch('/api/v1/avatars')
-    .catch( err => Promise.reject({ error: 'network-error' }) )
-    .then( response => {
-      if (response.ok) {
-        return response.json();
-      }
-      return response.json()
-      .catch( error => Promise.reject({ error }) )
-      .then( err => Promise.reject(err) );
-    });
-}
-
-// Get labels
-export function fetchLabels() {
-  return fetch('/api/v1/labels')
     .catch( err => Promise.reject({ error: 'network-error' }) )
     .then( response => {
       if (response.ok) {

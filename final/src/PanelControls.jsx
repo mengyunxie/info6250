@@ -3,13 +3,13 @@ import PasserbyPanel from './PasserbyPanel';
 import MyDiaryPanel from './MyDiaryPanel';
 import SettingPanel from './SettingPanel';
 
-function PanelControls({menu}) {
+function PanelControls({username, avatar, menu, passerbyDiaries, diaries}) {
 
     return (
         <div className="panel-controls">
-            {menu == SIDE_MENU.PASSERBY && <PasserbyPanel />}
-            {menu == SIDE_MENU.MYDIARY && <MyDiaryPanel />}
-            {menu == SIDE_MENU.SETTING && <SettingPanel />}
+            {menu === SIDE_MENU.PASSERBY && <PasserbyPanel passerbyDiaries={passerbyDiaries} />}
+            {menu === SIDE_MENU.MYDIARY && <MyDiaryPanel diaries={diaries} />}
+            {menu === SIDE_MENU.SETTING && <SettingPanel username={username} avatar={avatar} />}
         </div>
     );
 }

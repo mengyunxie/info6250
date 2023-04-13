@@ -7,12 +7,10 @@ export const SIDE_MENU = {
 export const NAVIGATION = {
   PASSERBY: {
     LATEST: 'Latest',
-    HOT: 'Hot',
     MINE: 'Mine'
   },
   SETTING: {
-    PROFILE: 'Profile',
-    LABEL: 'Label'
+    PROFILE: 'Profile'
   }
 };
 
@@ -34,6 +32,21 @@ export const AVATARS_KEY = {
   BATMAN: 'Batman',
 };
 
+export const ACTIONS = {
+  LOG_IN: 'logIn',
+  LOG_OUT: 'logOut',
+  START_LOADING_DATA: 'startLoadingData',
+  REPORT_ERROR: 'reportError',
+  CLEAR_ERROR: 'clearError',
+  TOGGLE_MENU: 'toggleMenu',
+  GET_DIARY: 'getDiary',
+  GET_DIARIES: 'getDiaries',
+  GET_PASSERBYDIARIES: 'getPasserbyDiaries',
+  ADD_DIARY: 'addDiary',
+  UPDATE_DIARY: 'updateDiary',
+  DELETE_DIARY: 'deleteDiary',
+};
+
 export const LOGIN_STATUS = {
   PENDING: 'pending',
   NOT_LOGGED_IN: 'notLoggedIn',
@@ -52,6 +65,7 @@ export const SERVER = {
 export const CLIENT = {
   NETWORK_ERROR: 'network-error',
   NO_SESSION: 'noSession',
+  UNKNOWN_ACTION: 'unknownAction',
 };
 
 export const MESSAGES = {

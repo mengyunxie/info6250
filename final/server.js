@@ -22,7 +22,8 @@ app.get('/api/v1/session', (req, res) => {
     res.status(401).json({ error: 'auth-missing' });
     return;
   }
-  res.json(users.getUser(username));
+  const user = users.getUser(username);
+  res.json(user);
 });
 
 // Create a new session (login)
@@ -41,9 +42,12 @@ app.post('/api/v1/session', (req, res) => {
     return;
   }
   const defaultAvatar = avatars.getDefaultAvatar();
+  const avatarList = avatars.getAvatars();
+  const labelList = labels.getLabels();
+  const user = users.createUser({username, defaultAvatar, avatars: avatarList, labels: labelList});
   const sid = sessions.addSession(username);
   res.cookie('sid', sid);
-  res.json(users.createUser({username, defaultAvatar}));
+  res.json(user);
 });
 
 // Update user's avatar
@@ -87,8 +91,9 @@ app.post('/api/v1/diaries', (req, res) => {
     res.status(400).json({ error: 'required-detail' });
     return;
   }
+  const user = users.getUser(username);
 
-  const id = diaries.addDiary({username, form});
+  const id = diaries.addDiary({user, form});
   res.json(diaries.getDiary(id));
 });
 
@@ -163,7 +168,7 @@ app.get('/api/v1/diariesbylabel/:label', (req, res) => {
   const { label } = req.params;
 
   let response;
-  if(label == labels.getDefaultLabel().key) {
+  if(!label || label == labels.getDefaultLabel().key) {
     response = diaries.getDiaries(username);
   } else {
     response = diaries.getDiariesByLabel({username, label});
@@ -194,30 +199,6 @@ app.get('/api/v1/passersby/mine', (req, res) => {
   }
 
   res.json(diaries.getMinePasserbyDiaries(username));
-});
-
-// Get avatars
-app.get('/api/v1/avatars', (req, res) => {
-  const sid = req.cookies.sid;
-  const username = sid ? sessions.getSessionUser(sid) : '';
-  if(!sid || !username) {
-    res.status(401).json({ error: 'auth-missing' });
-    return;
-  }
-
-  res.json(avatars.getAvatars());
-});
-
-// Get labels
-app.get('/api/v1/labels', (req, res) => {
-  const sid = req.cookies.sid;
-  const username = sid ? sessions.getSessionUser(sid) : '';
-  if(!sid || !username) {
-    res.status(401).json({ error: 'auth-missing' });
-    return;
-  }
-
-  res.json(labels.getLabels());
 });
 
 app.listen(PORT, () => console.log(`http://localhost:${PORT}`));

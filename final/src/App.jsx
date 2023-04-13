@@ -1,10 +1,13 @@
-import { useState, useEffect } from 'react';
+import { useReducer, useEffect } from 'react';
 
 import './App.css';
 import './icons.css';
+import reducer, { initialState } from './reducer';
 import {
   AVATARS_KEY,
   SIDE_MENU,
+  NAVIGATION,
+  ACTIONS,
   LOGIN_STATUS,
   CLIENT,
   SERVER,
@@ -14,8 +17,9 @@ import {
   fetchSession,
   fetchLogin,
   fetchLogout,
-  fetchDiaries,
-  fetchPasserbyDiaries
+  fetchDiariesByLabel,
+  fetchPasserbyDiaries,
+  fetchMyPasserbyDiaries
 } from './services';
 
 import Dashboard from './Dashboard';
@@ -23,58 +27,109 @@ import Login from './Login';
 import Loading from './Loading';
 
 function App() {
-  const [ error, setError ] = useState('');
-  const [ username, setUsername] = useState('');
-  const [ avatar, setAvatar] = useState(AVATARS_KEY.DEFAULT);
-  const [ loginStatus, setLoginStatus ] = useState(LOGIN_STATUS.PENDING);
-  const [menu, setMenu] = useState(SIDE_MENU.PASSERBY);
+  const [state, dispatch] = useReducer(reducer, initialState);
 
-  function onLogin(username) {
-    setError(''); // Clear the error status
-    setLoginStatus(LOGIN_STATUS.PENDING);
+  function onLogin(username) { 
     fetchLogin(username)
     .then( res => {
-      setUsername(username);
-      setAvatar(res.avatar);
-      setLoginStatus(LOGIN_STATUS.IS_LOGGED_IN);
+      dispatch({ type: ACTIONS.LOG_IN, username: res.username,  avatar: res.avatar, labels: res.labels, avatars: res.avatars});
+      console.log(state);
+      dispatch({ type: ACTIONS.START_LOADING_DATA });
       return fetchPasserbyDiaries();
     })
     .then( res => {
-      console.log(res);
+      dispatch({ type: ACTIONS.GET_PASSERBYDIARIES, passerbyDiaries: res });
     })
     .catch( err => {
-      setError(err?.error || 'ERROR');
-      setLoginStatus(LOGIN_STATUS.NOT_LOGGED_IN);
+      dispatch({ type: ACTIONS.REPORT_ERROR, error: err?.error });
+      dispatch({ type: ACTIONS.LOG_OUT });
     });
   };
 
   function onLogout() {
-    setError('');
-    setUsername('');
-    setMenu(SIDE_MENU.PASSERBY);
-    setAvatar(AVATARS_KEY.DEFAULT);
-    setLoginStatus(LOGIN_STATUS.NOT_LOGGED_IN);
+    dispatch({ type: ACTIONS.LOG_OUT });
     fetchLogout() // We don't really care about results
     .catch( err => {
-      setError(err?.error || 'ERROR');
+      dispatch({ type: ACTIONS.REPORT_ERROR, error: err?.error });
     });
   };
 
   /* Rmove the Status component and clear the error message */
   function onClearStatus() {
-    setError('');
+    dispatch({ type: ACTIONS.CLEAR_ERROR });
   }
 
   function onSetMenu(menu) {
-    setMenu(menu);
+    dispatch({ type: ACTIONS.TOGGLE_MENU, menu });
+    // fetch api
+    if(menu == SIDE_MENU.PASSERBY) {
+      getPasserbyDiaries();
+    }
+    if(menu == SIDE_MENU.MYDIARY) {
+      getDiariesByLabel();
+    }
+    if(menu == SIDE_MENU.SETTING) {
+
+    }
+  }
+
+  function getPasserbyDiaries() {
+    dispatch({ type: ACTIONS.START_LOADING_DATA });
+    fetchPasserbyDiaries()
+    .then( res => {
+      dispatch({ type: ACTIONS.GET_PASSERBYDIARIES, passerbyDiaries: res });
+    })
+    .catch( err => {
+      dispatch({ type: ACTIONS.REPORT_ERROR, error: err?.error });
+      if( err?.error === SERVER.AUTH_MISSING ) {
+        dispatch({ type: ACTIONS.LOG_OUT });
+      }
+    });
+  }
+
+  function getMyPasserbyDiaries() {
+    dispatch({ type: ACTIONS.START_LOADING_DATA });
+    fetchMyPasserbyDiaries()
+    .then( res => {
+      dispatch({ type: ACTIONS.GET_PASSERBYDIARIES, passerbyDiaries: res });
+    })
+    .catch( err => {
+      dispatch({ type: ACTIONS.REPORT_ERROR, error: err?.error });
+      if( err?.error === SERVER.AUTH_MISSING ) {
+        dispatch({ type: ACTIONS.LOG_OUT });
+      }
+    });
+  }
+
+  function getDiariesByLabel(label) {
+    dispatch({ type: ACTIONS.START_LOADING_DATA });
+    fetchDiariesByLabel(label || 'all')
+    .then( res => {
+      dispatch({ type: ACTIONS.GET_DIARIES, diaries: res});
+    })
+    .catch( err => {
+      dispatch({ type: ACTIONS.REPORT_ERROR, error: err?.error });
+      if( err?.error === SERVER.AUTH_MISSING ) {
+        dispatch({ type: ACTIONS.LOG_OUT });
+      }
+    });
+  }
+
+  function onSetNavigation(navigation) {
+    // fetch api
+    console.log(navigation);
+    if(navigation == NAVIGATION.PASSERBY.LATEST) {
+      getPasserbyDiaries();
+    }
+    if(navigation == NAVIGATION.PASSERBY.MINE) {
+      getMyPasserbyDiaries();
+    }
   }
 
   function checkForSession() {
     fetchSession()
     .then( res => { // The returned object from the service call
-      setUsername(res.username);
-      setAvatar(res.avatar);
-      setLoginStatus(LOGIN_STATUS.IS_LOGGED_IN);
+      dispatch({ type: ACTIONS.LOG_IN, username: res.username,  avatar: res.avatar, labels: res.labels, avatars: res.avatars});
       return fetchPasserbyDiaries(); // By returning this promise we can chain the original promise
     })
     .catch( err => {
@@ -84,15 +139,17 @@ function App() {
       return Promise.reject(err); // Pass any other error unchanged
     })
     .then( res => {
-      console.log(res);
+      dispatch({ type: ACTIONS.GET_PASSERBYDIARIES, passerbyDiaries: res });
+      console.log(state);
     })
     .catch( err => {
       if( err?.error === CLIENT.NO_SESSION ) { // expected "error"
-        setLoginStatus(LOGIN_STATUS.NOT_LOGGED_IN);
+        dispatch({ type: ACTIONS.LOG_OUT });
+        console.log(state);
         return;
       }
       // For unexpected errors, report them
-      setError(err?.error || 'ERROR'); // Ensure that the error ends up truthy
+      dispatch({ type: ACTIONS.REPORT_ERROR, error: err?.error });
     });
   }
 
@@ -108,14 +165,17 @@ function App() {
   return (
     <div className="app">
      {/* { error && <Status  error={error} onClearStatus={onClearStatus} /> } */}
-      { loginStatus === LOGIN_STATUS.PENDING && <Loading>Loading user...</Loading> }
-      { loginStatus === LOGIN_STATUS.NOT_LOGGED_IN && <Login onLogin={onLogin} error={error} onClearStatus={onClearStatus}/> }
-      { loginStatus === LOGIN_STATUS.IS_LOGGED_IN && <Dashboard
-            username={username}
-            avatar={avatar}
+      { state.loginStatus === LOGIN_STATUS.PENDING && <Loading>Loading state...</Loading> }
+      { state.loginStatus === LOGIN_STATUS.NOT_LOGGED_IN && <Login onLogin={onLogin} error={state.error} onClearStatus={onClearStatus}/> }
+      { state.loginStatus === LOGIN_STATUS.IS_LOGGED_IN && <Dashboard
+            username={state.username}
+            avatar={state.avatar}
+            passerbyDiaries={state.passerbyDiaries}
+            diaries={state.diaries}
             onLogout={onLogout}
-            menu={menu}
+            menu={state.menu}
             onSetMenu={onSetMenu}
+            onSetNavigation={onSetNavigation}
           />
       }
     </div>

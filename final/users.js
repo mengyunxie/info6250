@@ -1,10 +1,12 @@
 const users = {};
 
 /*  Create a default user data for new users */
-function createUser( {username, defaultAvatar} ) {
+function createUser( {username, defaultAvatar, avatars, labels} ) {
   users[username] = {
     username,
-    avatar: defaultAvatar
+    avatar: defaultAvatar,
+    avatars,
+    labels,
   };
   return users[username];
 }

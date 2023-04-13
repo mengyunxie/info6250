@@ -25,6 +25,10 @@ html, body {
   height: 5rem;
 }
 
+.dashboard-user .avatar-info { 
+  padding: 1rem 1rem 1rem 2rem;
+}
+
 .side-menu{
   grid-area: side-menu;
   border-right: 1px solid #f0f0f0;
@@ -49,7 +53,7 @@ html, body {
 
 .side-menu-item:hover,
 .side-menu-item.focus {
-  background-color: #ebebeb;
+  background-color: #c0dfcf;
   border-bottom: 1px solid #f9f9f9;
 }
 
@@ -258,7 +262,6 @@ html, body {
   display: flex;
   align-items: center;
   height: 100%;
-  padding: 1rem 1rem 1rem 2rem;
 }
 
 .avatar-img { 
@@ -271,4 +274,98 @@ html, body {
   max-width: 10rem;
   margin-left: 1rem;
   word-break: break-word;
+}
+
+.passerby-panel {
+  padding: 2rem;
+}
+
+.passerby-item {
+  background-color: #f9f9f9;
+  margin:0 0 0.5rem;
+  padding: 2rem;
+  border-radius: 0.5rem;
+}
+
+.passerby-item:hover {
+  background-color: #c0dfcf;
+  cursor: pointer;
+}
+
+.passerby-item-intro {
+  margin: 1rem 0 0;
+}
+
+.passerby-item-date {
+  margin: 1rem 0 0;
+  color:#5a5a5a;
+  font-size: smaller;
+}
+
+
+
+.mydiary-panel {
+  padding: 2rem;
+}
+.diary-item {
+  background-color: #f9f9f9;
+  margin:0 0 0.5rem;
+  padding: 2rem;
+  border-radius: 0.5rem;
+}
+
+.diary-item:hover {
+  background-color: #c0dfcf;
+  cursor: pointer;
+}
+
+.diary-item-title {
+  display: flex;
+  margin: 0 0 1rem;
+}
+
+.diary-item-label {
+  width:1rem;
+  height: 1rem;
+  background-color: #c0dfcf;
+  border: 1px solid #fff;
+  border-radius: 2rem;
+}
+
+.diary-item-date {
+  color:#5a5a5a;
+  font-size: smaller;
+  margin: 0 0 0 1rem;
+}
+
+.diary-item-intro {
+  margin: 0 0 1rem ;
+}
+
+.setting-panel {
+  padding: 2rem;
+}
+
+.profile {
+  display: flex;
+  flex-direction: column;
+  background-color: #f9f9f9;
+  margin:0 0 0.5rem;
+  padding: 2rem;
+  border-radius: 0.5rem;
+}
+
+.profile-title {
+  margin: 0 1rem 0 0;
+}
+
+.profile-username {
+  display: flex;
+  margin: 0 0 1rem;
+  align-items: center;
+}
+
+.profile-avatar {
+  display: flex;
+  align-items: center;
 }
