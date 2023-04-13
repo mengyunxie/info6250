@@ -3,7 +3,7 @@ import NavigationControls from './NavigationControls';
 import PanelControls from './PanelControls';
 import Avatar from './Avatar';
 
-function Dashboard({username, avatar, passerbyDiaries, diaries, menu, onSetMenu, onSetNavigation, onLogout}) {
+function Dashboard({username, avatar, labels, avatars, passerbyDiaries, diaries, menu, onSetMenu, onSetNavigation, onLogout}) {
 
   return (
     <main className="dashboard">
@@ -15,11 +15,12 @@ function Dashboard({username, avatar, passerbyDiaries, diaries, menu, onSetMenu,
         onSetMenu={onSetMenu}
       />
       <NavigationControls 
+        labels={labels}
         menu={menu} 
         onLogout={onLogout}
         onSetNavigation={onSetNavigation}
       />
-      <PanelControls username={username} avatar={avatar} menu={menu} passerbyDiaries={passerbyDiaries} diaries={diaries}/>
+      <PanelControls username={username} avatar={avatar} labels={labels} avatars={avatars} menu={menu} passerbyDiaries={passerbyDiaries} diaries={diaries}/>
     </main>
   );
 }

@@ -4,7 +4,11 @@ const diaries = {
             username: '11',
             avatar:'Cat',
             date: 1681276418346,
-            label: 'Travel',
+            label: {
+                color: "orange",
+                key: "travel",
+                type: "Custom"
+            },
             isPasserby: false, 
             details: "HHHHH",
             intro: "HHHHH",
@@ -14,7 +18,11 @@ const diaries = {
             username: '22',
             avatar:'Batman',
             date: 1681276419346,
-            label: 'Movies',
+            label: {
+                color: "sky",
+                key: "movies",
+                type: "Custom"
+            },
             isPasserby: true, 
             details: "HHHisPasserbyisPasserbyisPasserbyisPasserbyisPasserbyisPasserbyHH",
             intro: "HHHisPasserbyisPasserbyisPasserbyisPasserbyisPass...",
@@ -26,7 +34,7 @@ function contains({id, username}) {
     return diaries[id] && diaries[id].username == username;
 }
 
-function addDiary({user, form}) {
+function addDiary({user, label, isPasserby, details}) {
     const id = uuid();
     const date = Date.now();
     diaries[id] = {
@@ -34,9 +42,9 @@ function addDiary({user, form}) {
         username: user.username,
         avatar: user.avatar,
         date,
-        label: form.label,
-        isPasserby: form.isPasserby, 
-        details: form.details,
+        label,
+        isPasserby, 
+        details,
         intro: diary.details.length > 50 ? `${diary.details.substring(0, 50)}...` : diary.details,
     };
 
@@ -51,11 +59,11 @@ function getDiary(id) {
     return diaries[id];
 }
 
-function updateDiary({id, form}) {
+function updateDiary({id, label, isPasserby, details}) {
     const diary = diaries[id];
-    diary.label = form.label;
-    diary.isPasserby = form.isPasserby;
-    diary.details = form.details;
+    diary.label = label;
+    diary.isPasserby = isPasserby;
+    diary.details = details;
     diary.intro = diary.details.length > 50 ? `${diary.details.substring(0, 50)}...` : diary.details;
 }
 
@@ -68,7 +76,7 @@ function getDiaries(username) {
 }
 
 function getDiariesByLabel({username, label}) {
-    return Object.values(diaries).filter((item) => item?.username == username && item?.label == label);
+    return Object.values(diaries).filter((item) => item?.username == username && item?.label.key == label);
 }
 
 function getPasserbyDiaries() {

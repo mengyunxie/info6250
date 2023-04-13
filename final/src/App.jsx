@@ -115,14 +115,15 @@ function App() {
     });
   }
 
-  function onSetNavigation(navigation) {
-    // fetch api
-    console.log(navigation);
+  function onSetNavigation({navigation, param}) {
     if(navigation == NAVIGATION.PASSERBY.LATEST) {
       getPasserbyDiaries();
     }
     if(navigation == NAVIGATION.PASSERBY.MINE) {
       getMyPasserbyDiaries();
+    }
+    if(navigation == NAVIGATION.MYDIARY.LABEL) {
+      getDiariesByLabel(param.label);
     }
   }
 
@@ -170,6 +171,8 @@ function App() {
       { state.loginStatus === LOGIN_STATUS.IS_LOGGED_IN && <Dashboard
             username={state.username}
             avatar={state.avatar}
+            labels={state.labels}
+            avatars={state.avatars}
             passerbyDiaries={state.passerbyDiaries}
             diaries={state.diaries}
             onLogout={onLogout}

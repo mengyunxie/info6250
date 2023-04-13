@@ -93,7 +93,8 @@ app.post('/api/v1/diaries', (req, res) => {
   }
   const user = users.getUser(username);
 
-  const id = diaries.addDiary({user, form});
+  const label = labels.getLabel(form.label);
+  const id = diaries.addDiary({user, label, isPasserby: form.isPasserby, details: form.details});
   res.json(diaries.getDiary(id));
 });
 
@@ -120,7 +121,8 @@ app.patch('/api/v1/diaries/:id', (req, res) => {
     res.status(404).json({ error: `notMatchUser`, message: `User id is not match` });
     return;
   }
-  diaries.updateDiary({id, form})
+  const label = labels.getLabel(form.label);
+  diaries.updateDiary({id, label, isPasserby: form.isPasserby, details: form.details})
   res.json(diaries.getDiary(id));
 });
 

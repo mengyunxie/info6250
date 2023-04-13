@@ -11,7 +11,7 @@ function PasserbyNavigation({onSetNavigation}) {
                 onClick={ (e) => {
                     e.preventDefault();
                     setNavigation(NAVIGATION.PASSERBY.LATEST);
-                    onSetNavigation(NAVIGATION.PASSERBY.LATEST);
+                    onSetNavigation({navigation: NAVIGATION.PASSERBY.LATEST});
                 }}
             >
                 <span>{NAVIGATION.PASSERBY.LATEST}</span>
@@ -21,7 +21,7 @@ function PasserbyNavigation({onSetNavigation}) {
                 onClick={ (e) => {
                     e.preventDefault();
                     setNavigation(NAVIGATION.PASSERBY.MINE);
-                    onSetNavigation(NAVIGATION.PASSERBY.MINE);
+                    onSetNavigation({navigation: NAVIGATION.PASSERBY.MINE});
                 }}
             >
                 <span>{NAVIGATION.PASSERBY.MINE}</span>

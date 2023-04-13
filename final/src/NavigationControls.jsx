@@ -3,12 +3,12 @@ import PasserbyNavigation from './PasserbyNavigation';
 import MyDiaryNavigation from './MyDiaryNavigation';
 import SettingNavigation from './SettingNavigation';
 
-function NavigationControls({menu, onLogout, onSetNavigation}) {
+function NavigationControls({menu, labels, onLogout, onSetNavigation}) {
 
     return (
         <div className="navigation-controls">
             {menu == SIDE_MENU.PASSERBY && <PasserbyNavigation onSetNavigation={onSetNavigation} />}
-            {menu == SIDE_MENU.MYDIARY && <MyDiaryNavigation />}
+            {menu == SIDE_MENU.MYDIARY && <MyDiaryNavigation labels={labels} onSetNavigation={onSetNavigation} />}
             {menu == SIDE_MENU.SETTING && <SettingNavigation />}
             <button 
                 type="button" 

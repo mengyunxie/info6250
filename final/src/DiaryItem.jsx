@@ -13,7 +13,7 @@ function DiaryItem({diary}) {
     return (
         <div className="diary-item">
             <div className="diary-item-title">
-                <span className="diary-item-label"></span>
+                <span className={`diary-item-label label-item-color ${diary.label.color}`} ></span>
                 <span className="diary-item-date">{formatDate(diary.date)}</span>
             </div>
             <div className="diary-item-intro">{diary.intro}</div>

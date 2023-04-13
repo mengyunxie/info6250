@@ -7,10 +7,19 @@ export const SIDE_MENU = {
 export const NAVIGATION = {
   PASSERBY: {
     LATEST: 'Latest',
-    MINE: 'Mine'
+    MINE: 'Mine',
+    VIEW: 'View',
+    EDIT: 'Edit',
+  },
+  MYDIARY: {
+    LABEL: 'Label',
+    ADD: 'Mine',
+    VIEW: 'View',
+    EDIT: 'Edit',
   },
   SETTING: {
-    PROFILE: 'Profile'
+    PROFILE: 'Profile',
+    EDIT: 'Edit',
   }
 };
 
