@@ -1,5 +1,9 @@
-import { NAVIGATION } from './constants';
-function MyDiaryNavigation({labels, onSetNavigation}) {
+import { SIDE_MENU, SIDE_MENU_SUB } from './constants';
+function MyDiaryNavigation({
+    labels, 
+    onSetSubMenu,
+    onSetCurrentLabel,
+}) {
     const defaultOption = labels['all'].key;
     return (
         <div className="navigation-contents">
@@ -9,7 +13,8 @@ function MyDiaryNavigation({labels, onSetNavigation}) {
                     defaultValue={defaultOption}
                     onChange={ (e) => {
                         e.preventDefault();
-                        onSetNavigation({navigation: NAVIGATION.MYDIARY.LABEL, param: {label: e.target.value}});
+                        onSetCurrentLabel({currentLabel: e.target.value});
+                        // onSetSubMenu({subMenu: SIDE_MENU_SUB[SIDE_MENU.MYDIARY].DEFAULT});
                     }}
                 >
                     { Object.values(labels).map( label => (

@@ -6,6 +6,7 @@ import reducer, { initialState } from './reducer';
 import {
   AVATARS_KEY,
   SIDE_MENU,
+  SIDE_MENU_SUB,
   NAVIGATION,
   ACTIONS,
   LOGIN_STATUS,
@@ -33,12 +34,8 @@ function App() {
     fetchLogin(username)
     .then( res => {
       dispatch({ type: ACTIONS.LOG_IN, username: res.username,  avatar: res.avatar, labels: res.labels, avatars: res.avatars});
-      console.log(state);
-      dispatch({ type: ACTIONS.START_LOADING_DATA });
-      return fetchPasserbyDiaries();
-    })
-    .then( res => {
-      dispatch({ type: ACTIONS.GET_PASSERBYDIARIES, passerbyDiaries: res });
+
+      onSetMenu(state.menu);
     })
     .catch( err => {
       dispatch({ type: ACTIONS.REPORT_ERROR, error: err?.error });
@@ -59,19 +56,39 @@ function App() {
     dispatch({ type: ACTIONS.CLEAR_ERROR });
   }
 
+  function onSetCurrentLabel({currentLabel}) {
+    dispatch({ type: ACTIONS.TOGGLE_CURRENT_LABEL, currentLabel});
+    getDiariesByLabel(currentLabel);
+  }
+
   function onSetMenu(menu) {
     dispatch({ type: ACTIONS.TOGGLE_MENU, menu });
-    // fetch api
+    
     if(menu == SIDE_MENU.PASSERBY) {
-      getPasserbyDiaries();
+      onSetSubMenu({subMenu: SIDE_MENU_SUB[SIDE_MENU.PASSERBY].DEFAULT});
     }
     if(menu == SIDE_MENU.MYDIARY) {
-      getDiariesByLabel();
+      onSetSubMenu({subMenu: SIDE_MENU_SUB[SIDE_MENU.MYDIARY].DEFAULT});
     }
     if(menu == SIDE_MENU.SETTING) {
-
+      onSetSubMenu({subMenu: SIDE_MENU_SUB[SIDE_MENU.SETTING].DEFAULT});
     }
   }
+
+
+  function onSetSubMenu({subMenu}) {
+    dispatch({ type: ACTIONS.TOGGLE_SUB_MENU, subMenu });
+    if(subMenu == SIDE_MENU_SUB[SIDE_MENU.PASSERBY].DEFAULT) {
+      getPasserbyDiaries();
+    }
+    if(subMenu == SIDE_MENU_SUB[SIDE_MENU.PASSERBY].MINE) {
+      getMyPasserbyDiaries();
+    }
+    if(subMenu == SIDE_MENU_SUB[SIDE_MENU.MYDIARY].DEFAULT) {
+      getDiariesByLabel();
+    }
+  }
+
 
   function getPasserbyDiaries() {
     dispatch({ type: ACTIONS.START_LOADING_DATA });
@@ -101,9 +118,9 @@ function App() {
     });
   }
 
-  function getDiariesByLabel(label) {
+  function getDiariesByLabel(currentLabel) {
     dispatch({ type: ACTIONS.START_LOADING_DATA });
-    fetchDiariesByLabel(label || 'all')
+    fetchDiariesByLabel(currentLabel || state.currentLabel)
     .then( res => {
       dispatch({ type: ACTIONS.GET_DIARIES, diaries: res});
     })
@@ -115,38 +132,21 @@ function App() {
     });
   }
 
-  function onSetNavigation({navigation, param}) {
-    if(navigation == NAVIGATION.PASSERBY.LATEST) {
-      getPasserbyDiaries();
-    }
-    if(navigation == NAVIGATION.PASSERBY.MINE) {
-      getMyPasserbyDiaries();
-    }
-    if(navigation == NAVIGATION.MYDIARY.LABEL) {
-      getDiariesByLabel(param.label);
-    }
-  }
-
   function checkForSession() {
     fetchSession()
-    .then( res => { // The returned object from the service call
-      dispatch({ type: ACTIONS.LOG_IN, username: res.username,  avatar: res.avatar, labels: res.labels, avatars: res.avatars});
-      return fetchPasserbyDiaries(); // By returning this promise we can chain the original promise
-    })
     .catch( err => {
       if( err?.error === SERVER.AUTH_MISSING ) {
         return Promise.reject({ error: CLIENT.NO_SESSION }) // Expected, not a problem
       }
       return Promise.reject(err); // Pass any other error unchanged
     })
-    .then( res => {
-      dispatch({ type: ACTIONS.GET_PASSERBYDIARIES, passerbyDiaries: res });
-      console.log(state);
+    .then( res => { // The returned object from the service call
+      dispatch({ type: ACTIONS.LOG_IN, username: res.username,  avatar: res.avatar, labels: res.labels, avatars: res.avatars});
+      onSetMenu(state.menu);
     })
     .catch( err => {
       if( err?.error === CLIENT.NO_SESSION ) { // expected "error"
         dispatch({ type: ACTIONS.LOG_OUT });
-        console.log(state);
         return;
       }
       // For unexpected errors, report them
@@ -175,10 +175,12 @@ function App() {
             avatars={state.avatars}
             passerbyDiaries={state.passerbyDiaries}
             diaries={state.diaries}
-            onLogout={onLogout}
             menu={state.menu}
+
             onSetMenu={onSetMenu}
-            onSetNavigation={onSetNavigation}
+            onLogout={onLogout}
+            onSetSubMenu={onSetSubMenu}
+            onSetCurrentLabel={onSetCurrentLabel}
           />
       }
     </div>

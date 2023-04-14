@@ -1,4 +1,4 @@
-function DiaryItem({diary}) {
+function MyDiaryItem({diary}) {
     function formatDate(dateString) {
         const options = { 
             year: 'numeric',
@@ -20,4 +20,4 @@ function DiaryItem({diary}) {
         </div>
     );
 }
-export default DiaryItem;
+export default MyDiaryItem;

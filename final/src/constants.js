@@ -1,26 +1,25 @@
 export const SIDE_MENU = {
   PASSERBY: 'Passerby',
-  MYDIARY: 'My Diary',
+  MYDIARY: 'MyDiary',
   SETTING: 'Setting',
 };
 
-export const NAVIGATION = {
-  PASSERBY: {
-    LATEST: 'Latest',
+export const SIDE_MENU_SUB = {
+  [SIDE_MENU.PASSERBY]: {
+    DEFAULT: 'Latest',
     MINE: 'Mine',
+    VIEW: 'View'
+  },
+  [SIDE_MENU.MYDIARY]: {
+    DEFAULT: 'List',
+    ADD: 'Add',
     VIEW: 'View',
     EDIT: 'Edit',
   },
-  MYDIARY: {
-    LABEL: 'Label',
-    ADD: 'Mine',
-    VIEW: 'View',
+  [SIDE_MENU.SETTING]: {
+    DEFAULT: 'Profile',
     EDIT: 'Edit',
   },
-  SETTING: {
-    PROFILE: 'Profile',
-    EDIT: 'Edit',
-  }
 };
 
 export const AVATARS_KEY = {
@@ -48,6 +47,8 @@ export const ACTIONS = {
   REPORT_ERROR: 'reportError',
   CLEAR_ERROR: 'clearError',
   TOGGLE_MENU: 'toggleMenu',
+  TOGGLE_SUB_MENU: 'toggleSubMenu',
+  TOGGLE_CURRENT_LABEL: 'toggleCurrentLabel',
   GET_DIARY: 'getDiary',
   GET_DIARIES: 'getDiaries',
   GET_PASSERBYDIARIES: 'getPasserbyDiaries',

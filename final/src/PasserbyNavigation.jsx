@@ -1,30 +1,30 @@
 import { useState } from 'react';
-import {NAVIGATION} from './constants';
+import { SIDE_MENU, SIDE_MENU_SUB } from './constants';
 
-function PasserbyNavigation({onSetNavigation}) {
-    const [navigation, setNavigation] = useState(NAVIGATION.PASSERBY.LATEST);
+function PasserbyNavigation({onSetSubMenu}) {
+    const [subMenu, setSubMenu] = useState(SIDE_MENU_SUB[SIDE_MENU.PASSERBY].DEFAULT);
 
     return (
         <ul className="navigation-contents">
             <li 
-                className={`navigation-item ${navigation === NAVIGATION.PASSERBY.LATEST ? "focus" : ""}`}
+                className={`navigation-item ${subMenu === SIDE_MENU_SUB[SIDE_MENU.PASSERBY].DEFAULT ? "focus" : ""}`}
                 onClick={ (e) => {
                     e.preventDefault();
-                    setNavigation(NAVIGATION.PASSERBY.LATEST);
-                    onSetNavigation({navigation: NAVIGATION.PASSERBY.LATEST});
+                    setSubMenu(SIDE_MENU_SUB[SIDE_MENU.PASSERBY].DEFAULT);
+                    onSetSubMenu({subMenu: SIDE_MENU_SUB[SIDE_MENU.PASSERBY].DEFAULT});
                 }}
             >
-                <span>{NAVIGATION.PASSERBY.LATEST}</span>
+                <span>{SIDE_MENU_SUB[SIDE_MENU.PASSERBY].DEFAULT}</span>
             </li>
             <li 
-                className={`navigation-item ${navigation === NAVIGATION.PASSERBY.MINE ? "focus" : ""}`}
+                className={`navigation-item ${subMenu === SIDE_MENU_SUB[SIDE_MENU.PASSERBY].MINE ? "focus" : ""}`}
                 onClick={ (e) => {
                     e.preventDefault();
-                    setNavigation(NAVIGATION.PASSERBY.MINE);
-                    onSetNavigation({navigation: NAVIGATION.PASSERBY.MINE});
+                    setSubMenu(SIDE_MENU_SUB[SIDE_MENU.PASSERBY].MINE);
+                    onSetSubMenu({subMenu: SIDE_MENU_SUB[SIDE_MENU.PASSERBY].MINE});
                 }}
             >
-                <span>{NAVIGATION.PASSERBY.MINE}</span>
+                <span>{SIDE_MENU_SUB[SIDE_MENU.PASSERBY].MINE}</span>
             </li>
         </ul>
     );

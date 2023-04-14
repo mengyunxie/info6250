@@ -3,12 +3,23 @@ import NavigationControls from './NavigationControls';
 import PanelControls from './PanelControls';
 import Avatar from './Avatar';
 
-function Dashboard({username, avatar, labels, avatars, passerbyDiaries, diaries, menu, onSetMenu, onSetNavigation, onLogout}) {
-
+function Dashboard({
+  username, 
+  avatar, 
+  labels, 
+  avatars, 
+  passerbyDiaries, 
+  diaries, 
+  menu, 
+  onSetMenu, 
+  onSetSubMenu,
+  onSetCurrentLabel,
+  onLogout,
+}) {
   return (
     <main className="dashboard">
       <div className='dashboard-user'>
-        <Avatar avatar={avatar}><span className="avatar-username">{username}</span></Avatar>
+        <Avatar avatar={avatar} username={username} />
       </div>
       <SideMenu
         menu={menu}
@@ -18,9 +29,18 @@ function Dashboard({username, avatar, labels, avatars, passerbyDiaries, diaries,
         labels={labels}
         menu={menu} 
         onLogout={onLogout}
-        onSetNavigation={onSetNavigation}
+        onSetSubMenu={onSetSubMenu}
+        onSetCurrentLabel={onSetCurrentLabel}
       />
-      <PanelControls username={username} avatar={avatar} labels={labels} avatars={avatars} menu={menu} passerbyDiaries={passerbyDiaries} diaries={diaries}/>
+      <PanelControls 
+        username={username} 
+        avatar={avatar} 
+        labels={labels} 
+        avatars={avatars} 
+        menu={menu} 
+        passerbyDiaries={passerbyDiaries} 
+        diaries={diaries}
+      />
     </main>
   );
 }

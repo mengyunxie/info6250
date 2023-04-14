@@ -4,6 +4,7 @@ import {
   ACTIONS,
   AVATARS_KEY,
   SIDE_MENU,
+  SIDE_MENU_SUB,
 } from './constants';
 
 export const initialState = {
@@ -13,11 +14,13 @@ export const initialState = {
   loginStatus: LOGIN_STATUS.PENDING,
   isDashBoardPending: false,
   menu: SIDE_MENU.PASSERBY,
+  subMenu: SIDE_MENU_SUB[SIDE_MENU.PASSERBY].DEFAULT,
+  currentLabel: 'all',
   passerbyDiaries: [],
   diaries: [],
   diary: {},
   labels: [],
-  avatars: [],
+  avatars: []
 };
 
 function reducer(state, action) {
@@ -44,6 +47,8 @@ function reducer(state, action) {
         loginStatus: LOGIN_STATUS.NOT_LOGGED_IN,
         isDashBoardPending: false,
         menu: SIDE_MENU.PASSERBY,
+        subMenu: SIDE_MENU_SUB[SIDE_MENU.PASSERBY].DEFAULT,
+        currentLabel: 'all',
         diary: {},
         diaries: [],
         passerbyDiaries: [],
@@ -76,6 +81,19 @@ function reducer(state, action) {
       return {
         ...state,
         menu: action.menu,
+        currentLabel: 'all',
+      };
+
+    case ACTIONS.TOGGLE_SUB_MENU:
+      return {
+        ...state,
+        subMenu: action.subMenu,
+      };
+
+    case ACTIONS.TOGGLE_CURRENT_LABEL:
+      return {
+        ...state,
+        currentLabel: action.currentLabel,
       };
 
     case ACTIONS.GET_DIARY:

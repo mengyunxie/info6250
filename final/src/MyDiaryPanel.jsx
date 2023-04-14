@@ -1,10 +1,8 @@
-import DiaryItem from './DiaryItem';
+import MyDiaryList from './MyDiaryList';
 function MyDiaryPanel({diaries}) {
     return (
         <div className='mydiary-panel'>
-            { Object.values(diaries).map( diary => (
-                <DiaryItem diary={diary} key={diary.id}/>
-            ))} 
+            <MyDiaryList diaries={diaries} />
         </div>
     );
 }

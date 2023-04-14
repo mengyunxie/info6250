@@ -1,18 +1,19 @@
 import { useState } from 'react';
-import {NAVIGATION} from './constants';
+import { SIDE_MENU, SIDE_MENU_SUB } from './constants';
 
 function SettingNavigation() {
-    const [navigation, setNavigation] = useState(NAVIGATION.SETTING.PROFILE);
+    const [subMenu, setSubMenu] = useState(SIDE_MENU_SUB[SIDE_MENU.PASSERBY].DEFAULT);
+    
     return (
         <ul className="navigation-contents">
             <li 
-                className={`navigation-item ${navigation === NAVIGATION.SETTING.PROFILE ? "focus" : ""}`}
+                className={`navigation-item ${subMenu === SIDE_MENU_SUB[SIDE_MENU.PASSERBY].DEFAULT ? "focus" : ""}`}
                 onClick={ (e) => {
                     e.preventDefault();
-                    setNavigation(NAVIGATION.SETTING.PROFILE);
+                    setSubMenu(SIDE_MENU_SUB[SIDE_MENU.PASSERBY].DEFAULT);
                 }}
             >
-                <span>{NAVIGATION.SETTING.PROFILE}</span>
+                <span>{SIDE_MENU_SUB[SIDE_MENU.PASSERBY].DEFAULT}</span>
             </li>
         </ul>
     );
