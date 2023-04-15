@@ -17,21 +17,23 @@ function PasserbyDetail({
     }
 
     return (
-        <div className='details'>
-            <button 
-                type="button"
-                className='go-back'
-                onClick={ (e) => {
-                    e.preventDefault();
-                    onSetRouter({currentRouter: previousRouter});
-                }}
-            >
-                <i className="gg-arrow-left"></i>
-                <span className='go-back-title'>Go Back</span>
-            </button>
-            <Avatar avatar={diary.avatar}><span className="avatar-username">{diary.username}</span></Avatar>
-            <div className="details-date">{formatDate(diary.date)}</div>
-            <div className='details-content'>{diary.details}</div>
+        <div className='passerby-details'>
+            <div className='passerby-details-tools'>
+                <button 
+                    type="button"
+                    className='go-back'
+                    onClick={ (e) => {
+                        e.preventDefault();
+                        onSetRouter({currentRouter: previousRouter});
+                    }}
+                >
+                    <i className="gg-arrow-left"></i>
+                    <span className='go-back-title'>Go Back</span>
+                </button>
+            </div>
+            <Avatar avatar={diary.avatar} username={diary.username} />
+            <div className="passerby-details-date">{formatDate(diary.date)}</div>
+            <div className='passerby-details-content'>{diary.details}</div>
         </div>
     );
 }

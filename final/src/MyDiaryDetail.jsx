@@ -17,8 +17,8 @@ function MyDiaryDetail({
     }
 
     return (
-        <div className='details'>
-            <div className='details-tools'>
+        <div className='mydiaries-details'>
+            <div className='mydiaries-details-tools'>
                 <button 
                     type="button"
                     className='go-back'
@@ -32,28 +32,31 @@ function MyDiaryDetail({
                 </button>
                 <button 
                     type="button"
-                    className='go-back'
+                    className='to-edit'
                     onClick={ (e) => {
                         e.preventDefault();
                     }}
                 >
                     <i className="gg-pen"></i>
-                    <span className='go-back-title'>Edit</span>
+                    <span className='to-edit-title'>Edit</span>
                 </button>
                 <button 
                     type="button"
-                    className='go-back'
+                    className='to-delete'
                     onClick={ (e) => {
                         e.preventDefault();
                     }}
                 >
                     <i className="gg-trash"></i>
-                    <span className='go-back-title'>Delete</span>
+                    <span className='to-delete-title'>Delete</span>
                 </button>
             </div>
-            <Avatar avatar={diary.avatar}><span className="avatar-username">{diary.username}</span></Avatar>
-            <div className="details-date">{formatDate(diary.date)}</div>
-            <div className='details-content'>{diary.details}</div>
+            
+            <div className="mydiaries-details-info">
+                <span className={`mydiaries-details-label label-item-color ${diary.label.color}`} ></span>
+                <span className="mydiaries-details-date">{formatDate(diary.date)}</span>
+            </div>
+            <div className='mydiaries-details-content'>{diary.details}</div>
         </div>
     );
 }
