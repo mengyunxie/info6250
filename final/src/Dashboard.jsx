@@ -9,10 +9,13 @@ function Dashboard({
   labels, 
   avatars, 
   passerbyDiaries, 
-  diaries, 
-  menu, 
+  diaries,
+  currentLabel,
+  menu,
+  previousRouter,
+  currentRouter,
   onSetMenu, 
-  onSetSubMenu,
+  onSetRouter,
   onSetCurrentLabel,
   onLogout,
 }) {
@@ -27,9 +30,11 @@ function Dashboard({
       />
       <NavigationControls 
         labels={labels}
-        menu={menu} 
+        currentLabel={currentLabel}
+        menu={menu}
+        currentRouter={currentRouter}
         onLogout={onLogout}
-        onSetSubMenu={onSetSubMenu}
+        onSetRouter={onSetRouter}
         onSetCurrentLabel={onSetCurrentLabel}
       />
       <PanelControls 
@@ -37,7 +42,10 @@ function Dashboard({
         avatar={avatar} 
         labels={labels} 
         avatars={avatars} 
-        menu={menu} 
+        menu={menu}
+        previousRouter={previousRouter}
+        currentRouter={currentRouter}
+        onSetRouter={onSetRouter}
         passerbyDiaries={passerbyDiaries} 
         diaries={diaries}
       />

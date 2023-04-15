@@ -1,6 +1,9 @@
+
 import PasserbyItem from './PasserbyItem';
 function PasserbyList({
-    passerbyDiaries
+    passerbyDiaries,
+    onSetRouter,
+    onSetDiary,
 }) {   
 
     return (
@@ -9,10 +12,8 @@ function PasserbyList({
                 <PasserbyItem 
                     diary={diary} 
                     key={diary.id}
-                    onClick={ (e) => {
-                        e.preventDefault();
-                        // call
-                    }}
+                    onSetRouter={onSetRouter}
+                    onSetDiary={onSetDiary}
                 />
              ))} 
         </div>

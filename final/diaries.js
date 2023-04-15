@@ -27,6 +27,20 @@ const diaries = {
             details: "HHHisPasserbyisPasserbyisPasserbyisPasserbyisPasserbyisPasserbyHH",
             intro: "HHHisPasserbyisPasserbyisPasserbyisPasserbyisPass...",
     },
+    3: {
+        id: 3,
+        username: '11',
+        avatar:'Cat',
+        date: 1681276418346,
+        label: {
+            color: "orange",
+            key: "work",
+            type: "Custom"
+        },
+        isPasserby: true, 
+        details: "This is mine passerby diary.This is mine passerby diary.This is mine passerby diary.This is mine passerby diary.This is mine passerby diary.This is mine passerby diary.",
+        intro: "This is mine passerby diary.",
+    },
 };
 
 

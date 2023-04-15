@@ -4,21 +4,20 @@ export const SIDE_MENU = {
   SETTING: 'Setting',
 };
 
-export const SIDE_MENU_SUB = {
+export const ROUTER = {
   [SIDE_MENU.PASSERBY]: {
-    DEFAULT: 'Latest',
-    MINE: 'Mine',
-    VIEW: 'View'
+    DEFAULT: 'PasserbyList',
+    MINE: 'PasserbyMine',
+    DETAIL: 'PasserbyDetail'
   },
   [SIDE_MENU.MYDIARY]: {
-    DEFAULT: 'List',
-    ADD: 'Add',
-    VIEW: 'View',
-    EDIT: 'Edit',
+    DEFAULT: 'MyDiaryList',
+    ADD: 'MyDiaryAdd',
+    DETAIL: 'MyDiaryDetail',
   },
   [SIDE_MENU.SETTING]: {
     DEFAULT: 'Profile',
-    EDIT: 'Edit',
+    DETAIL: 'ProfileDetail',
   },
 };
 
@@ -47,7 +46,7 @@ export const ACTIONS = {
   REPORT_ERROR: 'reportError',
   CLEAR_ERROR: 'clearError',
   TOGGLE_MENU: 'toggleMenu',
-  TOGGLE_SUB_MENU: 'toggleSubMenu',
+  TOGGLE_ROUTER: 'toggleRouter',
   TOGGLE_CURRENT_LABEL: 'toggleCurrentLabel',
   GET_DIARY: 'getDiary',
   GET_DIARIES: 'getDiaries',

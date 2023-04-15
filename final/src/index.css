@@ -302,8 +302,6 @@ html, body {
   font-size: smaller;
 }
 
-
-
 .mydiary-panel {
   padding: 2rem;
 }
@@ -340,6 +338,42 @@ html, body {
 
 .diary-item-intro {
   margin: 0 0 1rem ;
+}
+
+.go-back {
+  display: flex;
+  align-items: center;
+  border: 0;
+  padding: 0.5rem;
+  margin: 0 0 2rem;
+  background-color: #f9f9f9;
+  cursor: pointer;
+}
+
+.go-back-title {
+  margin-left:0.5rem;
+}
+
+.details {
+  background-color: #f9f9f9;
+  margin:0;
+  padding: 2rem;
+  border-radius: 0.5rem;
+}
+
+.details-tools {
+  display: flex;
+  justify-content: end;
+}
+
+.details-date {
+  color:#5a5a5a;
+  font-size: smaller;
+  margin: 1rem 0 0;
+}
+
+.details-content{
+  margin: 1rem 0 0;
 }
 
 .setting-panel {

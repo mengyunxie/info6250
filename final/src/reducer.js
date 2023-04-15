@@ -4,7 +4,7 @@ import {
   ACTIONS,
   AVATARS_KEY,
   SIDE_MENU,
-  SIDE_MENU_SUB,
+  ROUTER,
 } from './constants';
 
 export const initialState = {
@@ -14,7 +14,8 @@ export const initialState = {
   loginStatus: LOGIN_STATUS.PENDING,
   isDashBoardPending: false,
   menu: SIDE_MENU.PASSERBY,
-  subMenu: SIDE_MENU_SUB[SIDE_MENU.PASSERBY].DEFAULT,
+  currentRouter: ROUTER[SIDE_MENU.PASSERBY].DEFAULT,
+  previousRouter: ROUTER[SIDE_MENU.PASSERBY].DEFAULT,
   currentLabel: 'all',
   passerbyDiaries: [],
   diaries: [],
@@ -24,7 +25,6 @@ export const initialState = {
 };
 
 function reducer(state, action) {
-  console.log(action);
   switch(action.type) {
 
     case ACTIONS.LOG_IN:   // actions are the change in state, not how that change happened
@@ -47,7 +47,8 @@ function reducer(state, action) {
         loginStatus: LOGIN_STATUS.NOT_LOGGED_IN,
         isDashBoardPending: false,
         menu: SIDE_MENU.PASSERBY,
-        subMenu: SIDE_MENU_SUB[SIDE_MENU.PASSERBY].DEFAULT,
+        currentRouter: ROUTER[SIDE_MENU.PASSERBY].DEFAULT,
+        previousRouter: ROUTER[SIDE_MENU.PASSERBY].DEFAULT,
         currentLabel: 'all',
         diary: {},
         diaries: [],
@@ -84,10 +85,11 @@ function reducer(state, action) {
         currentLabel: 'all',
       };
 
-    case ACTIONS.TOGGLE_SUB_MENU:
+    case ACTIONS.TOGGLE_ROUTER:
       return {
         ...state,
-        subMenu: action.subMenu,
+        currentRouter: action.currentRouter,
+        previousRouter: action.previousRouter,
       };
 
     case ACTIONS.TOGGLE_CURRENT_LABEL:

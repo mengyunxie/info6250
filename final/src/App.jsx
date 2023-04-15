@@ -4,10 +4,8 @@ import './App.css';
 import './icons.css';
 import reducer, { initialState } from './reducer';
 import {
-  AVATARS_KEY,
   SIDE_MENU,
-  SIDE_MENU_SUB,
-  NAVIGATION,
+  ROUTER,
   ACTIONS,
   LOGIN_STATUS,
   CLIENT,
@@ -64,27 +62,27 @@ function App() {
   function onSetMenu(menu) {
     dispatch({ type: ACTIONS.TOGGLE_MENU, menu });
     
-    if(menu == SIDE_MENU.PASSERBY) {
-      onSetSubMenu({subMenu: SIDE_MENU_SUB[SIDE_MENU.PASSERBY].DEFAULT});
+    if(menu === SIDE_MENU.PASSERBY) {
+      onSetRouter({currentRouter: ROUTER[SIDE_MENU.PASSERBY].DEFAULT});
     }
-    if(menu == SIDE_MENU.MYDIARY) {
-      onSetSubMenu({subMenu: SIDE_MENU_SUB[SIDE_MENU.MYDIARY].DEFAULT});
+    if(menu === SIDE_MENU.MYDIARY) {
+      onSetRouter({currentRouter: ROUTER[SIDE_MENU.MYDIARY].DEFAULT});
     }
-    if(menu == SIDE_MENU.SETTING) {
-      onSetSubMenu({subMenu: SIDE_MENU_SUB[SIDE_MENU.SETTING].DEFAULT});
+    if(menu === SIDE_MENU.SETTING) {
+      onSetRouter({currentRouter: ROUTER[SIDE_MENU.SETTING].DEFAULT});
     }
   }
 
 
-  function onSetSubMenu({subMenu}) {
-    dispatch({ type: ACTIONS.TOGGLE_SUB_MENU, subMenu });
-    if(subMenu == SIDE_MENU_SUB[SIDE_MENU.PASSERBY].DEFAULT) {
+  function onSetRouter({currentRouter}) {
+    dispatch({ type: ACTIONS.TOGGLE_ROUTER, currentRouter, previousRouter: state.currentRouter});
+    if(currentRouter === ROUTER[SIDE_MENU.PASSERBY].DEFAULT) {
       getPasserbyDiaries();
     }
-    if(subMenu == SIDE_MENU_SUB[SIDE_MENU.PASSERBY].MINE) {
+    if(currentRouter === ROUTER[SIDE_MENU.PASSERBY].MINE) {
       getMyPasserbyDiaries();
     }
-    if(subMenu == SIDE_MENU_SUB[SIDE_MENU.MYDIARY].DEFAULT) {
+    if(currentRouter === ROUTER[SIDE_MENU.MYDIARY].DEFAULT) {
       getDiariesByLabel();
     }
   }
@@ -175,11 +173,14 @@ function App() {
             avatars={state.avatars}
             passerbyDiaries={state.passerbyDiaries}
             diaries={state.diaries}
+            currentLabel={state.currentLabel}
             menu={state.menu}
+            previousRouter={state.previousRouter}
+            currentRouter={state.currentRouter}
 
             onSetMenu={onSetMenu}
             onLogout={onLogout}
-            onSetSubMenu={onSetSubMenu}
+            onSetRouter={onSetRouter}
             onSetCurrentLabel={onSetCurrentLabel}
           />
       }
