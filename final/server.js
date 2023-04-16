@@ -86,15 +86,15 @@ app.post('/api/v1/diaries', (req, res) => {
     res.status(401).json({ error: 'auth-missing' });
     return;
   }
-  const { form } = req.body;
-  if(!form.detail) {
+  const {details, labelKey, isPasserby} = req.body;
+  if(!details) {
     res.status(400).json({ error: 'required-detail' });
     return;
   }
   const user = users.getUser(username);
 
-  const label = labels.getLabel(form.label);
-  const id = diaries.addDiary({user, label, isPasserby: form.isPasserby, details: form.details});
+  const label = labels.getLabel(labelKey);
+  const id = diaries.addDiary({user, label, isPasserby, details});
   res.json(diaries.getDiary(id));
 });
 
@@ -107,12 +107,12 @@ app.patch('/api/v1/diaries/:id', (req, res) => {
     return;
   }
   const { id } = req.params;
-  const {form} = req.body;
-  if(!form.detail) {
+  const {details, labelKey, isPasserby} = req.body;
+  if(!details) {
     res.status(400).json({ error: 'required-detail' });
     return;
   }
-  if(!diaries.contains(id)) {
+  if(!diaries.contains({id, username})) {
     res.status(404).json({ error: `noSuchId`, message: `No todo with id ${id}` });
     return;
   }
@@ -121,8 +121,8 @@ app.patch('/api/v1/diaries/:id', (req, res) => {
     res.status(404).json({ error: `notMatchUser`, message: `User id is not match` });
     return;
   }
-  const label = labels.getLabel(form.label);
-  diaries.updateDiary({id, label, isPasserby: form.isPasserby, details: form.details})
+  const label = labels.getLabel(labelKey);
+  diaries.updateDiary({id, label, isPasserby, details})
   res.json(diaries.getDiary(id));
 });
 
@@ -135,10 +135,13 @@ app.delete('/api/v1/diaries/:id', (req, res) => {
     return;
   }
   const { id } = req.params;
-  const exists = diaries.contains(id);
+  console.log("id: " + id);
+  const exists = diaries.contains({id, username});
   if(exists) {
+    console.log("inside: " + id);
     diaries.deleteDiary(id);
   }
+  console.log("exists: " + id);
   res.json({ message: exists ? `diary ${id} deleted` : `diary ${id} did not exist` });
 });
 
@@ -151,7 +154,7 @@ app.get('/api/v1/diaries/:id', (req, res) => {
     return;
   }
   const { id } = req.params;
-  if(!diaries.contains(id)) {
+  if(!diaries.contains({id, username})) {
     res.status(404).json({ error: `noSuchId`, message: `No todo with id ${id}` });
     return;
   }

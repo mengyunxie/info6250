@@ -10,7 +10,10 @@ function PanelControls({
     previousRouter,
     currentRouter,
     onSetRouter,
-    labels, 
+    labels,
+    onSubmitDiary, 
+    onDeleteDiary,
+    onUpdateDiary,
     avatars, 
     passerbyDiaries, 
     diaries,
@@ -26,9 +29,13 @@ function PanelControls({
             />}
             {menu === SIDE_MENU.MYDIARY && <MyDiaryPanel 
                 diaries={diaries}
+                labels={labels}
                 previousRouter={previousRouter}
                 currentRouter={currentRouter}
                 onSetRouter={onSetRouter}
+                onSubmitDiary={onSubmitDiary}
+                onDeleteDiary={onDeleteDiary}
+                onUpdateDiary={onUpdateDiary}
             />}
             {menu === SIDE_MENU.SETTING && <SettingPanel 
                 username={username} 

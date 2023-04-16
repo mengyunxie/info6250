@@ -1,5 +1,3 @@
-import './spinner.css';
-
 function Spinner({size}) {
     return <i className={`gg-spinner-two ${size}`}></i>;
 }

@@ -1,3 +1,5 @@
+const uuid = require('uuid').v4;
+
 const diaries = {
     1: {
             id: 1,
@@ -51,6 +53,8 @@ function contains({id, username}) {
 function addDiary({user, label, isPasserby, details}) {
     const id = uuid();
     const date = Date.now();
+    const intro = details.length > 50 ? `${details.substring(0, 50)}...` : details;
+    
     diaries[id] = {
         id,
         username: user.username,
@@ -59,7 +63,7 @@ function addDiary({user, label, isPasserby, details}) {
         label,
         isPasserby, 
         details,
-        intro: diary.details.length > 50 ? `${diary.details.substring(0, 50)}...` : diary.details,
+        intro,
     };
 
     return id;

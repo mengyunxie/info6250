@@ -8,37 +8,46 @@ function MyDiaryNavigation({
     currentLabel,
     currentRouter,
     onSetCurrentLabel,
+    onSetRouter,
 }) {
     return (
         <div className="navigation-contents">
-            <label className="navigation-select-label">
-                {currentRouter === ROUTER[SIDE_MENU.MYDIARY].DEFAULT && <select 
-                        className="navigation-select"
-                        defaultValue={currentLabel}
-                        onChange={ (e) => {
+            {currentRouter === ROUTER[SIDE_MENU.MYDIARY].DEFAULT &&
+                <>
+                    <label className="navigation-select-label">
+                        <select 
+                                className="navigation-select"
+                                defaultValue={currentLabel}
+                                onChange={ (e) => {
+                                    e.preventDefault();
+                                    onSetCurrentLabel({currentLabel: e.target.value});
+                                }}
+                            >
+                                { Object.values(labels).map( label => (
+                                    <option 
+                                        key={label.key} 
+                                        className="navigation-select-item" 
+                                        value={label.key}
+                                    >
+                                        {label.key}
+                                    </option>
+                                ))}
+                            </select>
+                        
+                    </label>
+                    <button 
+                        type="button" 
+                        className="add-diary"
+                        onClick={ (e) => {
                             e.preventDefault();
-                            onSetCurrentLabel({currentLabel: e.target.value});
+                            onSetRouter({currentRouter: ROUTER[SIDE_MENU.MYDIARY].ADD});
                         }}
                     >
-                        { Object.values(labels).map( label => (
-                            <option 
-                                key={label.key} 
-                                className="navigation-select-item" 
-                                value={label.key}
-                            >
-                                {label.key}
-                            </option>
-                        ))}
-                    </select>
-                } 
-            </label>
-            <button 
-                type="button" 
-                className="add-diary"
-            >
-                <i className="gg-add"></i>
-                <span className="add-diary-title">New Diary</span>
-            </button>
+                        <i className="gg-add"></i>
+                        <span className="add-diary-title">New Diary</span>
+                    </button>
+                </>
+            } 
         </div>
     );
 }

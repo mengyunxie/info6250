@@ -320,14 +320,14 @@ html, body {
 .diary-item-title {
   display: flex;
   margin: 0 0 1rem;
+  align-items: center;
 }
 
 .diary-item-label {
-  width:1rem;
-  height: 1rem;
-  background-color: #c0dfcf;
-  border: 1px solid #fff;
-  border-radius: 2rem;
+  color: #c0dfcf;
+  border: 1px solid #c0dfcf;
+  border-radius: 0.3rem;
+  padding: 0.1rem 0.5rem;
 }
 
 .diary-item-date {
@@ -361,7 +361,7 @@ html, body {
 }
 
 .to-edit-title, .to-delete-title {
-  margin-left: 0.5rem;
+  margin-left: 0.3rem;
 }
 
 .passerby-details {
@@ -406,12 +406,11 @@ html, body {
 }
 
 .mydiaries-details-label {
-  width:1rem;
-  height: 1rem;
-  background-color: #c0dfcf;
-  border: 1px solid #fff;
-  border-radius: 2rem;
   margin: 0 1rem 0 0;
+  color: #c0dfcf;
+  border: 1px solid #c0dfcf;
+  border-radius: 0.3rem;
+  padding: 0.1rem 0.5rem;
 }
 
 .mydiaries-details-date {
@@ -421,6 +420,60 @@ html, body {
 
 .mydiaries-details-content{
   margin: 1rem 0 0;
+  word-break: break-word;
+}
+
+.mydiaries-form {
+  display: flex;
+  flex-direction: column;
+  background-color: #f9f9f9;
+  margin:0;
+  padding: 2rem;
+  border-radius: 0.5rem;
+}
+
+.mydiaries-form-tools {
+  display: flex;
+  justify-content: flex-start;
+  margin: 0 0 2rem;
+}
+
+.mydiaries-form-row{
+  display: flex;
+  align-items: center;
+  margin: 0 0 2rem;
+}
+
+.mydiaries-form-row.form-textarea {
+  flex-direction: column;
+  align-items: initial;
+}
+
+.mydiaries-form-title {
+  min-width: 8rem;
+  margin: 0 1rem 0 0;
+}
+
+.mydiaries-form-select {
+  padding: 0.5rem 1rem;
+  margin: 0;
+  border: 1px solid #151515;
+  border-radius: 1rem;
+  color: #151515;
+  cursor: pointer;
+}
+
+.mydiaries-form-checkbox{
+  margin: 0;
+  border: 1px solid #151515;
+  border-radius: 1rem;
+}
+
+.mydiaries-form-input {
+  margin: 1rem 0 0;
+  padding: 0.5rem;
+  border: 1px solid #151515;
+  border-radius: 1rem;
 }
 
 .setting-panel {
@@ -453,50 +506,66 @@ html, body {
 
 
 .label-item-color.rose {
-  background-color: #e2262b;
+  color: #e2262b;
+  border: 1px solid #e2262b;
 }
 .label-item-color.orange {
-  background-color: #ec7013;
+  color: #ec7013;
+  border: 1px solid #ec7013;
 }
 .label-item-color.yellow {
-  background-color: #fde64b;
+  color: #fde64b;
+  border: 1px solid #fde64b;
 }
 .label-item-color.medallion {
-  background-color: #e3b106;
+  color: #e3b106;
+  border: 1px solid #e3b106;
 }
 .label-item-color.tan {
-  background-color: #e6dbad;
+  color: #e6dbad;
+  border: 1px solid #e6dbad;
 }
 .label-item-color.salt {
-  background-color: #f7efec;
+  color: #f7efec;
+  border: 1px solid #f7efec;
 }
 .label-item-color.frost {
-  background-color: #ecfcfc;
+  color: #ecfcfc;
+  border: 1px solid #ecfcfc;
 }
 .label-item-color.watermelon {
-  background-color: #fe7f9c;
+  color: #fe7f9c;
+  border: 1px solid #fe7f9c;
 }
 .label-item-color.purple {
-  background-color: #a32cc4;
+  color: #a32cc4;
+  border: 1px solid #a32cc4;
 }
 .label-item-color.blue {
-  background-color: #3942ba;
+  color: #3942ba;
+  border: 1px solid #3942ba;
 }
 .label-item-color.ocean {
-  background-color: #006063;
+  color: #006063;
+  border: 1px solid #006063;
 }
 .label-item-color.green {
-  background-color: #3ab143;
+  color: #3ab143;
+  border: 1px solid #3ab143;
 }
 .label-item-color.coffee {
-  background-color: #4b371d;
+  color: #4b371d;
+  border: 1px solid #4b371d;
 }
 .label-item-color.grey {
-  background-color: #6c626d;
+  color: #6c626d;
+  border: 1px solid #6c626d;
 }
 .label-item-color.iris {
-  background-color: #9767c5;
+  color: #9767c5;
+  border: 1px solid #9767c5;
 }
 .label-item-color.sky {
-  background-color: #63c5d9;
+  color: #63c5d9;
+  border: 1px solid #63c5d9;
 }

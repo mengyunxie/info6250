@@ -16,9 +16,13 @@ import {
   fetchSession,
   fetchLogin,
   fetchLogout,
+  fetchUpdateUserAvatar,
   fetchDiariesByLabel,
   fetchPasserbyDiaries,
-  fetchMyPasserbyDiaries
+  fetchMyPasserbyDiaries,
+  fetchAddDiary,
+  fetchUpdateDiary,
+  fetchDeleteDiary,
 } from './services';
 
 import Dashboard from './Dashboard';
@@ -87,6 +91,50 @@ function App() {
     }
   }
 
+  function onDeleteDiary(id) {
+    dispatch({ type: ACTIONS.START_LOADING_DATA });
+    fetchDeleteDiary(id)
+    .then( res => {
+      dispatch({ type: ACTIONS.DELETE_DIARY, id});
+      dispatch({ type: ACTIONS.TOGGLE_ROUTER, currentRouter: ROUTER[SIDE_MENU.MYDIARY].DEFAULT, previousRouter: state.currentRouter});
+    })
+    .catch( err => {
+      dispatch({ type: ACTIONS.REPORT_ERROR, error: err?.error });
+      if( err?.error === SERVER.AUTH_MISSING ) {
+        dispatch({ type: ACTIONS.LOG_OUT });
+      }
+    });
+  }
+
+  function onUpdateDiary({details, labelKey, isPasserby}) {
+    dispatch({ type: ACTIONS.START_LOADING_DATA });
+    fetchUpdateDiary({details, labelKey, isPasserby})
+    .then( res => {
+      dispatch({ type: ACTIONS.UPDATE_DIARY, diary: res });
+      dispatch({ type: ACTIONS.TOGGLE_ROUTER, currentRouter: ROUTER[SIDE_MENU.MYDIARY].DEFAULT, previousRouter: state.currentRouter});
+    })
+    .catch( err => {
+      dispatch({ type: ACTIONS.REPORT_ERROR, error: err?.error });
+      if( err?.error === SERVER.AUTH_MISSING ) {
+        dispatch({ type: ACTIONS.LOG_OUT });
+      }
+    });
+  }
+
+  function onSubmitDiary({details, labelKey, isPasserby}) {
+    dispatch({ type: ACTIONS.START_LOADING_DATA });
+    fetchAddDiary({details, labelKey, isPasserby})
+    .then( res => {
+      dispatch({ type: ACTIONS.ADD_DIARY, diary: res });
+      dispatch({ type: ACTIONS.TOGGLE_ROUTER, currentRouter: ROUTER[SIDE_MENU.MYDIARY].DEFAULT, previousRouter: state.currentRouter});
+    })
+    .catch( err => {
+      dispatch({ type: ACTIONS.REPORT_ERROR, error: err?.error });
+      if( err?.error === SERVER.AUTH_MISSING ) {
+        dispatch({ type: ACTIONS.LOG_OUT });
+      }
+    });
+  }
 
   function getPasserbyDiaries() {
     dispatch({ type: ACTIONS.START_LOADING_DATA });
@@ -177,11 +225,13 @@ function App() {
             menu={state.menu}
             previousRouter={state.previousRouter}
             currentRouter={state.currentRouter}
-
             onSetMenu={onSetMenu}
             onLogout={onLogout}
             onSetRouter={onSetRouter}
             onSetCurrentLabel={onSetCurrentLabel}
+            onSubmitDiary={onSubmitDiary}
+            onDeleteDiary={onDeleteDiary}
+            onUpdateDiary={onUpdateDiary}
           />
       }
     </div>

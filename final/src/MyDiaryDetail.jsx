@@ -3,6 +3,8 @@ function MyDiaryDetail({
     diary,
     previousRouter,
     onSetRouter,
+    onDeleteDiary,
+    onUpdateDiary,
 }) {
 
     function formatDate(dateString) {
@@ -15,6 +17,8 @@ function MyDiaryDetail({
         }
         return new Date(dateString).toLocaleDateString('en-US', options)
     }
+
+    //onUpdateDiary({ details: diary.details, labelKey: diary.label.key, isPasserby: diary.isPasserby })
 
     return (
         <div className='mydiaries-details'>
@@ -45,15 +49,15 @@ function MyDiaryDetail({
                     className='to-delete'
                     onClick={ (e) => {
                         e.preventDefault();
+                        onDeleteDiary(diary.id);
                     }}
                 >
                     <i className="gg-trash"></i>
                     <span className='to-delete-title'>Delete</span>
                 </button>
             </div>
-            
             <div className="mydiaries-details-info">
-                <span className={`mydiaries-details-label label-item-color ${diary.label.color}`} ></span>
+                <span className={`mydiaries-details-label label-item-color ${diary.label.color}`} >{diary.label.key}</span>
                 <span className="mydiaries-details-date">{formatDate(diary.date)}</span>
             </div>
             <div className='mydiaries-details-content'>{diary.details}</div>

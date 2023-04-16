@@ -14,6 +14,9 @@ function Dashboard({
   menu,
   previousRouter,
   currentRouter,
+  onSubmitDiary,
+  onDeleteDiary,
+  onUpdateDiary,
   onSetMenu, 
   onSetRouter,
   onSetCurrentLabel,
@@ -48,6 +51,9 @@ function Dashboard({
         onSetRouter={onSetRouter}
         passerbyDiaries={passerbyDiaries} 
         diaries={diaries}
+        onSubmitDiary={onSubmitDiary}
+        onDeleteDiary={onDeleteDiary}
+        onUpdateDiary={onUpdateDiary}
       />
     </main>
   );

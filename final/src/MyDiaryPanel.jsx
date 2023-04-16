@@ -3,9 +3,14 @@ import {
     SIDE_MENU,
     ROUTER,
 } from './constants';
+import MyDiaryAdd from './MyDiaryAdd';
 import MyDiaryDetail from './MyDiaryDetail';
 import MyDiaryList from './MyDiaryList';
 function MyDiaryPanel({
+    labels,
+    onSubmitDiary,
+    onDeleteDiary,
+    onUpdateDiary,
     diaries,
     previousRouter,
     currentRouter,
@@ -24,12 +29,21 @@ function MyDiaryPanel({
                     previousRouter={previousRouter}
                     currentRouter={currentRouter}
                     onSetRouter={onSetRouter}
+                    onDeleteDiary={onDeleteDiary}
+                    onUpdateDiary={onUpdateDiary}
                 />
             }
             {currentRouter === ROUTER[SIDE_MENU.MYDIARY].DEFAULT &&  <MyDiaryList 
                     diaries={diaries}
                     onSetRouter={onSetRouter}
                     onSetDiary={onSetDiary}
+                />
+            }
+            {currentRouter === ROUTER[SIDE_MENU.MYDIARY].ADD &&  <MyDiaryAdd 
+                    labels={labels}
+                    previousRouter={previousRouter}
+                    onSetRouter={onSetRouter}
+                    onSubmitDiary={onSubmitDiary}
                 />
             }
         </div>

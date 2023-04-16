@@ -69,13 +69,13 @@ export function fetchUpdateUserAvatar(avatar) {
 }
 
 // Add a new diary
-export function fetchAddDiary(form) {
+export function fetchAddDiary({details, labelKey, isPasserby}) {
   return fetch('/api/v1/diaries', {
     method: 'POST',
     headers: new Headers({
       'content-type': 'application/json',
     }),
-    body: JSON.stringify({form}),
+    body: JSON.stringify({details, labelKey, isPasserby}),
   })
   .catch( () => Promise.reject({ error: 'networkError' }) )
   .then( response => {
@@ -89,13 +89,13 @@ export function fetchAddDiary(form) {
 }
 
 // Update user's diary
-export function fetchUpdateDiary({id, form}) {
+export function fetchUpdateDiary({id, details, labelKey, isPasserby}) {
   return fetch(`/api/v1/diaries/${id}`, {
     method: 'PATCH',
     headers: new Headers({
       'content-type': 'application/json',
     }),
-    body: JSON.stringify({form}),
+    body: JSON.stringify({details, labelKey, isPasserby}),
   })
   .catch( () => Promise.reject({ error: 'networkError' }) )
   .then( response => {

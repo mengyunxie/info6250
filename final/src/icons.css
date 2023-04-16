@@ -1,4 +1,4 @@
-/* CSS files linked from https://css.gg/ for spinners */
+/* CSS files linked from https://css.gg/ for ICONS */
 
 /* Add */
 .gg-add {
@@ -32,6 +32,66 @@
     top: 4px;
     left: 8px;
 }
+
+
+/* Close */
+.gg-close {
+    box-sizing: border-box;
+    position: relative;
+    display: block;
+    transform: scale(var(--ggs,1));
+    width: 22px;
+    height: 22px;
+    border: 2px solid transparent;
+    border-radius: 40px
+   }
+   
+   .gg-close::after,
+   .gg-close::before {
+    content: "";
+    display: block;
+    box-sizing: border-box;
+    position: absolute;
+    width: 16px;
+    height: 2px;
+    background: currentColor;
+    transform: rotate(45deg);
+    border-radius: 5px;
+    top: 8px;
+    left: 1px
+   }
+   
+   .gg-close::after {
+    transform: rotate(-45deg)
+   }
+
+
+/* Check */
+   .gg-check {
+    box-sizing: border-box;
+    position: relative;
+    display: block;
+    transform: scale(var(--ggs,1));
+    width: 22px;
+    height: 22px;
+    border: 2px solid transparent;
+    border-radius: 100px
+   }
+   
+   .gg-check::after {
+    content: "";
+    display: block;
+    box-sizing: border-box;
+    position: absolute;
+    left: 3px;
+    top: -1px;
+    width: 6px;
+    height: 10px;
+    border-width: 0 2px 2px 0;
+    border-style: solid;
+    transform-origin: bottom left;
+    transform: rotate(45deg)
+   } 
  
 /* Trash */
 .gg-trash {
@@ -294,3 +354,39 @@ no-repeat bottom center/2px 8px;
     left: -11px;
     top: -2px;
    } 
+
+   
+/* Spinner */
+@keyframes spinner-two {
+    0% {transform: rotate(0deg)}
+    to {transform: rotate(359deg)}
+  }
+  .gg-spinner-two {
+    transform: scale(var(--ggs,1));
+    box-sizing: border-box;
+    position: relative;
+    display: block;
+    width: 3rem;
+    height: 3rem;
+  }
+ 
+  .gg-spinner-two::after,
+  .gg-spinner-two::before {
+    box-sizing: border-box;
+    display: block;
+    width: 3rem;
+    height: 3rem;
+    content: "";
+    position: absolute;
+    border-radius: 10rem;
+  }
+  .gg-spinner-two::before {
+    animation: spinner-two 1s cubic-bezier(.6,0,.4,1) infinite;
+    border: 0.4rem solid transparent;
+    border-bottom-color: currentColor;
+    border-top-color: currentColor;
+  }
+  .gg-spinner-two::after {
+    border: 0.4rem solid;
+    opacity: .2;
+  }
