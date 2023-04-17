@@ -5,10 +5,10 @@ import SettingNavigation from './SettingNavigation';
 
 function NavigationControls({
     menu,
-    currentRouter,
+    currentNavigation,
     labels, 
     onLogout, 
-    onSetRouter, 
+    onSetNavigation, 
     onGetDiariesByLabel,
     onGetMyPasserbyDiaries,
     onGetPasserbyDiaries,
@@ -17,18 +17,18 @@ function NavigationControls({
     return (
         <div className="navigation-controls">
             {menu === SIDE_MENU.PASSERBY && <PasserbyNavigation 
-                    onSetRouter={onSetRouter}
+                    onSetNavigation={onSetNavigation}
                     onGetMyPasserbyDiaries={onGetMyPasserbyDiaries}
                     onGetPasserbyDiaries={onGetPasserbyDiaries}
                 />
             }
             {menu === SIDE_MENU.MYDIARY && <MyDiaryNavigation 
                 labels={labels}
-                currentRouter={currentRouter}
-                onSetRouter={onSetRouter}
+                currentNavigation={currentNavigation}
+                onSetNavigation={onSetNavigation}
                 onGetDiariesByLabel={onGetDiariesByLabel}
             />}
-            {menu === SIDE_MENU.SETTING && <SettingNavigation onSetRouter={onSetRouter} />}
+            {menu === SIDE_MENU.SETTING && <SettingNavigation onSetNavigation={onSetNavigation} />}
             <button 
                 type="button" 
                 className="logout-to-submit" 

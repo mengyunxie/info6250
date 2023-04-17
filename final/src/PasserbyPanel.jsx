@@ -1,15 +1,15 @@
 import {
     SIDE_MENU,
-    ROUTER,
+    NAVIGATION,
 } from './constants';
 import PasserbyDetail from './PasserbyDetail';
 import PasserbyList from './PasserbyList';
 
 function PasserbyPanel({
     passerbyDiaries,
-    previousRouter,
-    currentRouter,
-    onSetRouter,
+    previousNavigation,
+    currentNavigation,
+    onSetNavigation,
     currentDiary,
     onSetCurrentDiary,
     onGetMyPasserbyDiaries,
@@ -18,18 +18,18 @@ function PasserbyPanel({
 
     return (
         <div className='passerby-panel'>
-            {currentRouter === ROUTER[SIDE_MENU.PASSERBY].DETAIL &&  <PasserbyDetail 
-                    previousRouter={previousRouter}
-                    currentRouter={currentRouter}
+            {currentNavigation === NAVIGATION[SIDE_MENU.PASSERBY].DETAIL &&  <PasserbyDetail 
+                    previousNavigation={previousNavigation}
+                    currentNavigation={currentNavigation}
                     currentDiary={currentDiary}
-                    onSetRouter={onSetRouter}
+                    onSetNavigation={onSetNavigation}
                     onGetMyPasserbyDiaries={onGetMyPasserbyDiaries}
                     onGetPasserbyDiaries={onGetPasserbyDiaries}
                 />
             }
-            {currentRouter !== ROUTER[SIDE_MENU.PASSERBY].DETAIL &&  <PasserbyList 
+            {currentNavigation !== NAVIGATION[SIDE_MENU.PASSERBY].DETAIL &&  <PasserbyList 
                     passerbyDiaries={passerbyDiaries}
-                    onSetRouter={onSetRouter}
+                    onSetNavigation={onSetNavigation}
                     onSetCurrentDiary={onSetCurrentDiary}
                 />
             }

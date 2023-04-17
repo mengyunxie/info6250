@@ -5,8 +5,8 @@ import { DEFAULT_LABEL_KEY } from './constants';
 function MyDiaryAdd({
     labels,
     onSubmitDiary,
-    previousRouter,
-    onSetRouter,
+    previousNavigation,
+    onSetNavigation,
     onGetDiariesByLabel,
 }) {
     const [diary, setDiary] = useState({
@@ -31,7 +31,7 @@ function MyDiaryAdd({
                     className='to-cancel'
                     onClick={ (e) => {
                         e.preventDefault();
-                        onSetRouter({currentRouter: previousRouter});
+                        onSetNavigation({currentNavigation: previousNavigation});
                         onGetDiariesByLabel(DEFAULT_LABEL_KEY);
                     }}
                 >

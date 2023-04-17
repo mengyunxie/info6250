@@ -5,7 +5,7 @@ import './icons.css';
 import reducer, { initialState } from './reducer';
 import {
   SIDE_MENU,
-  ROUTER,
+  NAVIGATION,
   ACTIONS,
   LOGIN_STATUS,
   CLIENT,
@@ -67,11 +67,11 @@ function App() {
 
   function onSetMenu(menu) {
     dispatch({ type: ACTIONS.TOGGLE_MENU, menu });
-    dispatch({ type: ACTIONS.TOGGLE_ROUTER, currentRouter: ROUTER[menu].DEFAULT, previousRouter: state.currentRouter});
+    dispatch({ type: ACTIONS.TOGGLE_NAVIGATION, currentNavigation: NAVIGATION[menu].DEFAULT, previousNavigation: state.currentNavigation});
   }
 
-  function onSetRouter({currentRouter}) {
-    dispatch({ type: ACTIONS.TOGGLE_ROUTER, currentRouter, previousRouter: state.currentRouter});
+  function onSetNavigation({currentNavigation}) {
+    dispatch({ type: ACTIONS.TOGGLE_NAVIGATION, currentNavigation, previousNavigation: state.currentNavigation});
   }
 
   function onSetCurrentDiary(diary) {
@@ -83,7 +83,7 @@ function App() {
     fetchDeleteDiary(id)
     .then( res => {
       dispatch({ type: ACTIONS.DELETE_DIARY, id});
-      dispatch({ type: ACTIONS.TOGGLE_ROUTER, currentRouter: ROUTER[SIDE_MENU.MYDIARY].DEFAULT, previousRouter: state.currentRouter});
+      dispatch({ type: ACTIONS.TOGGLE_NAVIGATION, currentNavigation: NAVIGATION[SIDE_MENU.MYDIARY].DEFAULT, previousNavigation: state.currentNavigation});
     })
     .catch( err => {
       dispatch({ type: ACTIONS.REPORT_ERROR, error: err?.error });
@@ -98,7 +98,7 @@ function App() {
     fetchUpdateDiary({id, details, labelKey, isPasserby})
     .then( res => {
       dispatch({ type: ACTIONS.UPDATE_DIARY, diary: res });
-      dispatch({ type: ACTIONS.TOGGLE_ROUTER, currentRouter: ROUTER[SIDE_MENU.MYDIARY].DETAIL, previousRouter: ROUTER[SIDE_MENU.MYDIARY].DEFAULT});
+      dispatch({ type: ACTIONS.TOGGLE_NAVIGATION, currentNavigation: NAVIGATION[SIDE_MENU.MYDIARY].DETAIL, previousNavigation: NAVIGATION[SIDE_MENU.MYDIARY].DEFAULT});
     })
     .catch( err => {
       dispatch({ type: ACTIONS.REPORT_ERROR, error: err?.error });
@@ -113,7 +113,7 @@ function App() {
     fetchAddDiary({details, labelKey, isPasserby})
     .then( res => {
       dispatch({ type: ACTIONS.ADD_DIARY, diary: res });
-      dispatch({ type: ACTIONS.TOGGLE_ROUTER, currentRouter: ROUTER[SIDE_MENU.MYDIARY].DETAIL, previousRouter: ROUTER[SIDE_MENU.MYDIARY].DEFAULT});
+      dispatch({ type: ACTIONS.TOGGLE_NAVIGATION, currentNavigation: NAVIGATION[SIDE_MENU.MYDIARY].DETAIL, previousNavigation: NAVIGATION[SIDE_MENU.MYDIARY].DEFAULT});
     })
     .catch( err => {
       dispatch({ type: ACTIONS.REPORT_ERROR, error: err?.error });
@@ -229,14 +229,14 @@ function App() {
             diaries={state.diaries}
             menu={state.menu}
             error={state.error}
-            previousRouter={state.previousRouter}
-            currentRouter={state.currentRouter}
+            previousNavigation={state.previousNavigation}
+            currentNavigation={state.currentNavigation}
             isDashBoardPending={state.isDashBoardPending}
             currentDiary={state.currentDiary}
             onSetCurrentDiary={onSetCurrentDiary}
             onSetMenu={onSetMenu}
             onLogout={onLogout}
-            onSetRouter={onSetRouter}
+            onSetNavigation={onSetNavigation}
             onSubmitDiary={onSubmitDiary}
             onDeleteDiary={onDeleteDiary}
             onUpdateDiary={onUpdateDiary}

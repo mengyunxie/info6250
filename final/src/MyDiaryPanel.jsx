@@ -1,6 +1,6 @@
 import {
     SIDE_MENU,
-    ROUTER,
+    NAVIGATION,
 } from './constants';
 import MyDiaryAdd from './MyDiaryAdd';
 import MyDiaryDetail from './MyDiaryDetail';
@@ -13,45 +13,44 @@ function MyDiaryPanel({
     onDeleteDiary,
     onUpdateDiary,
     diaries,
-    previousRouter,
-    currentRouter,
+    previousNavigation,
+    currentNavigation,
     currentDiary,
     onSetCurrentDiary,
-    onSetRouter,
+    onSetNavigation,
     onGetDiariesByLabel,
 }) {
 
     return (
         <div className='mydiary-panel'>
-            {currentRouter === ROUTER[SIDE_MENU.MYDIARY].DETAIL &&  <MyDiaryDetail 
+            {currentNavigation === NAVIGATION[SIDE_MENU.MYDIARY].DETAIL &&  <MyDiaryDetail 
                     labels={labels}
                     currentDiary={currentDiary}
-                    previousRouter={previousRouter}
-                    currentRouter={currentRouter}
-                    onSetRouter={onSetRouter}
+                    previousNavigation={previousNavigation}
+                    onSetNavigation={onSetNavigation}
                     onDeleteDiary={onDeleteDiary}
                     onUpdateDiary={onUpdateDiary}
                     onGetDiariesByLabel={onGetDiariesByLabel}
                 />
             }
-            {currentRouter === ROUTER[SIDE_MENU.MYDIARY].EDIT &&  <MyDiaryEdit 
+            {currentNavigation === NAVIGATION[SIDE_MENU.MYDIARY].EDIT &&  <MyDiaryEdit 
                     labels={labels}
                     currentDiary={currentDiary}
-                    previousRouter={previousRouter}
-                    onSetRouter={onSetRouter}
+                    previousNavigation={previousNavigation}
+                    onSetNavigation={onSetNavigation}
                     onUpdateDiary={onUpdateDiary}
                 />
             }
-            {currentRouter === ROUTER[SIDE_MENU.MYDIARY].DEFAULT &&  <MyDiaryList 
+            {currentNavigation === NAVIGATION[SIDE_MENU.MYDIARY].DEFAULT &&  <MyDiaryList 
                     diaries={diaries}
-                    onSetRouter={onSetRouter}
+                    onSetNavigation={onSetNavigation}
                     onSetCurrentDiary={onSetCurrentDiary}
                 />
             }
-            {currentRouter === ROUTER[SIDE_MENU.MYDIARY].ADD &&  <MyDiaryAdd 
+            {currentNavigation === NAVIGATION[SIDE_MENU.MYDIARY].ADD &&  <MyDiaryAdd 
                     labels={labels}
-                    previousRouter={previousRouter}
-                    onSetRouter={onSetRouter}
+                    previousNavigation={previousNavigation}
+                    onSetNavigation={onSetNavigation}
                     onSubmitDiary={onSubmitDiary}
                     onSetCurrentDiary={onSetCurrentDiary}
                     onGetDiariesByLabel={onGetDiariesByLabel}

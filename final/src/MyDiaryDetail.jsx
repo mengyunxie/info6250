@@ -1,12 +1,12 @@
 import { 
     DEFAULT_LABEL_KEY, 
     SIDE_MENU,
-    ROUTER,
+    NAVIGATION,
     formatDate,
 } from './constants';
 function MyDiaryDetail({
-currentDiary,
-    onSetRouter,
+    currentDiary,
+    onSetNavigation,
     onDeleteDiary,
     onGetDiariesByLabel,
 }) {
@@ -18,7 +18,7 @@ currentDiary,
                     className='go-back'
                     onClick={ (e) => {
                         e.preventDefault();
-                        onSetRouter({currentRouter: ROUTER[SIDE_MENU.MYDIARY].DEFAULT});
+                        onSetNavigation({currentNavigation: NAVIGATION[SIDE_MENU.MYDIARY].DEFAULT});
                         onGetDiariesByLabel(DEFAULT_LABEL_KEY);
                     }}
                 >
@@ -34,19 +34,17 @@ currentDiary,
                         onGetDiariesByLabel(DEFAULT_LABEL_KEY);
                     }}
                 >
-                    <i className="gg-trash"></i>
-                    <span className='to-delete-title'>Delete</span>
+                    Delete
                 </button>
                 <button 
                     type="button"
                     className='to-edit'
                     onClick={ (e) => {
                         e.preventDefault();
-                        onSetRouter({currentRouter: ROUTER[SIDE_MENU.MYDIARY].EDIT});
+                        onSetNavigation({currentNavigation: NAVIGATION[SIDE_MENU.MYDIARY].EDIT});
                     }}
                 >
-                    <i className="gg-pen"></i>
-                    <span className='to-edit-title'>Edit</span>
+                    Edit
                 </button>
             </div>
             <div className="mydiaries-details-info">

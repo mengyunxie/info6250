@@ -41,13 +41,19 @@ app.post('/api/v1/session', (req, res) => {
     res.status(403).json({ error: 'auth-insufficient' });
     return;
   }
-  const defaultAvatar = avatars.getDefaultAvatar();
-  const avatarList = avatars.getAvatars();
-  const labelList = labels.getLabels();
-  const user = users.createUser({username, defaultAvatar, avatars: avatarList, labels: labelList});
+
+  const existingUserData = users.getUser(username);
+
+  if(!existingUserData) {
+    const defaultAvatar = avatars.getDefaultAvatar();
+    const avatarList = avatars.getAvatars();
+    const labelList = labels.getLabels();
+    users.createUser({username, defaultAvatar, avatars: avatarList, labels: labelList});
+  }
+
   const sid = sessions.addSession(username);
   res.cookie('sid', sid);
-  res.json(user);
+  res.json(users.getUser(username));
 });
 
 // Update user's avatar

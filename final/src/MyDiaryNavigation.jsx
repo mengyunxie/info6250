@@ -1,18 +1,18 @@
 import {
     SIDE_MENU,
-    ROUTER,
+    NAVIGATION,
     DEFAULT_LABEL_KEY,
 } from './constants';
 
 function MyDiaryNavigation({
     labels,
-    currentRouter,
-    onSetRouter,
+    currentNavigation,
+    onSetNavigation,
     onGetDiariesByLabel,
 }) {
     return (
         <div className="navigation-contents">
-            {currentRouter === ROUTER[SIDE_MENU.MYDIARY].DEFAULT &&
+            {currentNavigation === NAVIGATION[SIDE_MENU.MYDIARY].DEFAULT &&
                 <>
                     <label className="navigation-select-label">
                         <select 
@@ -40,7 +40,7 @@ function MyDiaryNavigation({
                         className="add-diary"
                         onClick={ (e) => {
                             e.preventDefault();
-                            onSetRouter({currentRouter: ROUTER[SIDE_MENU.MYDIARY].ADD});
+                            onSetNavigation({currentNavigation: NAVIGATION[SIDE_MENU.MYDIARY].ADD});
                         }}
                     >
                         <i className="gg-add"></i>

@@ -4,7 +4,7 @@ import {
   ACTIONS,
   AVATARS_KEY,
   SIDE_MENU,
-  ROUTER,
+  NAVIGATION,
 } from './constants';
 
 export const initialState = {
@@ -14,8 +14,8 @@ export const initialState = {
   loginStatus: LOGIN_STATUS.PENDING,
   isDashBoardPending: false,
   menu: SIDE_MENU.PASSERBY,
-  currentRouter: ROUTER[SIDE_MENU.PASSERBY].DEFAULT,
-  previousRouter: ROUTER[SIDE_MENU.PASSERBY].DEFAULT,
+  currentNavigation: NAVIGATION[SIDE_MENU.PASSERBY].DEFAULT,
+  previousNavigation: NAVIGATION[SIDE_MENU.PASSERBY].DEFAULT,
   passerbyDiaries: [],
   diaries: [],
   currentDiary: {},
@@ -51,8 +51,8 @@ function reducer(state, action) {
         loginStatus: LOGIN_STATUS.NOT_LOGGED_IN,
         isDashBoardPending: false,
         menu: SIDE_MENU.PASSERBY,
-        currentRouter: ROUTER[SIDE_MENU.PASSERBY].DEFAULT,
-        previousRouter: ROUTER[SIDE_MENU.PASSERBY].DEFAULT,
+        currentNavigation: NAVIGATION[SIDE_MENU.PASSERBY].DEFAULT,
+        previousNavigation: NAVIGATION[SIDE_MENU.PASSERBY].DEFAULT,
         currentDiary: {},
         diaries: [],
         passerbyDiaries: [],
@@ -95,11 +95,11 @@ function reducer(state, action) {
         error: '',
       };
 
-    case ACTIONS.TOGGLE_ROUTER:
+    case ACTIONS.TOGGLE_NAVIGATION:
       return {
         ...state,
-        currentRouter: action.currentRouter,
-        previousRouter: action.previousRouter,
+        currentNavigation: action.currentNavigation,
+        previousNavigation: action.previousNavigation,
         error: '',
       };
 

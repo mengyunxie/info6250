@@ -2,11 +2,11 @@
 import PasserbyItem from './PasserbyItem';
 function PasserbyList({
     passerbyDiaries,
-    onSetRouter,
+    onSetNavigation,
     onSetCurrentDiary,
 }) {   
 
-    if(passerbyDiaries.length == 0) {
+    if(passerbyDiaries.length === 0) {
         return (
             <div className='no-data'>
                 <i className="gg-danger"></i>
@@ -16,12 +16,12 @@ function PasserbyList({
     }
     
     return (
-        <div className='passerby-panel'>
+        <div className='passerby-list'>
              { passerbyDiaries.map( diary => (
                 <PasserbyItem 
                     diary={diary} 
                     key={diary.id}
-                    onSetRouter={onSetRouter}
+                    onSetNavigation={onSetNavigation}
                     onSetCurrentDiary={onSetCurrentDiary}
                 />
              ))} 

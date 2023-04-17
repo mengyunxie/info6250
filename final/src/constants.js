@@ -4,7 +4,7 @@ export const SIDE_MENU = {
   SETTING: 'Setting',
 };
 
-export const ROUTER = {
+export const NAVIGATION = {
   [SIDE_MENU.PASSERBY]: {
     DEFAULT: 'Passerby Diaries',
     MINE: 'My Passerby Diaries',
@@ -54,7 +54,7 @@ export const ACTIONS = {
   REPORT_ERROR: 'reportError',
   CLEAR_ERROR: 'clearError',
   TOGGLE_MENU: 'toggleMenu',
-  TOGGLE_ROUTER: 'toggleRouter',
+  TOGGLE_NAVIGATION: 'toggleNavigation',
   GET_DIARY: 'getDiary',
   GET_DIARIES: 'getDiaries',
   GET_PASSERBYDIARIES: 'getPasserbyDiaries',

@@ -1,36 +1,36 @@
 import { useState } from 'react';
-import { SIDE_MENU, ROUTER } from './constants';
+import { SIDE_MENU, NAVIGATION } from './constants';
 
 function PasserbyNavigation({
-    onSetRouter, 
+    onSetNavigation, 
     onGetMyPasserbyDiaries,
     onGetPasserbyDiaries,
 }) {
-    const [currentRouter, setRouter] = useState(ROUTER[SIDE_MENU.PASSERBY].DEFAULT);
+    const [navigation, setNavigation] = useState(NAVIGATION[SIDE_MENU.PASSERBY].DEFAULT);
 
     return (
         <ul className="navigation-contents">
             <li 
-                className={`navigation-item ${currentRouter === ROUTER[SIDE_MENU.PASSERBY].DEFAULT ? "focus" : ""}`}
+                className={`navigation-item ${navigation === NAVIGATION[SIDE_MENU.PASSERBY].DEFAULT ? "focus" : ""}`}
                 onClick={ (e) => {
                     e.preventDefault();
-                    setRouter(ROUTER[SIDE_MENU.PASSERBY].DEFAULT);
-                    onSetRouter({currentRouter: ROUTER[SIDE_MENU.PASSERBY].DEFAULT});
+                    setNavigation(NAVIGATION[SIDE_MENU.PASSERBY].DEFAULT);
+                    onSetNavigation({currentNavigation: NAVIGATION[SIDE_MENU.PASSERBY].DEFAULT});
                     onGetPasserbyDiaries();
                 }}
             >
-                <span>{ROUTER[SIDE_MENU.PASSERBY].DEFAULT}</span>
+                <span>{NAVIGATION[SIDE_MENU.PASSERBY].DEFAULT}</span>
             </li>
             <li 
-                className={`navigation-item ${currentRouter === ROUTER[SIDE_MENU.PASSERBY].MINE ? "focus" : ""}`}
+                className={`navigation-item ${navigation === NAVIGATION[SIDE_MENU.PASSERBY].MINE ? "focus" : ""}`}
                 onClick={ (e) => {
                     e.preventDefault();
-                    setRouter(ROUTER[SIDE_MENU.PASSERBY].MINE);
-                    onSetRouter({currentRouter: ROUTER[SIDE_MENU.PASSERBY].MINE});
+                    setNavigation(NAVIGATION[SIDE_MENU.PASSERBY].MINE);
+                    onSetNavigation({currentNavigation: NAVIGATION[SIDE_MENU.PASSERBY].MINE});
                     onGetMyPasserbyDiaries();
                 }}
             >
-                <span>{ROUTER[SIDE_MENU.PASSERBY].MINE}</span>
+                <span>{NAVIGATION[SIDE_MENU.PASSERBY].MINE}</span>
             </li>
         </ul>
     );

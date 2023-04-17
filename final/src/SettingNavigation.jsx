@@ -1,30 +1,30 @@
 import { useState } from 'react';
-import { SIDE_MENU, ROUTER } from './constants';
+import { SIDE_MENU, NAVIGATION } from './constants';
 
-function SettingNavigation({onSetRouter}) {
-    const [router, setRouter] = useState(ROUTER[SIDE_MENU.SETTING].DEFAULT);
+function SettingNavigation({onSetNavigation}) {
+    const [navigation, setNavigation] = useState(NAVIGATION[SIDE_MENU.SETTING].DEFAULT);
     
     return (
         <ul className="navigation-contents">
             <li 
-                className={`navigation-item ${router === ROUTER[SIDE_MENU.SETTING].DEFAULT ? "focus" : ""}`}
+                className={`navigation-item ${navigation === NAVIGATION[SIDE_MENU.SETTING].DEFAULT ? "focus" : ""}`}
                 onClick={ (e) => {
                     e.preventDefault();
-                    setRouter(ROUTER[SIDE_MENU.SETTING].DEFAULT);
-                    onSetRouter({currentRouter: ROUTER[SIDE_MENU.SETTING].DEFAULT});
+                    setNavigation(NAVIGATION[SIDE_MENU.SETTING].DEFAULT);
+                    onSetNavigation({currentNavigation: NAVIGATION[SIDE_MENU.SETTING].DEFAULT});
                 }}
             >
-                <span>{ROUTER[SIDE_MENU.SETTING].DEFAULT}</span>
+                <span>{NAVIGATION[SIDE_MENU.SETTING].DEFAULT}</span>
             </li>
             <li 
-                className={`navigation-item ${router === ROUTER[SIDE_MENU.SETTING].ABOUT ? "focus" : ""}`}
+                className={`navigation-item ${navigation === NAVIGATION[SIDE_MENU.SETTING].ABOUT ? "focus" : ""}`}
                 onClick={ (e) => {
                     e.preventDefault();
-                    setRouter(ROUTER[SIDE_MENU.SETTING].ABOUT);
-                    onSetRouter({currentRouter: ROUTER[SIDE_MENU.SETTING].ABOUT});
+                    setNavigation(NAVIGATION[SIDE_MENU.SETTING].ABOUT);
+                    onSetNavigation({currentNavigation: NAVIGATION[SIDE_MENU.SETTING].ABOUT});
                 }}
             >
-                <span>{ROUTER[SIDE_MENU.SETTING].ABOUT}</span>
+                <span>{NAVIGATION[SIDE_MENU.SETTING].ABOUT}</span>
             </li>
         </ul>
     );

@@ -1,15 +1,15 @@
 import {
     SIDE_MENU,
-    ROUTER,
+    NAVIGATION,
 } from './constants';
 
 import Profile from './Profile';
 import About from './About';
 
-function SettingPanel({username, avatar, avatars, currentRouter, onUpdateAvatar, onClearStatus}) {
+function SettingPanel({username, avatar, avatars, currentNavigation, onUpdateAvatar, onClearStatus}) {
     return (
         <div className='setting-panel'>
-            {currentRouter === ROUTER[SIDE_MENU.SETTING].DEFAULT && <Profile
+            {currentNavigation === NAVIGATION[SIDE_MENU.SETTING].DEFAULT && <Profile
                     username={username}
                     avatar={avatar}
                     avatars={avatars}
@@ -17,7 +17,7 @@ function SettingPanel({username, avatar, avatars, currentRouter, onUpdateAvatar,
                     onClearStatus={onClearStatus}
                 />
             }
-            {currentRouter === ROUTER[SIDE_MENU.SETTING].ABOUT && <About />}
+            {currentNavigation === NAVIGATION[SIDE_MENU.SETTING].ABOUT && <About />}
         </div>
     );
 }

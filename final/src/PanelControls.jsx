@@ -9,9 +9,9 @@ function PanelControls({
     username, 
     avatar, 
     menu,
-    previousRouter,
-    currentRouter,
-    onSetRouter,
+    previousNavigation,
+    currentNavigation,
+    onSetNavigation,
     labels,
     onSubmitDiary, 
     onDeleteDiary,
@@ -39,22 +39,22 @@ function PanelControls({
             { error && <Status  error={error} onClearStatus={onClearStatus} /> }
             {menu === SIDE_MENU.PASSERBY && <PasserbyPanel 
                 passerbyDiaries={passerbyDiaries}
-                previousRouter={previousRouter}
-                currentRouter={currentRouter}
+                previousNavigation={previousNavigation}
+                currentNavigation={currentNavigation}
                 currentDiary={currentDiary}
                 onSetCurrentDiary={onSetCurrentDiary}
-                onSetRouter={onSetRouter}
+                onSetNavigation={onSetNavigation}
                 onGetMyPasserbyDiaries={onGetMyPasserbyDiaries}
                 onGetPasserbyDiaries={onGetPasserbyDiaries}
             />}
             {menu === SIDE_MENU.MYDIARY && <MyDiaryPanel 
                 diaries={diaries}
                 labels={labels}
-                previousRouter={previousRouter}
-                currentRouter={currentRouter}
+                previousNavigation={previousNavigation}
+                currentNavigation={currentNavigation}
                 currentDiary={currentDiary}
                 onSetCurrentDiary={onSetCurrentDiary}
-                onSetRouter={onSetRouter}
+                onSetNavigation={onSetNavigation}
                 onSubmitDiary={onSubmitDiary}
                 onDeleteDiary={onDeleteDiary}
                 onUpdateDiary={onUpdateDiary}
@@ -65,9 +65,9 @@ function PanelControls({
                 avatar={avatar} 
                 labels={labels} 
                 avatars={avatars}
-                previousRouter={previousRouter}
-                currentRouter={currentRouter}
-                onSetRouter={onSetRouter}
+                previousNavigation={previousNavigation}
+                currentNavigation={currentNavigation}
+                onSetNavigation={onSetNavigation}
                 onUpdateAvatar={onUpdateAvatar}
                 onClearStatus={onClearStatus}
             />}

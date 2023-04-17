@@ -1,10 +1,10 @@
 import MyDiaryItem from './MyDiaryItem';
 function MyDiaryList({
     diaries,
-    onSetRouter,
+    onSetNavigation,
     onSetCurrentDiary,
 }) {
-    if(diaries.length == 0) {
+    if(diaries.length === 0) {
         return <div className='no-data'>
                     <i className="gg-danger"></i>
                     <p>No Data</p>
@@ -12,12 +12,12 @@ function MyDiaryList({
     }
 
     return (
-        <div className='mydiary-panel'>
+        <div className='mydiary-list'>
             { diaries.map( diary => (
                 <MyDiaryItem 
                     diary={diary} 
                     key={diary.id}
-                    onSetRouter={onSetRouter}
+                    onSetNavigation={onSetNavigation}
                     onSetCurrentDiary={onSetCurrentDiary}
                 />
             ))} 

@@ -1,10 +1,10 @@
 import {
     SIDE_MENU,
-    ROUTER,
+    NAVIGATION,
     DEFAULT_LABEL_KEY,
     formatDate,
 } from './constants';
-function MyDiaryItem({diary, onSetRouter, onSetCurrentDiary}) {
+function MyDiaryItem({diary, onSetNavigation, onSetCurrentDiary}) {
 
     return (
         <div 
@@ -12,7 +12,7 @@ function MyDiaryItem({diary, onSetRouter, onSetCurrentDiary}) {
             onClick={ (e) => {
                 e.preventDefault();
                 onSetCurrentDiary(diary);
-                onSetRouter({currentRouter: ROUTER[SIDE_MENU.MYDIARY].DETAIL});
+                onSetNavigation({currentNavigation: NAVIGATION[SIDE_MENU.MYDIARY].DETAIL});
             }}
         >
             <p className="diary-item-date">{formatDate(diary.date)}</p>

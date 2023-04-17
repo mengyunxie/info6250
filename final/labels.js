@@ -45,7 +45,7 @@ const labels = {
     [LABEL_KEY.ALL]: {
         key: LABEL_KEY.ALL,
         color: LABEL_COLOR.ROSE,
-        type: LABEL_TYPE.default
+        type: LABEL_TYPE.DEFAULT
     },
     [LABEL_KEY.TRAVEL]: {
         key: LABEL_KEY.TRAVEL,
@@ -74,7 +74,7 @@ const labels = {
     },
     [LABEL_KEY.FINANCIAL]: {
         key: LABEL_KEY.FINANCIAL,
-        color: LABEL_COLOR.frost,
+        color: LABEL_COLOR.FROST,
         type: LABEL_TYPE.CUSTOM
     },
     [LABEL_KEY.MOOD]: {

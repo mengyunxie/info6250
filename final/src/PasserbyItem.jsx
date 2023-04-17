@@ -1,18 +1,18 @@
 import {
     SIDE_MENU,
-    ROUTER,
+    NAVIGATION,
     formatDate,
 } from './constants';
 import Avatar from './Avatar';
 
-function PasserbyItem({diary, onSetRouter, onSetCurrentDiary}) {
+function PasserbyItem({diary, onSetNavigation, onSetCurrentDiary}) {
     return (
         <div 
             className="passerby-item"
             onClick={ (e) => {
                 e.preventDefault();
                 onSetCurrentDiary(diary);
-                onSetRouter({currentRouter: ROUTER[SIDE_MENU.PASSERBY].DETAIL});
+                onSetNavigation({currentNavigation: NAVIGATION[SIDE_MENU.PASSERBY].DETAIL});
             }}
         >
             <Avatar avatar={diary.avatar} username={diary.username} />

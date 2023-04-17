@@ -1,12 +1,12 @@
 import {
     SIDE_MENU,
-    ROUTER,
+    NAVIGATION,
     formatDate,
   } from './constants';
 import Avatar from './Avatar';
 function PasserbyDetail({
-    previousRouter,
-    onSetRouter,
+    previousNavigation,
+    onSetNavigation,
     currentDiary,
     onGetMyPasserbyDiaries,
     onGetPasserbyDiaries,
@@ -19,11 +19,11 @@ function PasserbyDetail({
                     className='go-back'
                     onClick={ (e) => {
                         e.preventDefault();
-                        onSetRouter({currentRouter: previousRouter});
-                        if(previousRouter === ROUTER[SIDE_MENU.PASSERBY].DEFAULT) {
+                        onSetNavigation({currentNavigation: previousNavigation});
+                        if(previousNavigation === NAVIGATION[SIDE_MENU.PASSERBY].DEFAULT) {
                             onGetPasserbyDiaries();
                         }
-                        if(previousRouter === ROUTER[SIDE_MENU.PASSERBY].MINE) {
+                        if(previousNavigation === NAVIGATION[SIDE_MENU.PASSERBY].MINE) {
                             onGetMyPasserbyDiaries();
                         }
                     }}

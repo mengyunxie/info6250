@@ -2,8 +2,8 @@ import { useState } from 'react';
 function MyDiaryEdit({
     labels,
     currentDiary,
-    previousRouter,
-    onSetRouter,
+    previousNavigation,
+    onSetNavigation,
     onUpdateDiary,
 }) {
 
@@ -29,7 +29,7 @@ function MyDiaryEdit({
                     className='to-cancel'
                     onClick={ (e) => {
                         e.preventDefault();
-                        onSetRouter({currentRouter: previousRouter});
+                        onSetNavigation({currentNavigation: previousNavigation});
                     }}
                 >
                     <i className="gg-close"></i>

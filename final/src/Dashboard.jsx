@@ -11,14 +11,14 @@ function Dashboard({
   passerbyDiaries, 
   diaries,
   menu,
-  previousRouter,
-  currentRouter,
+  previousNavigation,
+  currentNavigation,
   onSubmitDiary,
   onDeleteDiary,
   onUpdateDiary,
   onUpdateAvatar,
   onSetMenu, 
-  onSetRouter,
+  onSetNavigation,
   onLogout,
   onClearStatus,
   error,
@@ -43,9 +43,9 @@ function Dashboard({
       <NavigationControls 
         labels={labels}
         menu={menu}
-        currentRouter={currentRouter}
+        currentNavigation={currentNavigation}
         onLogout={onLogout}
-        onSetRouter={onSetRouter}
+        onSetNavigation={onSetNavigation}
         onGetDiariesByLabel={onGetDiariesByLabel}
         onGetMyPasserbyDiaries={onGetMyPasserbyDiaries}
         onGetPasserbyDiaries={onGetPasserbyDiaries}
@@ -57,9 +57,9 @@ function Dashboard({
         avatars={avatars} 
         menu={menu}
         error={error}
-        previousRouter={previousRouter}
-        currentRouter={currentRouter}
-        onSetRouter={onSetRouter}
+        previousNavigation={previousNavigation}
+        currentNavigation={currentNavigation}
+        onSetNavigation={onSetNavigation}
         passerbyDiaries={passerbyDiaries} 
         diaries={diaries}
         isDashBoardPending={isDashBoardPending}

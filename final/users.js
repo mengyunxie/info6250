@@ -8,7 +8,6 @@ function createUser( {username, defaultAvatar, avatars, labels} ) {
     avatars,
     labels,
   };
-  return users[username];
 }
 
 function updateUserAvatar( {username, avatar} ) {
