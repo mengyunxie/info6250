@@ -46,7 +46,6 @@ function reducer(state, action) {
     case ACTIONS.LOG_OUT:
       return {
         ...state,
-        error: '',
         username: '',
         avatar: AVATARS_KEY.DEFAULT,
         loginStatus: LOGIN_STATUS.NOT_LOGGED_IN,
@@ -141,7 +140,7 @@ function reducer(state, action) {
     case ACTIONS.UPDATE_DIARY:
       const updateDiaries = [...state.diaries];
       updateDiaries.forEach( (item, index) => {
-        if(item.id == action.diary.id) {
+        if(item.id === action.diary.id) {
           updateDiaries[index] = action.diary;
         } 
       });
@@ -157,7 +156,7 @@ function reducer(state, action) {
       return {
         ...state,
         isDashBoardPending: false,
-        diaries: deleteDiaries.filter(item => item.id != action.id),
+        diaries: deleteDiaries.filter(item => item.id !== action.id),
         currentDiary: {},
       };
 

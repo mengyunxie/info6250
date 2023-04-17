@@ -52,6 +52,7 @@ function App() {
   };
 
   function onLogout() {
+    dispatch({ type: ACTIONS.CLEAR_ERROR });
     dispatch({ type: ACTIONS.LOG_OUT });
     fetchLogout() // We don't really care about results
     .catch( err => {
@@ -197,6 +198,7 @@ function App() {
     })
     .catch( err => {
       if( err?.error === CLIENT.NO_SESSION ) { // expected "error"
+        dispatch({ type: ACTIONS.CLEAR_ERROR });
         dispatch({ type: ACTIONS.LOG_OUT });
         return;
       }
