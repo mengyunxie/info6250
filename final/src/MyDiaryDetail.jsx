@@ -1,7 +1,8 @@
 import { 
     DEFAULT_LABEL_KEY, 
     SIDE_MENU,
-    ROUTER, 
+    ROUTER,
+    formatDate,
 } from './constants';
 function MyDiaryDetail({
 currentDiary,
@@ -9,17 +10,6 @@ currentDiary,
     onDeleteDiary,
     onGetDiariesByLabel,
 }) {
-    function formatDate(dateString) {
-        const options = { 
-            year: 'numeric',
-            month: 'long',
-            day: 'numeric',
-            hour: 'numeric',
-            minute: 'numeric'
-        }
-        return new Date(dateString).toLocaleDateString('en-US', options)
-    }
-
     return (
         <div className='mydiaries-details'>
             <div className='mydiaries-details-tools'>
@@ -60,7 +50,7 @@ currentDiary,
                 </button>
             </div>
             <div className="mydiaries-details-info">
-                {currentDiary.label.key != DEFAULT_LABEL_KEY && 
+                {currentDiary.label.key !== DEFAULT_LABEL_KEY && 
                     <span className={`mydiaries-details-label label-item-color ${currentDiary.label.color}`} >{currentDiary.label.key}</span>
                 }
                 <span className="mydiaries-details-date">{formatDate(currentDiary.date)}</span>

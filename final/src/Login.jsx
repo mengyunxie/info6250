@@ -22,9 +22,9 @@ function Login({ onLogin, error, onClearStatus }) {
     <main className="login">
       <div className="login-logo">
         <img src={logo} className="login-logo-img" alt="logo"/>
-        <p className="login-logo-title">Passerby</p>
+        <p className="login-logo-title">Passerby Diary</p>
       </div>
-      <p className="login-greeting">Welcome to Passerby!</p>
+      <p className="login-greeting">Welcome to Passerby Diary!</p>
       <div className="login-main">
         <form className="login-form" method="post" onSubmit={handleLogin}>
           <input

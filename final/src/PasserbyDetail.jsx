@@ -1,6 +1,7 @@
 import {
     SIDE_MENU,
     ROUTER,
+    formatDate,
   } from './constants';
 import Avatar from './Avatar';
 function PasserbyDetail({
@@ -10,18 +11,6 @@ function PasserbyDetail({
     onGetMyPasserbyDiaries,
     onGetPasserbyDiaries,
 }) {
-
-    function formatDate(dateString) {
-        const options = { 
-            year: 'numeric',
-            month: 'long',
-            day: 'numeric',
-            hour: 'numeric',
-            minute: 'numeric'
-        }
-        return new Date(dateString).toLocaleDateString('en-US', options)
-    }
-
     return (
         <div className='passerby-details'>
             <div className='passerby-details-tools'>

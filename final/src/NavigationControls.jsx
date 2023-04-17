@@ -28,7 +28,7 @@ function NavigationControls({
                 onSetRouter={onSetRouter}
                 onGetDiariesByLabel={onGetDiariesByLabel}
             />}
-            {menu === SIDE_MENU.SETTING && <SettingNavigation />}
+            {menu === SIDE_MENU.SETTING && <SettingNavigation onSetRouter={onSetRouter} />}
             <button 
                 type="button" 
                 className="logout-to-submit" 

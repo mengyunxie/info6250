@@ -127,7 +127,6 @@ function App() {
     fetchUpdateUserAvatar(avatar)
     .then( res => {
       dispatch({ type: ACTIONS.UPDATE_AVATAR, avatar: res.avatar });
-      // if fail, what to do?
     })
     .catch( err => {
       dispatch({ type: ACTIONS.REPORT_ERROR, error: err?.error });

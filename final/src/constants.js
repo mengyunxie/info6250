@@ -6,8 +6,8 @@ export const SIDE_MENU = {
 
 export const ROUTER = {
   [SIDE_MENU.PASSERBY]: {
-    DEFAULT: 'PasserbyList',
-    MINE: 'PasserbyMine',
+    DEFAULT: 'Passerby Diaries',
+    MINE: 'My Passerby Diaries',
     DETAIL: 'PasserbyDetail'
   },
   [SIDE_MENU.MYDIARY]: {
@@ -18,12 +18,14 @@ export const ROUTER = {
   },
   [SIDE_MENU.SETTING]: {
     DEFAULT: 'Profile',
-    DETAIL: 'ProfileDetail',
+    ABOUT: 'About',
   },
 };
 
+// Define the default label's key 
 export const DEFAULT_LABEL_KEY = 'all';
 
+// Define keys of avatar for import avatars in avatar component
 export const AVATARS_KEY = {
   DEFAULT: 'Default',
   GIRL: 'Girl',
@@ -42,6 +44,7 @@ export const AVATARS_KEY = {
   BATMAN: 'Batman',
 };
 
+// Define the actions for reducer
 export const ACTIONS = {
   WAIT_LOG_IN: 'waitLogIn',
   LOG_IN: 'logIn',
@@ -72,8 +75,12 @@ export const SERVER = {
   AUTH_INSUFFICIENT: 'auth-insufficient',
   REQUIRED_USERNAME: 'required-username',
   INVALID_USERNAME: 'invalid-username',
-  INVALID_WORD : 'invalid-word',
-  REQUIRED_WORD: 'required-word'
+  INVALID_DIARY_DETAILS : 'invalid-diary-details',
+  REQUIRED_DIARY_DETAILS: 'required-diary-details',
+  INVALID_AVATAR: 'invalid-avatar',
+  NO_SUCH_DIARY_ID: 'noSuchDiaryId',
+  NOT_MATCH_USER: 'notMatchUser',
+  INVALID_LABEL: 'invalid-label',
 };
 
 export const CLIENT = {
@@ -88,7 +95,23 @@ export const MESSAGES = {
   [SERVER.AUTH_INSUFFICIENT]: 'This is a denied user, please try again.',
   [SERVER.REQUIRED_USERNAME]: 'The username can not be empty, please try again.',
   [SERVER.INVALID_USERNAME]: 'Please enter a valid (letters and/or numbers) username',
-  [SERVER.INVALID_WORD]: 'Word must be letters, please try again!',
-  [SERVER.REQUIRED_WORD]: 'Word is required, please try again!',
+  [SERVER.INVALID_DIARY_DETAILS]: 'Diary details cannot be blank and the maximum length is 3000 letters, please try again!',
+  [SERVER.REQUIRED_DIARY_DETAILS]: 'The details of a diary is required, please try again!',
+  [SERVER.INVALID_AVATAR]: 'This is an invalid avatar.',
+  [SERVER.INVALID_LABEL]: 'This is an invalid label.',
+  [SERVER.NO_SUCH_DIARY_ID]: 'This diary is not exist.',
+  [SERVER.NOT_MATCH_USER]: 'The diary does not match the user.',
   default: 'Something went wrong.  Please try again',
 };
+
+// Convert a timestamp to a readable time
+export function formatDate(dateString) {
+  const options = { 
+      year: 'numeric',
+      month: 'long',
+      day: 'numeric',
+      hour: 'numeric',
+      minute: 'numeric'
+  }
+  return new Date(dateString).toLocaleDateString('en-US', options)
+}

@@ -168,7 +168,7 @@ app.delete('/api/v1/diaries/:id', (req, res) => {
   if(exists) {
     diaries.deleteDiary(id);
   }
-  res.json({ message: exists ? `diary ${id} deleted` : `diary ${id} did not exist` });
+  res.json({ message: exists ? `diary ${id} deleted` : `Diary ${id} did not exist` });
 });
 
 // Get user's diary
