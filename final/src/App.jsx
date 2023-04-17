@@ -76,8 +76,6 @@ function App() {
     dispatch({ type: ACTIONS.VIEW_DIARY, diary });
   }
 
-
-
   function onDeleteDiary(id) {
     dispatch({ type: ACTIONS.START_LOADING_DATA });
     fetchDeleteDiary(id)
@@ -113,7 +111,6 @@ function App() {
     fetchAddDiary({details, labelKey, isPasserby})
     .then( res => {
       dispatch({ type: ACTIONS.ADD_DIARY, diary: res });
-      dispatch({ type: ACTIONS.TOGGLE_CURRENT_LABEL, DEFAULT_LABEL_KEY});
       dispatch({ type: ACTIONS.TOGGLE_ROUTER, currentRouter: ROUTER[SIDE_MENU.MYDIARY].DETAIL, previousRouter: ROUTER[SIDE_MENU.MYDIARY].DEFAULT});
     })
     .catch( err => {

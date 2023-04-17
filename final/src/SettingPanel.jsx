@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import Avatar from './Avatar';
-function SettingPanel({username, avatar, avatars, onUpdateAvatar}) {
+function SettingPanel({username, avatar, avatars, onUpdateAvatar, onClearStatus}) {
 
     const [isEditing, setIsEditing] = useState(false);
     const [newAvatar, setNewAvatar] = useState(avatar);
@@ -19,6 +19,7 @@ function SettingPanel({username, avatar, avatars, onUpdateAvatar}) {
                             className='profile-avatar-to-edit'
                             onClick={ (e) => {
                                 e.preventDefault();
+                                onClearStatus();
                                 setIsEditing(true);
                             }}
                         >

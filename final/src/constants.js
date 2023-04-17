@@ -14,6 +14,7 @@ export const ROUTER = {
     DEFAULT: 'MyDiaryList',
     ADD: 'MyDiaryAdd',
     DETAIL: 'MyDiaryDetail',
+    EDIT: 'MyDiaryEdit',
   },
   [SIDE_MENU.SETTING]: {
     DEFAULT: 'Profile',

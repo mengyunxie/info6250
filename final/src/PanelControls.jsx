@@ -69,6 +69,7 @@ function PanelControls({
                 currentRouter={currentRouter}
                 onSetRouter={onSetRouter}
                 onUpdateAvatar={onUpdateAvatar}
+                onClearStatus={onClearStatus}
             />}
         </div>
     );

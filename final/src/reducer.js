@@ -147,7 +147,6 @@ function reducer(state, action) {
       };
 
     case ACTIONS.DELETE_DIARY:
-      console.log(state.diaries);
       const deleteDiaries = [...state.diaries];
       return {
         ...state,

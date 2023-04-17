@@ -1,50 +1,6 @@
 const uuid = require('uuid').v4;
 
-const diaries = {
-    1: {
-            id: 1,
-            username: '11',
-            avatar:'Cat',
-            date: 1681276418346,
-            label: {
-                color: "orange",
-                key: "travel",
-                type: "Custom"
-            },
-            isPasserby: false, 
-            details: "HHHHH",
-            intro: "HHHHH",
-        },
-    2: {
-            id: 2,
-            username: '22',
-            avatar:'Batman',
-            date: 1681276419346,
-            label: {
-                color: "sky",
-                key: "movies",
-                type: "Custom"
-            },
-            isPasserby: true, 
-            details: "HHHisPasserbyisPasserbyisPasserbyisPasserbyisPasserbyisPasserbyHH",
-            intro: "HHHisPasserbyisPasserbyisPasserbyisPasserbyisPass...",
-    },
-    3: {
-        id: 3,
-        username: '11',
-        avatar:'Cat',
-        date: 1681276418346,
-        label: {
-            color: "orange",
-            key: "work",
-            type: "Custom"
-        },
-        isPasserby: true, 
-        details: "This is mine passerby diary.This is mine passerby diary.This is mine passerby diary.This is mine passerby diary.This is mine passerby diary.This is mine passerby diary.",
-        intro: "This is mine passerby diary.",
-    },
-};
-
+const diaries = {};
 
 function contains({id, username}) {
     return diaries[id] && diaries[id].username == username;
