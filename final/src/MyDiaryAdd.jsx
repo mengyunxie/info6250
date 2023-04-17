@@ -1,4 +1,7 @@
 import { useState } from 'react';
+
+import { DEFAULT_LABEL_KEY } from './constants';
+
 function MyDiaryAdd({
     labels,
     onSubmitDiary,
@@ -7,7 +10,7 @@ function MyDiaryAdd({
 }) {
     const [diary, setDiary] = useState({
         details: '',
-        label: 'all',
+        label: DEFAULT_LABEL_KEY,
         isPasserby: false
     });
 
@@ -15,7 +18,7 @@ function MyDiaryAdd({
         // Prevent the browser from reloading the page
         e.preventDefault();
         onSubmitDiary({ details: diary.details, labelKey: diary.label, isPasserby: diary.isPasserby });
-      }
+    }
     
     return (
         <form method="post" onSubmit={handleSubmit} className='mydiaries-form'>
@@ -33,21 +36,21 @@ function MyDiaryAdd({
                 </button>
                 <button 
                     type="button"
-                    className='to-edit'
+                    className='to-cancel'
                     onClick={ (e) => {
                         e.preventDefault();
                         onSetRouter({currentRouter: previousRouter});
                     }}
                 >
                     <i className="gg-close"></i>
-                    <span className='to-edit-title'>Cancel</span>
+                    <span className='to-cancel-title'>Cancel</span>
                 </button>
                 <button 
                     type="submit"
-                    className='to-delete'
+                    className='to-submit'
                 >
                     <i className="gg-check"></i>
-                    <span className='to-delete-title'>Save</span>
+                    <span className='to-submit-title'>Save</span>
                 </button>
             </div>    
             <div className="mydiaries-form-row">
@@ -86,7 +89,7 @@ function MyDiaryAdd({
                     name="diary"
                     className='mydiaries-form-input'
                     placeholder='Enter your diary here ...'
-                    rows={10} 
+                    rows={20} 
                     value={diary.details} 
                     onChange={e => setDiary({...diary, details: e.target.value})} 
                 />

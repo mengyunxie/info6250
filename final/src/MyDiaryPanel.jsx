@@ -1,4 +1,3 @@
-import { useState } from 'react';
 import {
     SIDE_MENU,
     ROUTER,
@@ -14,29 +13,29 @@ function MyDiaryPanel({
     diaries,
     previousRouter,
     currentRouter,
+    currentDiary,
+    onSetCurrentDiary,
     onSetRouter,
+    onGetDiariesByLabel,
 }) {
-    const [diary, setDiary] = useState({});
-
-    function onSetDiary(diary) {
-        setDiary(diary);
-    }
 
     return (
         <div className='mydiary-panel'>
             {currentRouter === ROUTER[SIDE_MENU.MYDIARY].DETAIL &&  <MyDiaryDetail 
-                    diary={diary}
+                    labels={labels}
+                    currentDiary={currentDiary}
                     previousRouter={previousRouter}
                     currentRouter={currentRouter}
                     onSetRouter={onSetRouter}
                     onDeleteDiary={onDeleteDiary}
                     onUpdateDiary={onUpdateDiary}
+                    onGetDiariesByLabel={onGetDiariesByLabel}
                 />
             }
             {currentRouter === ROUTER[SIDE_MENU.MYDIARY].DEFAULT &&  <MyDiaryList 
                     diaries={diaries}
                     onSetRouter={onSetRouter}
-                    onSetDiary={onSetDiary}
+                    onSetCurrentDiary={onSetCurrentDiary}
                 />
             }
             {currentRouter === ROUTER[SIDE_MENU.MYDIARY].ADD &&  <MyDiaryAdd 
@@ -44,6 +43,7 @@ function MyDiaryPanel({
                     previousRouter={previousRouter}
                     onSetRouter={onSetRouter}
                     onSubmitDiary={onSubmitDiary}
+                    onSetCurrentDiary={onSetCurrentDiary}
                 />
             }
         </div>

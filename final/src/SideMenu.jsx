@@ -1,6 +1,11 @@
-import {SIDE_MENU} from './constants';
+import {SIDE_MENU, DEFAULT_LABEL_KEY} from './constants';
 
-function SideMenu({menu, onSetMenu}) {
+function SideMenu({
+    menu, 
+    onSetMenu,
+    onGetDiariesByLabel,
+    onGetPasserbyDiaries,
+}) {
 
     return (
         <div className="side-menu">
@@ -10,6 +15,7 @@ function SideMenu({menu, onSetMenu}) {
                     onClick={ (e) => {
                         e.preventDefault();
                         onSetMenu(SIDE_MENU.PASSERBY);
+                        onGetPasserbyDiaries();
                     }}
                 >
                     <span className="side-menu-icon"><i className="gg-data"></i></span>
@@ -20,6 +26,7 @@ function SideMenu({menu, onSetMenu}) {
                     onClick={ (e) => {
                         e.preventDefault();
                         onSetMenu(SIDE_MENU.MYDIARY);
+                        onGetDiariesByLabel(DEFAULT_LABEL_KEY);
                     }}
                 >
                     <span className="side-menu-icon"><i className="gg-details-more"></i></span>

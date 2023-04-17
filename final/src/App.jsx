@@ -10,6 +10,7 @@ import {
   LOGIN_STATUS,
   CLIENT,
   SERVER,
+  DEFAULT_LABEL_KEY,
 } from './constants';
 
 import {
@@ -36,8 +37,12 @@ function App() {
     fetchLogin(username)
     .then( res => {
       dispatch({ type: ACTIONS.LOG_IN, username: res.username,  avatar: res.avatar, labels: res.labels, avatars: res.avatars});
-
       onSetMenu(state.menu);
+      dispatch({ type: ACTIONS.START_LOADING_DATA });
+      return fetchPasserbyDiaries();
+    })
+    .then( res => {
+      dispatch({ type: ACTIONS.GET_PASSERBYDIARIES, passerbyDiaries: res });
     })
     .catch( err => {
       dispatch({ type: ACTIONS.REPORT_ERROR, error: err?.error });
@@ -58,38 +63,20 @@ function App() {
     dispatch({ type: ACTIONS.CLEAR_ERROR });
   }
 
-  function onSetCurrentLabel({currentLabel}) {
-    dispatch({ type: ACTIONS.TOGGLE_CURRENT_LABEL, currentLabel});
-    getDiariesByLabel(currentLabel);
-  }
-
   function onSetMenu(menu) {
     dispatch({ type: ACTIONS.TOGGLE_MENU, menu });
-    
-    if(menu === SIDE_MENU.PASSERBY) {
-      onSetRouter({currentRouter: ROUTER[SIDE_MENU.PASSERBY].DEFAULT});
-    }
-    if(menu === SIDE_MENU.MYDIARY) {
-      onSetRouter({currentRouter: ROUTER[SIDE_MENU.MYDIARY].DEFAULT});
-    }
-    if(menu === SIDE_MENU.SETTING) {
-      onSetRouter({currentRouter: ROUTER[SIDE_MENU.SETTING].DEFAULT});
-    }
+    dispatch({ type: ACTIONS.TOGGLE_ROUTER, currentRouter: ROUTER[menu].DEFAULT, previousRouter: state.currentRouter});
   }
-
 
   function onSetRouter({currentRouter}) {
     dispatch({ type: ACTIONS.TOGGLE_ROUTER, currentRouter, previousRouter: state.currentRouter});
-    if(currentRouter === ROUTER[SIDE_MENU.PASSERBY].DEFAULT) {
-      getPasserbyDiaries();
-    }
-    if(currentRouter === ROUTER[SIDE_MENU.PASSERBY].MINE) {
-      getMyPasserbyDiaries();
-    }
-    if(currentRouter === ROUTER[SIDE_MENU.MYDIARY].DEFAULT) {
-      getDiariesByLabel();
-    }
   }
+
+  function onSetCurrentDiary(diary) {
+    dispatch({ type: ACTIONS.VIEW_DIARY, diary });
+  }
+
+
 
   function onDeleteDiary(id) {
     dispatch({ type: ACTIONS.START_LOADING_DATA });
@@ -106,12 +93,12 @@ function App() {
     });
   }
 
-  function onUpdateDiary({details, labelKey, isPasserby}) {
+  function onUpdateDiary({id, details, labelKey, isPasserby}) {
     dispatch({ type: ACTIONS.START_LOADING_DATA });
-    fetchUpdateDiary({details, labelKey, isPasserby})
+    fetchUpdateDiary({id, details, labelKey, isPasserby})
     .then( res => {
       dispatch({ type: ACTIONS.UPDATE_DIARY, diary: res });
-      dispatch({ type: ACTIONS.TOGGLE_ROUTER, currentRouter: ROUTER[SIDE_MENU.MYDIARY].DEFAULT, previousRouter: state.currentRouter});
+      dispatch({ type: ACTIONS.TOGGLE_ROUTER, currentRouter: ROUTER[SIDE_MENU.MYDIARY].DETAIL, previousRouter: ROUTER[SIDE_MENU.MYDIARY].DEFAULT});
     })
     .catch( err => {
       dispatch({ type: ACTIONS.REPORT_ERROR, error: err?.error });
@@ -126,7 +113,8 @@ function App() {
     fetchAddDiary({details, labelKey, isPasserby})
     .then( res => {
       dispatch({ type: ACTIONS.ADD_DIARY, diary: res });
-      dispatch({ type: ACTIONS.TOGGLE_ROUTER, currentRouter: ROUTER[SIDE_MENU.MYDIARY].DEFAULT, previousRouter: state.currentRouter});
+      dispatch({ type: ACTIONS.TOGGLE_CURRENT_LABEL, DEFAULT_LABEL_KEY});
+      dispatch({ type: ACTIONS.TOGGLE_ROUTER, currentRouter: ROUTER[SIDE_MENU.MYDIARY].DETAIL, previousRouter: ROUTER[SIDE_MENU.MYDIARY].DEFAULT});
     })
     .catch( err => {
       dispatch({ type: ACTIONS.REPORT_ERROR, error: err?.error });
@@ -136,7 +124,22 @@ function App() {
     });
   }
 
-  function getPasserbyDiaries() {
+  function onUpdateAvatar(avatar) {
+    dispatch({ type: ACTIONS.START_LOADING_DATA });
+    fetchUpdateUserAvatar(avatar)
+    .then( res => {
+      dispatch({ type: ACTIONS.UPDATE_AVATAR, avatar: res.avatar });
+      // if fail, what to do?
+    })
+    .catch( err => {
+      dispatch({ type: ACTIONS.REPORT_ERROR, error: err?.error });
+      if( err?.error === SERVER.AUTH_MISSING ) {
+        dispatch({ type: ACTIONS.LOG_OUT });
+      }
+    });
+  }
+
+  function onGetPasserbyDiaries() {
     dispatch({ type: ACTIONS.START_LOADING_DATA });
     fetchPasserbyDiaries()
     .then( res => {
@@ -150,7 +153,7 @@ function App() {
     });
   }
 
-  function getMyPasserbyDiaries() {
+  function onGetMyPasserbyDiaries() {
     dispatch({ type: ACTIONS.START_LOADING_DATA });
     fetchMyPasserbyDiaries()
     .then( res => {
@@ -164,9 +167,9 @@ function App() {
     });
   }
 
-  function getDiariesByLabel(currentLabel) {
+  function onGetDiariesByLabel(currentLabelKey) {
     dispatch({ type: ACTIONS.START_LOADING_DATA });
-    fetchDiariesByLabel(currentLabel || state.currentLabel)
+    fetchDiariesByLabel(currentLabelKey || DEFAULT_LABEL_KEY)
     .then( res => {
       dispatch({ type: ACTIONS.GET_DIARIES, diaries: res});
     })
@@ -189,6 +192,11 @@ function App() {
     .then( res => { // The returned object from the service call
       dispatch({ type: ACTIONS.LOG_IN, username: res.username,  avatar: res.avatar, labels: res.labels, avatars: res.avatars});
       onSetMenu(state.menu);
+      dispatch({ type: ACTIONS.START_LOADING_DATA });
+      return fetchPasserbyDiaries();
+    })
+    .then( res => {
+      dispatch({ type: ACTIONS.GET_PASSERBYDIARIES, passerbyDiaries: res });
     })
     .catch( err => {
       if( err?.error === CLIENT.NO_SESSION ) { // expected "error"
@@ -211,7 +219,6 @@ function App() {
 
   return (
     <div className="app">
-     {/* { error && <Status  error={error} onClearStatus={onClearStatus} /> } */}
       { state.loginStatus === LOGIN_STATUS.PENDING && <Loading>Loading state...</Loading> }
       { state.loginStatus === LOGIN_STATUS.NOT_LOGGED_IN && <Login onLogin={onLogin} error={state.error} onClearStatus={onClearStatus}/> }
       { state.loginStatus === LOGIN_STATUS.IS_LOGGED_IN && <Dashboard
@@ -221,17 +228,24 @@ function App() {
             avatars={state.avatars}
             passerbyDiaries={state.passerbyDiaries}
             diaries={state.diaries}
-            currentLabel={state.currentLabel}
             menu={state.menu}
+            error={state.error}
             previousRouter={state.previousRouter}
             currentRouter={state.currentRouter}
+            isDashBoardPending={state.isDashBoardPending}
+            currentDiary={state.currentDiary}
+            onSetCurrentDiary={onSetCurrentDiary}
             onSetMenu={onSetMenu}
             onLogout={onLogout}
             onSetRouter={onSetRouter}
-            onSetCurrentLabel={onSetCurrentLabel}
             onSubmitDiary={onSubmitDiary}
             onDeleteDiary={onDeleteDiary}
             onUpdateDiary={onUpdateDiary}
+            onUpdateAvatar={onUpdateAvatar}
+            onClearStatus={onClearStatus}
+            onGetDiariesByLabel={onGetDiariesByLabel}
+            onGetMyPasserbyDiaries={onGetMyPasserbyDiaries}
+            onGetPasserbyDiaries={onGetPasserbyDiaries}
           />
       }
     </div>

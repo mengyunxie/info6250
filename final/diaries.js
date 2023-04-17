@@ -78,11 +78,18 @@ function getDiary(id) {
 }
 
 function updateDiary({id, label, isPasserby, details}) {
-    const diary = diaries[id];
-    diary.label = label;
-    diary.isPasserby = isPasserby;
-    diary.details = details;
-    diary.intro = diary.details.length > 50 ? `${diary.details.substring(0, 50)}...` : diary.details;
+    diaries[id].label = label;
+    diaries[id].isPasserby = isPasserby;
+    diaries[id].details = details;
+    diaries[id].intro = details.length > 50 ? `${details.substring(0, 50)}...` : details;
+}
+
+function updateDiariesUserAvatar({username, avatar}) {
+    Object.values(diaries).forEach(diary => {
+        if (diary.username === username) {
+            diary.avatar = avatar;
+        }
+    });
 }
 
 function togglePasserbyDiary(id) {
@@ -121,4 +128,5 @@ module.exports = {
     getMinePasserbyDiaries,
     getLatestPasserbyDiaries,
     getDiariesByLabel,
+    updateDiariesUserAvatar,
   };

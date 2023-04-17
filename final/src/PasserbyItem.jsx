@@ -4,7 +4,7 @@ import {
 } from './constants';
 import Avatar from './Avatar';
 
-function PasserbyItem({diary, onSetRouter, onSetDiary}) {
+function PasserbyItem({diary, onSetRouter, onSetCurrentDiary}) {
     function formatDate(dateString) {
         const options = { 
             year: 'numeric',
@@ -21,7 +21,7 @@ function PasserbyItem({diary, onSetRouter, onSetDiary}) {
             className="passerby-item"
             onClick={ (e) => {
                 e.preventDefault();
-                onSetDiary(diary);
+                onSetCurrentDiary(diary);
                 onSetRouter({currentRouter: ROUTER[SIDE_MENU.PASSERBY].DETAIL});
             }}
         >

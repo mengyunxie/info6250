@@ -16,10 +16,9 @@ export const initialState = {
   menu: SIDE_MENU.PASSERBY,
   currentRouter: ROUTER[SIDE_MENU.PASSERBY].DEFAULT,
   previousRouter: ROUTER[SIDE_MENU.PASSERBY].DEFAULT,
-  currentLabel: 'all',
   passerbyDiaries: [],
   diaries: [],
-  diary: {},
+  currentDiary: {},
   labels: [],
   avatars: []
 };
@@ -49,12 +48,17 @@ function reducer(state, action) {
         menu: SIDE_MENU.PASSERBY,
         currentRouter: ROUTER[SIDE_MENU.PASSERBY].DEFAULT,
         previousRouter: ROUTER[SIDE_MENU.PASSERBY].DEFAULT,
-        currentLabel: 'all',
-        diary: {},
+        currentDiary: {},
         diaries: [],
         passerbyDiaries: [],
         labels: [],
         avatars: [],
+      };
+    case ACTIONS.UPDATE_AVATAR:
+      return {
+        ...state,
+        isDashBoardPending: false,
+        avatar: action.avatar,
       };
 
     case ACTIONS.START_LOADING_DATA:
@@ -82,7 +86,8 @@ function reducer(state, action) {
       return {
         ...state,
         menu: action.menu,
-        currentLabel: 'all',
+        currentDiary: {},
+        error: '',
       };
 
     case ACTIONS.TOGGLE_ROUTER:
@@ -90,12 +95,7 @@ function reducer(state, action) {
         ...state,
         currentRouter: action.currentRouter,
         previousRouter: action.previousRouter,
-      };
-
-    case ACTIONS.TOGGLE_CURRENT_LABEL:
-      return {
-        ...state,
-        currentLabel: action.currentLabel,
+        error: '',
       };
 
     case ACTIONS.GET_DIARY:
@@ -103,7 +103,7 @@ function reducer(state, action) {
         ...state,
         error: '',
         isDashBoardPending: false,
-        diary: action.diary
+        currentDiary: action.diary
       };
 
     case ACTIONS.GET_DIARIES:
@@ -123,33 +123,44 @@ function reducer(state, action) {
       };
 
     case ACTIONS.ADD_DIARY:
+      const addDiaries = [...state.diaries];
+      addDiaries.push(action.diary);
       return {
         ...state,
         isDashBoardPending: false,
-        diaries: {
-          ...state.diaries,
-          [action.diary.id]: action.diary,
-        },
+        diaries: addDiaries,
+        currentDiary: action.diary,
       };
     
     case ACTIONS.UPDATE_DIARY:
+      const updateDiaries = [...state.diaries];
+      updateDiaries.forEach( (item, index) => {
+        if(item.id == action.diary.id) {
+          updateDiaries[index] = action.diary;
+        } 
+      });
       return {
         ...state,
         isDashBoardPending: false,
-        diaries: {
-          ...state.diaries,
-          [action.diary.id]: action.diary,
-        },
+        diaries: updateDiaries,
+        currentDiary: action.diary
       };
 
     case ACTIONS.DELETE_DIARY:
-      const diariesCopy = { ...state.diaries }; // "shallow" copy, but we are only making a shallow change
-      delete diariesCopy[action.id];
+      console.log(state.diaries);
+      const deleteDiaries = [...state.diaries];
       return {
         ...state,
         isDashBoardPending: false,
-        diaries: diariesCopy, // No need to copy the copy
+        diaries: deleteDiaries.filter(item => item.id != action.id),
+        currentDiary: {},
       };
+
+    case ACTIONS.VIEW_DIARY:
+        return {
+          ...state,
+          currentDiary: action.diary
+        };
 
     default:
       throw new Error({ error: CLIENT.UNKNOWN_ACTION, detail: action }); // reporting detail for debugging aid, not shown to user

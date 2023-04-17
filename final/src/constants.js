@@ -21,6 +21,8 @@ export const ROUTER = {
   },
 };
 
+export const DEFAULT_LABEL_KEY = 'all';
+
 export const AVATARS_KEY = {
   DEFAULT: 'Default',
   GIRL: 'Girl',
@@ -42,18 +44,19 @@ export const AVATARS_KEY = {
 export const ACTIONS = {
   LOG_IN: 'logIn',
   LOG_OUT: 'logOut',
+  UPDATE_AVATAR: 'updateAvatar',
   START_LOADING_DATA: 'startLoadingData',
   REPORT_ERROR: 'reportError',
   CLEAR_ERROR: 'clearError',
   TOGGLE_MENU: 'toggleMenu',
   TOGGLE_ROUTER: 'toggleRouter',
-  TOGGLE_CURRENT_LABEL: 'toggleCurrentLabel',
   GET_DIARY: 'getDiary',
   GET_DIARIES: 'getDiaries',
   GET_PASSERBYDIARIES: 'getPasserbyDiaries',
   ADD_DIARY: 'addDiary',
   UPDATE_DIARY: 'updateDiary',
   DELETE_DIARY: 'deleteDiary',
+  VIEW_DIARY: 'ViewDiary',
 };
 
 export const LOGIN_STATUS = {

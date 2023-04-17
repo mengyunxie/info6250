@@ -1,5 +1,9 @@
+import { useState } from 'react';
 import Avatar from './Avatar';
-function SettingPanel({username, avatar}) {
+function SettingPanel({username, avatar, avatars, onUpdateAvatar}) {
+
+    const [isEditing, setIsEditing] = useState(false);
+    const [newAvatar, setNewAvatar] = useState(avatar);
     return (
         <div className='setting-panel'>
             <div className="profile">
@@ -7,10 +11,65 @@ function SettingPanel({username, avatar}) {
                     <span className="profile-title">Username: </span>
                     <span>{username}</span>
                 </div>
-                <div className="profile-avatar">
-                    <span className="profile-title">Your Avatar: </span>
-                    <Avatar avatar={avatar} />
-                </div>
+                {!isEditing && <div className="profile-avatar">
+                        <span className="profile-title">Your Avatar: </span>
+                        <Avatar avatar={newAvatar} />
+                        <button 
+                            type="button"
+                            className='profile-avatar-to-edit'
+                            onClick={ (e) => {
+                                e.preventDefault();
+                                setIsEditing(true);
+                            }}
+                        >
+                            Change
+                        </button>     
+                    </div>
+                } 
+                {isEditing &&
+                    <div className='profile-avatars'>
+                        <p className="profile-avatars-title">Select Avatar: </p> 
+                        <ul className='avatar-list'>
+                            { Object.values(avatars).map( item => (
+                                <li 
+                                    className='avatar-item'
+                                    key={item}
+                                    onClick={ (e) => {
+                                        e.preventDefault();
+                                        setNewAvatar(item);
+                                    }}
+                                >
+                                    <Avatar avatar={item} />
+                                    { item === newAvatar && <i className="gg-check"></i> }
+                                </li>
+                            ))}
+                        </ul>
+                        <div className='profile-avatars-tools'>
+                            <button 
+                                type="button"
+                                className='profile-avatars-to-cancel'
+                                onClick={ (e) => {
+                                    e.preventDefault();
+                                    setIsEditing(false);
+                                    setNewAvatar(avatar);
+                                }}
+                            >
+                                Cancel
+                            </button>
+                            <button 
+                                type="button"
+                                className='profile-avatars-to-submit'
+                                onClick={ (e) => {
+                                    e.preventDefault();
+                                    setIsEditing(false);
+                                    onUpdateAvatar(newAvatar);
+                                }}
+                            >
+                                Save
+                            </button>
+                        </div>
+                    </div>
+                }
             </div> 
         </div>
     );

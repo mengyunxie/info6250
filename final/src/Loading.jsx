@@ -1,9 +1,7 @@
-import Spinner from './Spinner';
-
-function Loading({ className, size, children='Loading...' }) {
+function Loading({ className, children='Loading...' }) {
   return (
     <div className={`loading ${className}`} >
-      <Spinner size={size} />
+      <i className='gg-spinner-two'></i>
       <p className='loading-message'>{children}</p>
     </div>
   );

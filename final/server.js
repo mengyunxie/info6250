@@ -61,6 +61,7 @@ app.patch('/api/v1/session', (req, res) => {
   const {avatar} = req.body;
 
   users.updateUserAvatar({username, avatar});
+  diaries.updateDiariesUserAvatar({username, avatar});
   res.json(users.getUser(username));
 });
 
@@ -122,7 +123,7 @@ app.patch('/api/v1/diaries/:id', (req, res) => {
     return;
   }
   const label = labels.getLabel(labelKey);
-  diaries.updateDiary({id, label, isPasserby, details})
+  diaries.updateDiary({id, label, isPasserby, details});
   res.json(diaries.getDiary(id));
 });
 
@@ -135,13 +136,10 @@ app.delete('/api/v1/diaries/:id', (req, res) => {
     return;
   }
   const { id } = req.params;
-  console.log("id: " + id);
   const exists = diaries.contains({id, username});
   if(exists) {
-    console.log("inside: " + id);
     diaries.deleteDiary(id);
   }
-  console.log("exists: " + id);
   res.json({ message: exists ? `diary ${id} deleted` : `diary ${id} did not exist` });
 });
 

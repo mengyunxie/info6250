@@ -10,17 +10,24 @@ function Dashboard({
   avatars, 
   passerbyDiaries, 
   diaries,
-  currentLabel,
   menu,
   previousRouter,
   currentRouter,
   onSubmitDiary,
   onDeleteDiary,
   onUpdateDiary,
+  onUpdateAvatar,
   onSetMenu, 
   onSetRouter,
-  onSetCurrentLabel,
   onLogout,
+  onClearStatus,
+  error,
+  isDashBoardPending,
+  currentDiary,
+  onSetCurrentDiary,
+  onGetDiariesByLabel,
+  onGetMyPasserbyDiaries,
+  onGetPasserbyDiaries,
 }) {
   return (
     <main className="dashboard">
@@ -30,15 +37,18 @@ function Dashboard({
       <SideMenu
         menu={menu}
         onSetMenu={onSetMenu}
+        onGetDiariesByLabel={onGetDiariesByLabel}
+        onGetPasserbyDiaries={onGetPasserbyDiaries}
       />
       <NavigationControls 
         labels={labels}
-        currentLabel={currentLabel}
         menu={menu}
         currentRouter={currentRouter}
         onLogout={onLogout}
         onSetRouter={onSetRouter}
-        onSetCurrentLabel={onSetCurrentLabel}
+        onGetDiariesByLabel={onGetDiariesByLabel}
+        onGetMyPasserbyDiaries={onGetMyPasserbyDiaries}
+        onGetPasserbyDiaries={onGetPasserbyDiaries}
       />
       <PanelControls 
         username={username} 
@@ -46,14 +56,23 @@ function Dashboard({
         labels={labels} 
         avatars={avatars} 
         menu={menu}
+        error={error}
         previousRouter={previousRouter}
         currentRouter={currentRouter}
         onSetRouter={onSetRouter}
         passerbyDiaries={passerbyDiaries} 
         diaries={diaries}
+        isDashBoardPending={isDashBoardPending}
+        currentDiary={currentDiary}
+        onSetCurrentDiary={onSetCurrentDiary}
         onSubmitDiary={onSubmitDiary}
         onDeleteDiary={onDeleteDiary}
         onUpdateDiary={onUpdateDiary}
+        onUpdateAvatar={onUpdateAvatar}
+        onClearStatus={onClearStatus}
+        onGetDiariesByLabel={onGetDiariesByLabel}
+        onGetMyPasserbyDiaries={onGetMyPasserbyDiaries}
+        onGetPasserbyDiaries={onGetPasserbyDiaries}
       />
     </main>
   );

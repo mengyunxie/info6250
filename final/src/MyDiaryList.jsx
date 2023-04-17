@@ -2,16 +2,23 @@ import MyDiaryItem from './MyDiaryItem';
 function MyDiaryList({
     diaries,
     onSetRouter,
-    onSetDiary,
+    onSetCurrentDiary,
 }) {
+    if(diaries.length == 0) {
+        return <div className='no-data'>
+                    <i className="gg-danger"></i>
+                    <p>No Data</p>
+                </div>;
+    }
+
     return (
         <div className='mydiary-panel'>
-            { Object.values(diaries).map( diary => (
+            { diaries.map( diary => (
                 <MyDiaryItem 
                     diary={diary} 
                     key={diary.id}
                     onSetRouter={onSetRouter}
-                    onSetDiary={onSetDiary}
+                    onSetCurrentDiary={onSetCurrentDiary}
                 />
             ))} 
         </div>

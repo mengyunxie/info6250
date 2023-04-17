@@ -1,14 +1,14 @@
 import {
     SIDE_MENU,
     ROUTER,
+    DEFAULT_LABEL_KEY,
 } from './constants';
 
 function MyDiaryNavigation({
     labels,
-    currentLabel,
     currentRouter,
-    onSetCurrentLabel,
     onSetRouter,
+    onGetDiariesByLabel,
 }) {
     return (
         <div className="navigation-contents">
@@ -17,10 +17,10 @@ function MyDiaryNavigation({
                     <label className="navigation-select-label">
                         <select 
                                 className="navigation-select"
-                                defaultValue={currentLabel}
+                                defaultValue={DEFAULT_LABEL_KEY}
                                 onChange={ (e) => {
                                     e.preventDefault();
-                                    onSetCurrentLabel({currentLabel: e.target.value});
+                                    onGetDiariesByLabel(e.target.value);
                                 }}
                             >
                                 { Object.values(labels).map( label => (

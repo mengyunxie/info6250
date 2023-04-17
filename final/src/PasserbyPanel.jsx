@@ -1,4 +1,3 @@
-import { useState } from 'react';
 import {
     SIDE_MENU,
     ROUTER,
@@ -11,26 +10,27 @@ function PasserbyPanel({
     previousRouter,
     currentRouter,
     onSetRouter,
+    currentDiary,
+    onSetCurrentDiary,
+    onGetMyPasserbyDiaries,
+    onGetPasserbyDiaries,
 }) {
-    const [diary, setDiary] = useState({});
-
-    function onSetDiary(diary) {
-        setDiary(diary);
-    }
 
     return (
         <div className='passerby-panel'>
             {currentRouter === ROUTER[SIDE_MENU.PASSERBY].DETAIL &&  <PasserbyDetail 
-                    diary={diary}
                     previousRouter={previousRouter}
                     currentRouter={currentRouter}
+                    currentDiary={currentDiary}
                     onSetRouter={onSetRouter}
+                    onGetMyPasserbyDiaries={onGetMyPasserbyDiaries}
+                    onGetPasserbyDiaries={onGetPasserbyDiaries}
                 />
             }
             {currentRouter !== ROUTER[SIDE_MENU.PASSERBY].DETAIL &&  <PasserbyList 
                     passerbyDiaries={passerbyDiaries}
                     onSetRouter={onSetRouter}
-                    onSetDiary={onSetDiary}
+                    onSetCurrentDiary={onSetCurrentDiary}
                 />
             }
              

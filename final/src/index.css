@@ -135,6 +135,7 @@ html, body {
 
 .panel-controls {
   grid-area: panel-controls;
+  overflow-y: auto;
 }
 
 .login {
@@ -283,7 +284,7 @@ html, body {
 .passerby-item {
   background-color: #f9f9f9;
   margin:0 0 0.5rem;
-  padding: 2rem;
+  padding: 1rem;
   border-radius: 0.5rem;
 }
 
@@ -294,6 +295,7 @@ html, body {
 
 .passerby-item-intro {
   margin: 1rem 0 0;
+  word-break: break-word;
 }
 
 .passerby-item-date {
@@ -308,19 +310,13 @@ html, body {
 .diary-item {
   background-color: #f9f9f9;
   margin:0 0 0.5rem;
-  padding: 2rem;
+  padding: 1rem;
   border-radius: 0.5rem;
 }
 
 .diary-item:hover {
   background-color: #c0dfcf;
   cursor: pointer;
-}
-
-.diary-item-title {
-  display: flex;
-  margin: 0 0 1rem;
-  align-items: center;
 }
 
 .diary-item-label {
@@ -333,11 +329,12 @@ html, body {
 .diary-item-date {
   color:#5a5a5a;
   font-size: smaller;
-  margin: 0 0 0 1rem;
+  margin: 0 0 1rem ;
 }
 
 .diary-item-intro {
   margin: 0 0 1rem ;
+  word-break: break-word;
 }
 
 .go-back{
@@ -345,12 +342,11 @@ html, body {
   align-items: center;
   border: 0;
   padding: 0.5rem;
-  margin-right:auto;
   background-color: #f9f9f9;
   cursor: pointer;
 }
 
-.to-edit, .to-delete {
+.to-edit, .to-delete, .to-submit, .to-cancel {
   display: flex;
   align-items: center;
   border: 0;
@@ -360,7 +356,11 @@ html, body {
   cursor: pointer;
 }
 
-.to-edit-title, .to-delete-title {
+.to-delete, .to-cancel {
+  margin-left:auto;
+}
+
+.to-edit-title, .to-delete-title, .to-submit-title, .to-cancel-title {
   margin-left: 0.3rem;
 }
 
@@ -385,6 +385,7 @@ html, body {
 
 .passerby-details-content{
   margin: 1rem 0 0;
+  word-break: break-word;
 }
 
 .mydiaries-details {
@@ -396,7 +397,7 @@ html, body {
 
 .mydiaries-details-tools {
   display: flex;
-  justify-content: flex-start;
+  justify-content: flex-end;
   margin: 0 0 2rem;
 }
 
@@ -434,7 +435,7 @@ html, body {
 
 .mydiaries-form-tools {
   display: flex;
-  justify-content: flex-start;
+  justify-content: flex-end;
   margin: 0 0 2rem;
 }
 
@@ -474,6 +475,8 @@ html, body {
   padding: 0.5rem;
   border: 1px solid #151515;
   border-radius: 1rem;
+  word-break: break-word;
+  resize: none;
 }
 
 .setting-panel {
@@ -483,10 +486,8 @@ html, body {
 .profile {
   display: flex;
   flex-direction: column;
-  background-color: #f9f9f9;
   margin:0 0 0.5rem;
   padding: 2rem;
-  border-radius: 0.5rem;
 }
 
 .profile-title {
@@ -504,6 +505,82 @@ html, body {
   align-items: center;
 }
 
+.profile-avatar-to-edit {
+  margin: 0 0 0 2rem;
+  border: 1px solid #151515;
+  padding: 0.2rem 0.5rem;
+  border-radius: 1rem;
+  color: #151515;
+  background-color: #fff;
+  cursor: pointer;
+}
+
+.profile-avatars-title {
+  margin: 0 0 1rem;
+}
+
+.profile-avatars {
+  display: flex;
+  flex-direction: column;
+}
+
+.profile-avatars-tools {
+  display: flex;
+  margin: 1rem 0;
+}
+
+.profile-avatars-to-cancel {
+  border: 1px solid #151515;
+  padding: 0.2rem 0.5rem;
+  border-radius: 1rem;
+  color: #151515;
+  background-color: #fff;
+  margin-right:1rem;
+  cursor: pointer;
+}
+
+.profile-avatars-to-submit {
+  border: 1px solid #151515;
+  padding: 0.2rem 0.5rem;
+  border-radius: 1rem;
+  color: #151515;
+  background-color: #fff;
+  cursor: pointer;
+}
+
+.avatar-list {
+  display: flex;
+  gap: 1rem;
+  flex-wrap: wrap;
+  margin: 0;
+  padding: 0;
+  list-style-type: none;
+}
+
+.avatar-item {
+  display: flex;
+  flex-direction: column;
+  margin: 0;
+  padding: 1rem;
+  min-height: 6rem;
+  background-color: #f9f9f9;
+  border-radius: 0.3rem;
+  cursor: pointer;
+  align-items: center;
+  justify-content: center;
+}
+
+.avatar-item:hover {
+  box-shadow: 2px 2px 5px #999999;
+}
+
+.no-data {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin: 2rem 0 0;
+  color: #999;
+}
 
 .label-item-color.rose {
   color: #e2262b;
