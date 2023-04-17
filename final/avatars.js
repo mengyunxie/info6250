@@ -46,8 +46,13 @@ function getAvatars() {
   return avatars;
 }
 
+function isValid(key) {
+  return !!avatars[key];
+}
+
 module.exports = {
   getAvatar,
   getAvatars,
-  getDefaultAvatar
+  getDefaultAvatar,
+  isValid
 };

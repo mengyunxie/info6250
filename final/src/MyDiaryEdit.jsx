@@ -7,12 +7,14 @@ function MyDiaryEdit({
     onUpdateDiary,
 }) {
 
-    const [newDiary, setNewDiary] = useState(currentDiary);
+    const [diary, setDiary] = useState(currentDiary);
 
     function handleSubmit(e) {
         // Prevent the browser from reloading the page
         e.preventDefault();
-        onUpdateDiary({id: currentDiary.id, details: newDiary.details, labelKey: newDiary.label.key, isPasserby: newDiary.isPasserby });
+        if(diary.details) {
+            onUpdateDiary({id: currentDiary.id, details: diary.details, labelKey: diary.label.key, isPasserby: diary.isPasserby });
+        }
     }
 
     return (
@@ -27,7 +29,6 @@ function MyDiaryEdit({
                     className='to-cancel'
                     onClick={ (e) => {
                         e.preventDefault();
-                        // setNewDiary(currentDiary);
                         onSetRouter({currentRouter: previousRouter});
                     }}
                 >
@@ -37,6 +38,7 @@ function MyDiaryEdit({
                 <button 
                     type="submit"
                     className='to-submit'
+                    disabled={!diary.details}
                 >
                     <i className="gg-check"></i>
                     <span className='to-submit-title'>Save</span>
@@ -46,10 +48,10 @@ function MyDiaryEdit({
                 <span className='mydiaries-form-title'>Select Type: </span>
                 <select 
                     className='mydiaries-form-select'
-                    defaultValue={newDiary.label.key}
+                    defaultValue={diary.label.key}
                     onChange={ (e) => {
                         e.preventDefault();
-                        setNewDiary({...newDiary, label: e.target.value});
+                        setDiary({...diary, label: e.target.value});
                     }}
                 >
                     { Object.values(labels).map( label => (
@@ -68,19 +70,20 @@ function MyDiaryEdit({
                     type="checkbox" 
                     name="isPasserby" 
                     className='mydiaries-form-checkbox'
-                    checked={newDiary.isPasserby} 
-                    onChange={e => setNewDiary({...newDiary, isPasserby: e.target.checked})} 
+                    checked={diary.isPasserby} 
+                    onChange={e => setDiary({...diary, isPasserby: e.target.checked})} 
                 />
             </div>
             <div className='mydiaries-form-row form-textarea'>
-                <span className='mydiaries-form-title'>Write your diary: </span>  
+                <span className='mydiaries-form-title'>Write your diary (Max 3000 Letter): </span>  
                 <textarea 
                     name="diary"
                     className='mydiaries-form-input'
                     placeholder='Enter your diary here ...'
                     rows={20} 
-                    value={newDiary.details} 
-                    onChange={e => setNewDiary({...newDiary, details: e.target.value})} 
+                    maxLength={3000}
+                    value={diary.details} 
+                    onChange={e => setDiary({...diary, details: e.target.value})}
                 />
             </div>
         </form>

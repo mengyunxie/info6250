@@ -136,8 +136,13 @@ function getLabels() {
     return labels;
 }
 
+function isValid(key) {
+return !!labels[key];
+}
+
 module.exports = {
     getDefaultLabel,
     getLabel,
-    getLabels
+    getLabels,
+    isValid,
   };

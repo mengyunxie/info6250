@@ -33,7 +33,8 @@ import Loading from './Loading';
 function App() {
   const [state, dispatch] = useReducer(reducer, initialState);
 
-  function onLogin(username) { 
+  function onLogin(username) {
+    dispatch({ type: ACTIONS.WAIT_LOG_IN }); 
     fetchLogin(username)
     .then( res => {
       dispatch({ type: ACTIONS.LOG_IN, username: res.username,  avatar: res.avatar, labels: res.labels, avatars: res.avatars});

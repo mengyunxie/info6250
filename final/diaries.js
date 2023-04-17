@@ -2,9 +2,16 @@ const uuid = require('uuid').v4;
 
 const diaries = {};
 
-function contains({id, username}) {
-    return diaries[id] && diaries[id].username == username;
+function contains(id) {
+    return !!diaries[id];
 }
+
+function isValid(details) {
+    let isValid = true;
+    isValid = !!details && details.trim();
+    isValid = isValid && details.length <= 3000;
+    return isValid;
+  }
 
 function addDiary({user, label, isPasserby, details}) {
     const id = uuid();
@@ -48,41 +55,32 @@ function updateDiariesUserAvatar({username, avatar}) {
     });
 }
 
-function togglePasserbyDiary(id) {
-    diaries[id].isPasserby = !diaries[id].isPasserby
-}
-
 function getDiaries(username) {
-    return Object.values(diaries).filter((item) => item?.username == username);
+    return Object.values(diaries).filter((item) => item?.username == username).sort((item1,item2) => item2.date - item1.date);
 }
 
 function getDiariesByLabel({username, label}) {
-    return Object.values(diaries).filter((item) => item?.username == username && item?.label.key == label);
+    return Object.values(diaries).filter((item) => item?.username == username && item?.label.key == label).sort((item1,item2) => item2.date - item1.date);
 }
 
 function getPasserbyDiaries() {
-    return Object.values(diaries).filter((item) => item?.isPasserby);
-}
-
-function getLatestPasserbyDiaries() {
-    return Object.values(diaries).filter((item) => item?.isPasserby).sort((item1,item2) => item1.date - item2.date);
+    return Object.values(diaries).filter((item) => item?.isPasserby).sort((item1,item2) => item2.date - item1.date);
 }
 
 function getMinePasserbyDiaries(username) {
-    return Object.values(diaries).filter((item) => item?.isPasserby && item?.username == username);
+    return Object.values(diaries).filter((item) => item?.isPasserby && item?.username == username).sort((item1,item2) => item2.date - item1.date);
 }
 
 module.exports = {
     contains,
+    isValid,
     addDiary,
     deleteDiary,
     getDiaries,
     getDiary,
     updateDiary,
     getPasserbyDiaries,
-    togglePasserbyDiary,
     getMinePasserbyDiaries,
-    getLatestPasserbyDiaries,
     getDiariesByLabel,
     updateDiariesUserAvatar,
   };

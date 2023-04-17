@@ -43,6 +43,7 @@ export const AVATARS_KEY = {
 };
 
 export const ACTIONS = {
+  WAIT_LOG_IN: 'waitLogIn',
   LOG_IN: 'logIn',
   LOG_OUT: 'logOut',
   UPDATE_AVATAR: 'updateAvatar',

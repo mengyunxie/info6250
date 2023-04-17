@@ -41,6 +41,7 @@ currentDiary,
                     onClick={ (e) => {
                         e.preventDefault();
                         onDeleteDiary(currentDiary.id);
+                        onGetDiariesByLabel(DEFAULT_LABEL_KEY);
                     }}
                 >
                     <i className="gg-trash"></i>

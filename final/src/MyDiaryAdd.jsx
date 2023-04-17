@@ -18,7 +18,9 @@ function MyDiaryAdd({
     function handleSubmit(e) {
         // Prevent the browser from reloading the page
         e.preventDefault();
-        onSubmitDiary({ details: diary.details, labelKey: diary.label, isPasserby: diary.isPasserby });
+        if(diary.details) {
+            onSubmitDiary({ details: diary.details, labelKey: diary.label, isPasserby: diary.isPasserby });
+        }
     }
     
     return (
@@ -39,6 +41,7 @@ function MyDiaryAdd({
                 <button 
                     type="submit"
                     className='to-submit'
+                    disabled={!diary.details}
                 >
                     <i className="gg-check"></i>
                     <span className='to-submit-title'>Save</span>
@@ -75,12 +78,13 @@ function MyDiaryAdd({
                 />
             </div>
             <div className='mydiaries-form-row form-textarea'>
-                <span className='mydiaries-form-title'>Write your diary: </span>  
+                <span className='mydiaries-form-title'>Write your diary (Max 3000 Letter): </span>  
                 <textarea 
                     name="diary"
                     className='mydiaries-form-input'
                     placeholder='Enter your diary here ...'
                     rows={20} 
+                    maxLength={3000}
                     value={diary.details} 
                     onChange={e => setDiary({...diary, details: e.target.value})} 
                 />

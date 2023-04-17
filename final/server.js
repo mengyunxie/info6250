@@ -60,6 +60,11 @@ app.patch('/api/v1/session', (req, res) => {
   }
   const {avatar} = req.body;
 
+  if(!avatars.isValid(avatar)) {
+    res.status(400).json({ error: 'invalid-avatar' });
+    return;
+  }
+
   users.updateUserAvatar({username, avatar});
   diaries.updateDiariesUserAvatar({username, avatar});
   res.json(users.getUser(username));
@@ -89,9 +94,20 @@ app.post('/api/v1/diaries', (req, res) => {
   }
   const {details, labelKey, isPasserby} = req.body;
   if(!details) {
-    res.status(400).json({ error: 'required-detail' });
+    res.status(400).json({ error: 'required-diary-details' });
     return;
   }
+
+  if(!diaries.isValid(details)) {
+    res.status(400).json({ error: 'invalid-diary-details' });
+    return;
+  }
+
+  if(!labels.isValid(labelKey)) {
+    res.status(400).json({ error: 'invalid-label' });
+    return;
+  }
+
   const user = users.getUser(username);
 
   const label = labels.getLabel(labelKey);
@@ -110,16 +126,28 @@ app.patch('/api/v1/diaries/:id', (req, res) => {
   const { id } = req.params;
   const {details, labelKey, isPasserby} = req.body;
   if(!details) {
-    res.status(400).json({ error: 'required-detail' });
+    res.status(400).json({ error: 'required-diary-details' });
     return;
   }
-  if(!diaries.contains({id, username})) {
-    res.status(404).json({ error: `noSuchId`, message: `No todo with id ${id}` });
+
+  if(!diaries.isValid(details)) {
+    res.status(400).json({ error: 'invalid-diary-details' });
+    return;
+  }
+
+  if(!labels.isValid(labelKey)) {
+    res.status(400).json({ error: 'invalid-label' });
+    return;
+  }
+
+  if(!diaries.contains(id)) {
+    res.status(404).json({ error: `noSuchDiaryId`, message: `No diary with id ${id}` });
     return;
   }
   const diary = diaries.getDiary(id);
+
   if(diary.username != username) {
-    res.status(404).json({ error: `notMatchUser`, message: `User id is not match` });
+    res.status(404).json({ error: `notMatchUser`, message: `User id is not match diary id` });
     return;
   }
   const label = labels.getLabel(labelKey);
@@ -136,7 +164,7 @@ app.delete('/api/v1/diaries/:id', (req, res) => {
     return;
   }
   const { id } = req.params;
-  const exists = diaries.contains({id, username});
+  const exists = diaries.contains(id);
   if(exists) {
     diaries.deleteDiary(id);
   }
@@ -152,8 +180,8 @@ app.get('/api/v1/diaries/:id', (req, res) => {
     return;
   }
   const { id } = req.params;
-  if(!diaries.contains({id, username})) {
-    res.status(404).json({ error: `noSuchId`, message: `No todo with id ${id}` });
+  if(!diaries.contains(id)) {
+    res.status(404).json({ error: `noSuchDiaryId`, message: `No diary with id ${id}` });
     return;
   }
   res.json(diaries.getDiary(id));
@@ -169,6 +197,11 @@ app.get('/api/v1/diariesbylabel/:label', (req, res) => {
   }
 
   const { label } = req.params;
+
+  if(!labels.isValid(label)) {
+    res.status(400).json({ error: 'invalid-label' });
+    return;
+  }
 
   let response;
   if(!label || label == labels.getDefaultLabel().key) {
@@ -189,7 +222,7 @@ app.get('/api/v1/passersby/all', (req, res) => {
     return;
   }
 
-  res.json(diaries.getLatestPasserbyDiaries());
+  res.json(diaries.getPasserbyDiaries());
 });
 
 // Get user's passersby's diaries

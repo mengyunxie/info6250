@@ -26,6 +26,12 @@ export const initialState = {
 function reducer(state, action) {
   switch(action.type) {
 
+    case ACTIONS.WAIT_LOG_IN:   // actions are the change in state, not how that change happened
+      return {
+        ...state,
+        loginStatus: LOGIN_STATUS.PENDING,
+      };
+
     case ACTIONS.LOG_IN:   // actions are the change in state, not how that change happened
       return {
         ...state,
