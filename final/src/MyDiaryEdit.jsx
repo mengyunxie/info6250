@@ -14,13 +14,17 @@ function MyDiaryEdit({
     onUpdateDiary,
 }) {
 
-    const [diary, setDiary] = useState(currentDiary);
+    const [diary, setDiary] = useState({
+        details: currentDiary.details || '',
+        label: currentDiary.label,
+        isPasserby: currentDiary.isPasserby,
+    });
 
     function handleSubmit(e) {
         // Prevent the browser from reloading the page
         e.preventDefault();
         if(diary.details) {
-            onUpdateDiary({id: currentDiary.id, details: diary.details, labelKey: diary.label.key, isPasserby: diary.isPasserby });
+            onUpdateDiary({id: currentDiary.id, details: diary.details, labelKey: diary.label, isPasserby: diary.isPasserby });
         }
     }
 
