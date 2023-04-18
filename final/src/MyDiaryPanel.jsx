@@ -1,7 +1,10 @@
-import {
-    SIDE_MENU,
-    NAVIGATION,
-} from './constants';
+/*
+ * Author: Mengyun Xie
+ * Date: 04/17/2023
+ * This code is a part of the final project of the INFO 6250 course
+ */
+
+import { SIDE_MENU, NAVIGATION } from './constants';
 import MyDiaryAdd from './MyDiaryAdd';
 import MyDiaryDetail from './MyDiaryDetail';
 import MyDiaryList from './MyDiaryList';
@@ -9,13 +12,13 @@ import MyDiaryEdit from './MyDiaryEdit';
 
 function MyDiaryPanel({
     labels,
-    onSubmitDiary,
-    onDeleteDiary,
-    onUpdateDiary,
     diaries,
     previousNavigation,
     currentNavigation,
     currentDiary,
+    onSubmitDiary,
+    onDeleteDiary,
+    onUpdateDiary,
     onSetCurrentDiary,
     onSetNavigation,
     onGetDiariesByLabel,
@@ -24,12 +27,9 @@ function MyDiaryPanel({
     return (
         <div className='mydiary-panel'>
             {currentNavigation === NAVIGATION[SIDE_MENU.MYDIARY].DETAIL &&  <MyDiaryDetail 
-                    labels={labels}
                     currentDiary={currentDiary}
-                    previousNavigation={previousNavigation}
                     onSetNavigation={onSetNavigation}
                     onDeleteDiary={onDeleteDiary}
-                    onUpdateDiary={onUpdateDiary}
                     onGetDiariesByLabel={onGetDiariesByLabel}
                 />
             }
@@ -52,7 +52,6 @@ function MyDiaryPanel({
                     previousNavigation={previousNavigation}
                     onSetNavigation={onSetNavigation}
                     onSubmitDiary={onSubmitDiary}
-                    onSetCurrentDiary={onSetCurrentDiary}
                     onGetDiariesByLabel={onGetDiariesByLabel}
                 />
             }

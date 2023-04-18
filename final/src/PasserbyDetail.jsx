@@ -1,3 +1,9 @@
+/*
+ * Author: Mengyun Xie
+ * Date: 04/17/2023
+ * This code is a part of the final project of the INFO 6250 course
+ */
+
 import {
     SIDE_MENU,
     NAVIGATION,
@@ -5,9 +11,9 @@ import {
   } from './constants';
 import Avatar from './Avatar';
 function PasserbyDetail({
-    previousNavigation,
-    onSetNavigation,
+    previousNavigation, 
     currentDiary,
+    onSetNavigation,
     onGetMyPasserbyDiaries,
     onGetPasserbyDiaries,
 }) {

@@ -1,9 +1,16 @@
+/*
+ * Author: Mengyun Xie
+ * Date: 04/17/2023
+ * This code is a part of the final project of the INFO 6250 course
+ */
+
 import { 
     DEFAULT_LABEL_KEY, 
     SIDE_MENU,
     NAVIGATION,
     formatDate,
 } from './constants';
+
 function MyDiaryDetail({
     currentDiary,
     onSetNavigation,

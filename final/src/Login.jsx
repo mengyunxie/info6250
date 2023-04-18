@@ -1,3 +1,10 @@
+/*
+ * Author: Mengyun Xie
+ * Date: 04/17/2023
+ * This logo image is from https://www.iconfinder.com
+ * This code is a part of the final project of the INFO 6250 course
+ */
+
 import { useState } from 'react';
 import logo from './assets/logo.png';
 

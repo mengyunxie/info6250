@@ -1,3 +1,9 @@
+/*
+ * Author: Mengyun Xie
+ * Date: 04/17/2023
+ * This code is a part of the final project of the INFO 6250 course
+ */
+
 import MyDiaryItem from './MyDiaryItem';
 function MyDiaryList({
     diaries,
@@ -6,9 +12,9 @@ function MyDiaryList({
 }) {
     if(diaries.length === 0) {
         return <div className='no-data'>
-                    <i className="gg-danger"></i>
-                    <p>No Data</p>
-                </div>;
+                <i className="gg-danger"></i>
+                <p>No Data</p>
+            </div>;
     }
 
     return (

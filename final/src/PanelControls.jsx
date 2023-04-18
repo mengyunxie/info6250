@@ -1,3 +1,9 @@
+/*
+ * Author: Mengyun Xie
+ * Date: 04/17/2023
+ * This code is a part of the final project of the INFO 6250 course
+ */
+
 import {SIDE_MENU} from './constants';
 import PasserbyPanel from './PasserbyPanel';
 import MyDiaryPanel from './MyDiaryPanel';
@@ -7,23 +13,23 @@ import Loading from './Loading';
 
 function PanelControls({
     username, 
-    avatar, 
+    avatar,
+    avatars,
+    labels,
+    currentDiary,
+    passerbyDiaries, 
+    diaries,
     menu,
     previousNavigation,
-    currentNavigation,
-    onSetNavigation,
-    labels,
+    currentNavigation,  
+    isDashBoardPending,
+    error,
+    onClearStatus,
     onSubmitDiary, 
     onDeleteDiary,
     onUpdateDiary,
     onUpdateAvatar,
-    avatars, 
-    passerbyDiaries, 
-    diaries,
-    error,
-    onClearStatus,
-    isDashBoardPending,
-    currentDiary,
+    onSetNavigation,
     onSetCurrentDiary,
     onGetDiariesByLabel,
     onGetMyPasserbyDiaries,
@@ -36,41 +42,41 @@ function PanelControls({
 
     return (
         <div className="panel-controls">
-            { error && <Status  error={error} onClearStatus={onClearStatus} /> }
+            {error && <Status  error={error} onClearStatus={onClearStatus} />}
             {menu === SIDE_MENU.PASSERBY && <PasserbyPanel 
-                passerbyDiaries={passerbyDiaries}
-                previousNavigation={previousNavigation}
-                currentNavigation={currentNavigation}
-                currentDiary={currentDiary}
-                onSetCurrentDiary={onSetCurrentDiary}
-                onSetNavigation={onSetNavigation}
-                onGetMyPasserbyDiaries={onGetMyPasserbyDiaries}
-                onGetPasserbyDiaries={onGetPasserbyDiaries}
-            />}
+                    passerbyDiaries={passerbyDiaries}
+                    previousNavigation={previousNavigation}
+                    currentNavigation={currentNavigation}
+                    currentDiary={currentDiary}
+                    onSetCurrentDiary={onSetCurrentDiary}
+                    onSetNavigation={onSetNavigation}
+                    onGetMyPasserbyDiaries={onGetMyPasserbyDiaries}
+                    onGetPasserbyDiaries={onGetPasserbyDiaries}
+                />
+            }
             {menu === SIDE_MENU.MYDIARY && <MyDiaryPanel 
-                diaries={diaries}
-                labels={labels}
-                previousNavigation={previousNavigation}
-                currentNavigation={currentNavigation}
-                currentDiary={currentDiary}
-                onSetCurrentDiary={onSetCurrentDiary}
-                onSetNavigation={onSetNavigation}
-                onSubmitDiary={onSubmitDiary}
-                onDeleteDiary={onDeleteDiary}
-                onUpdateDiary={onUpdateDiary}
-                onGetDiariesByLabel={onGetDiariesByLabel}
-            />}
+                    diaries={diaries}
+                    labels={labels}
+                    previousNavigation={previousNavigation}
+                    currentNavigation={currentNavigation}
+                    currentDiary={currentDiary}
+                    onSetCurrentDiary={onSetCurrentDiary}
+                    onSetNavigation={onSetNavigation}
+                    onSubmitDiary={onSubmitDiary}
+                    onDeleteDiary={onDeleteDiary}
+                    onUpdateDiary={onUpdateDiary}
+                    onGetDiariesByLabel={onGetDiariesByLabel}
+                />
+            }
             {menu === SIDE_MENU.SETTING && <SettingPanel 
-                username={username} 
-                avatar={avatar} 
-                labels={labels} 
-                avatars={avatars}
-                previousNavigation={previousNavigation}
-                currentNavigation={currentNavigation}
-                onSetNavigation={onSetNavigation}
-                onUpdateAvatar={onUpdateAvatar}
-                onClearStatus={onClearStatus}
-            />}
+                    username={username} 
+                    avatar={avatar}  
+                    avatars={avatars}
+                    currentNavigation={currentNavigation}
+                    onUpdateAvatar={onUpdateAvatar}
+                    onClearStatus={onClearStatus}
+                />
+            }
         </div>
     );
 }

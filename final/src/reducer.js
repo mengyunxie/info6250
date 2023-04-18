@@ -1,3 +1,9 @@
+/*
+ * Author: Mengyun Xie
+ * Date: 04/17/2023
+ * This code is a part of the final project of the INFO 6250 course
+ */
+
 import {
   LOGIN_STATUS,
   CLIENT,
@@ -10,15 +16,15 @@ import {
 export const initialState = {
   error: '',
   username: '',
-  avatar: AVATARS_KEY.DEFAULT,
+  avatar: AVATARS_KEY.DEFAULT, // Set default avatar
   loginStatus: LOGIN_STATUS.PENDING,
-  isDashBoardPending: false,
-  menu: SIDE_MENU.PASSERBY,
+  isDashBoardPending: false, // DashBoard loading animation
+  menu: SIDE_MENU.PASSERBY, // Set passerby as the default side menu  
   currentNavigation: NAVIGATION[SIDE_MENU.PASSERBY].DEFAULT,
-  previousNavigation: NAVIGATION[SIDE_MENU.PASSERBY].DEFAULT,
+  previousNavigation: NAVIGATION[SIDE_MENU.PASSERBY].DEFAULT, // Keep previous navigation for go back logic
   passerbyDiaries: [],
   diaries: [],
-  currentDiary: {},
+  currentDiary: {}, // For communication between components
   labels: [],
   avatars: []
 };
@@ -26,16 +32,16 @@ export const initialState = {
 function reducer(state, action) {
   switch(action.type) {
 
-    case ACTIONS.WAIT_LOG_IN:   // actions are the change in state, not how that change happened
+    case ACTIONS.WAIT_LOG_IN:
       return {
         ...state,
         loginStatus: LOGIN_STATUS.PENDING,
       };
 
-    case ACTIONS.LOG_IN:   // actions are the change in state, not how that change happened
+    case ACTIONS.LOG_IN:
       return {
         ...state,
-        error: '', // constantly resetting this is a "pain point", and a sign of something to improve!
+        error: '',
         loginStatus: LOGIN_STATUS.IS_LOGGED_IN,
         username: action.username,
         avatar: action.avatar,
@@ -70,11 +76,10 @@ function reducer(state, action) {
       return {
         ...state,
         error: '',
-        isDashBoardPending: true, // Perhaps make this a "status" value like login?
+        isDashBoardPending: true,
       };  
 
     case ACTIONS.REPORT_ERROR:
-      // We could move the "pick the message" logic from Status.jsx here. Better? It depends.
       return {
         ...state,
         isDashBoardPending: false,
@@ -128,6 +133,7 @@ function reducer(state, action) {
       };
 
     case ACTIONS.ADD_DIARY:
+      // Add a new diary to the diary array
       const addDiaries = [...state.diaries];
       addDiaries.push(action.diary);
       return {
@@ -138,6 +144,7 @@ function reducer(state, action) {
       };
     
     case ACTIONS.UPDATE_DIARY:
+      // Update a diary from the diary array
       const updateDiaries = [...state.diaries];
       updateDiaries.forEach( (item, index) => {
         if(item.id === action.diary.id) {
@@ -152,6 +159,7 @@ function reducer(state, action) {
       };
 
     case ACTIONS.DELETE_DIARY:
+      // Delete a diary from the diary array
       const deleteDiaries = [...state.diaries];
       return {
         ...state,

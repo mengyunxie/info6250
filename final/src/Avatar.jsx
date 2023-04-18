@@ -1,3 +1,10 @@
+/*
+ * Author: Mengyun Xie
+ * Date: 04/17/2023
+ * These avatar images are from https://www.iconfinder.com
+ * This code is a part of the final project of the INFO 6250 course
+ */
+
 import {AVATARS_KEY} from './constants';
 
 import Default from './assets/avatar.png';

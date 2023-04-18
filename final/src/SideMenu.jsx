@@ -1,3 +1,9 @@
+/*
+ * Author: Mengyun Xie
+ * Date: 04/17/2023
+ * This code is a part of the final project of the INFO 6250 course
+ */
+
 import {SIDE_MENU, DEFAULT_LABEL_KEY} from './constants';
 
 function SideMenu({
@@ -11,7 +17,7 @@ function SideMenu({
         <div className="side-menu">
             <ul className="side-menu-contents">
                 <li 
-                    className={`side-menu-item ${menu == SIDE_MENU.PASSERBY ? "focus" : ""}`}
+                    className={`side-menu-item ${menu === SIDE_MENU.PASSERBY ? "focus" : ""}`}
                     onClick={ (e) => {
                         e.preventDefault();
                         onSetMenu(SIDE_MENU.PASSERBY);
@@ -22,7 +28,7 @@ function SideMenu({
                     <span>{SIDE_MENU.PASSERBY}</span>
                 </li>
                 <li
-                    className={`side-menu-item ${menu == SIDE_MENU.MYDIARY ? "focus" : ""}`}
+                    className={`side-menu-item ${menu === SIDE_MENU.MYDIARY ? "focus" : ""}`}
                     onClick={ (e) => {
                         e.preventDefault();
                         onSetMenu(SIDE_MENU.MYDIARY);
@@ -33,7 +39,7 @@ function SideMenu({
                     <span>{SIDE_MENU.MYDIARY}</span>
                 </li>
                 <li
-                    className={`side-menu-item ${menu == SIDE_MENU.SETTING ? "focus" : ""}`}
+                    className={`side-menu-item ${menu === SIDE_MENU.SETTING ? "focus" : ""}`}
                     onClick={ (e) => {
                         e.preventDefault();
                         onSetMenu(SIDE_MENU.SETTING);
@@ -43,6 +49,7 @@ function SideMenu({
                     <span>{SIDE_MENU.SETTING}</span>
                 </li>
             </ul>
+            <p className='copyright'> © 2023 Passerby Diary</p>
         </div>
     );
 }

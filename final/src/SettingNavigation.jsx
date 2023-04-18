@@ -1,3 +1,9 @@
+/*
+ * Author: Mengyun Xie
+ * Date: 04/17/2023
+ * This code is a part of the final project of the INFO 6250 course
+ */
+
 import { useState } from 'react';
 import { SIDE_MENU, NAVIGATION } from './constants';
 
@@ -14,7 +20,7 @@ function SettingNavigation({onSetNavigation}) {
                     onSetNavigation({currentNavigation: NAVIGATION[SIDE_MENU.SETTING].DEFAULT});
                 }}
             >
-                <span>{NAVIGATION[SIDE_MENU.SETTING].DEFAULT}</span>
+                {NAVIGATION[SIDE_MENU.SETTING].DEFAULT}
             </li>
             <li 
                 className={`navigation-item ${navigation === NAVIGATION[SIDE_MENU.SETTING].ABOUT ? "focus" : ""}`}
@@ -24,7 +30,7 @@ function SettingNavigation({onSetNavigation}) {
                     onSetNavigation({currentNavigation: NAVIGATION[SIDE_MENU.SETTING].ABOUT});
                 }}
             >
-                <span>{NAVIGATION[SIDE_MENU.SETTING].ABOUT}</span>
+                {NAVIGATION[SIDE_MENU.SETTING].ABOUT}
             </li>
         </ul>
     );

@@ -1,3 +1,9 @@
+/*
+ * Author: Mengyun Xie
+ * Date: 04/17/2023
+ * This code is a part of the final project of the INFO 6250 course
+ */
+
 import { useState } from 'react';
 import { SIDE_MENU, NAVIGATION } from './constants';
 
@@ -19,7 +25,7 @@ function PasserbyNavigation({
                     onGetPasserbyDiaries();
                 }}
             >
-                <span>{NAVIGATION[SIDE_MENU.PASSERBY].DEFAULT}</span>
+                {NAVIGATION[SIDE_MENU.PASSERBY].DEFAULT}
             </li>
             <li 
                 className={`navigation-item ${navigation === NAVIGATION[SIDE_MENU.PASSERBY].MINE ? "focus" : ""}`}
@@ -30,7 +36,7 @@ function PasserbyNavigation({
                     onGetMyPasserbyDiaries();
                 }}
             >
-                <span>{NAVIGATION[SIDE_MENU.PASSERBY].MINE}</span>
+                {NAVIGATION[SIDE_MENU.PASSERBY].MINE}
             </li>
         </ul>
     );

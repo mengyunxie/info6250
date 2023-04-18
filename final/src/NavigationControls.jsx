@@ -1,3 +1,9 @@
+/*
+ * Author: Mengyun Xie
+ * Date: 04/17/2023
+ * This code is a part of the final project of the INFO 6250 course
+ */
+
 import {SIDE_MENU} from './constants';
 import PasserbyNavigation from './PasserbyNavigation';
 import MyDiaryNavigation from './MyDiaryNavigation';
@@ -23,11 +29,12 @@ function NavigationControls({
                 />
             }
             {menu === SIDE_MENU.MYDIARY && <MyDiaryNavigation 
-                labels={labels}
-                currentNavigation={currentNavigation}
-                onSetNavigation={onSetNavigation}
-                onGetDiariesByLabel={onGetDiariesByLabel}
-            />}
+                    labels={labels}
+                    currentNavigation={currentNavigation}
+                    onSetNavigation={onSetNavigation}
+                    onGetDiariesByLabel={onGetDiariesByLabel}
+                />
+            }
             {menu === SIDE_MENU.SETTING && <SettingNavigation onSetNavigation={onSetNavigation} />}
             <button 
                 type="button" 

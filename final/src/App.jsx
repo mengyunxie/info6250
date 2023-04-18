@@ -1,7 +1,13 @@
+/*
+ * Author: Mengyun Xie
+ * Date: 04/17/2023
+ * This code is a part of the final project of the INFO 6250 course
+ */
+
 import { useReducer, useEffect } from 'react';
 
 import './App.css';
-import './icons.css';
+import './icons.css'; // All icons from https://css.gg
 import reducer, { initialState } from './reducer';
 import {
   SIDE_MENU,
@@ -24,7 +30,7 @@ import {
   fetchAddDiary,
   fetchUpdateDiary,
   fetchDeleteDiary,
-} from './services';
+} from './services'; // Offer fetch() calls to communicate with the server.
 
 import Dashboard from './Dashboard';
 import Login from './Login';
@@ -33,6 +39,7 @@ import Loading from './Loading';
 function App() {
   const [state, dispatch] = useReducer(reducer, initialState);
 
+  /* Login */
   function onLogin(username) {
     dispatch({ type: ACTIONS.WAIT_LOG_IN }); 
     fetchLogin(username)
@@ -51,6 +58,7 @@ function App() {
     });
   };
 
+  /* Logout */
   function onLogout() {
     dispatch({ type: ACTIONS.CLEAR_ERROR });
     dispatch({ type: ACTIONS.LOG_OUT });
@@ -65,11 +73,13 @@ function App() {
     dispatch({ type: ACTIONS.CLEAR_ERROR });
   }
 
+  /* Set side menu */
   function onSetMenu(menu) {
     dispatch({ type: ACTIONS.TOGGLE_MENU, menu });
     dispatch({ type: ACTIONS.TOGGLE_NAVIGATION, currentNavigation: NAVIGATION[menu].DEFAULT, previousNavigation: state.currentNavigation});
   }
 
+  /* Set navigation */
   function onSetNavigation({currentNavigation}) {
     dispatch({ type: ACTIONS.TOGGLE_NAVIGATION, currentNavigation, previousNavigation: state.currentNavigation});
   }
@@ -78,6 +88,7 @@ function App() {
     dispatch({ type: ACTIONS.VIEW_DIARY, diary });
   }
 
+  /* Delete diary */
   function onDeleteDiary(id) {
     dispatch({ type: ACTIONS.START_LOADING_DATA });
     fetchDeleteDiary(id)
@@ -93,6 +104,7 @@ function App() {
     });
   }
 
+  /* Update diary */
   function onUpdateDiary({id, details, labelKey, isPasserby}) {
     dispatch({ type: ACTIONS.START_LOADING_DATA });
     fetchUpdateDiary({id, details, labelKey, isPasserby})
@@ -108,6 +120,7 @@ function App() {
     });
   }
 
+  /* Add a new diary */
   function onSubmitDiary({details, labelKey, isPasserby}) {
     dispatch({ type: ACTIONS.START_LOADING_DATA });
     fetchAddDiary({details, labelKey, isPasserby})
@@ -123,6 +136,7 @@ function App() {
     });
   }
 
+  /* Update user's avatar */
   function onUpdateAvatar(avatar) {
     dispatch({ type: ACTIONS.START_LOADING_DATA });
     fetchUpdateUserAvatar(avatar)
@@ -137,6 +151,7 @@ function App() {
     });
   }
 
+  /* Get all passerby diaries */
   function onGetPasserbyDiaries() {
     dispatch({ type: ACTIONS.START_LOADING_DATA });
     fetchPasserbyDiaries()
@@ -151,6 +166,7 @@ function App() {
     });
   }
 
+  /* Get a user's passerby diaries */
   function onGetMyPasserbyDiaries() {
     dispatch({ type: ACTIONS.START_LOADING_DATA });
     fetchMyPasserbyDiaries()
@@ -165,6 +181,7 @@ function App() {
     });
   }
 
+  /* Get a user's diaries */
   function onGetDiariesByLabel(currentLabelKey) {
     dispatch({ type: ACTIONS.START_LOADING_DATA });
     fetchDiariesByLabel(currentLabelKey || DEFAULT_LABEL_KEY)
@@ -207,7 +224,6 @@ function App() {
     });
   }
 
-  // Here we use a useEffect to perform the initial loading
   // Initial loading isn't triggered by an event like most service calls
   useEffect(
     () => {
@@ -221,31 +237,31 @@ function App() {
       { state.loginStatus === LOGIN_STATUS.PENDING && <Loading>Loading state...</Loading> }
       { state.loginStatus === LOGIN_STATUS.NOT_LOGGED_IN && <Login onLogin={onLogin} error={state.error} onClearStatus={onClearStatus}/> }
       { state.loginStatus === LOGIN_STATUS.IS_LOGGED_IN && <Dashboard
-            username={state.username}
-            avatar={state.avatar}
-            labels={state.labels}
-            avatars={state.avatars}
-            passerbyDiaries={state.passerbyDiaries}
-            diaries={state.diaries}
-            menu={state.menu}
-            error={state.error}
-            previousNavigation={state.previousNavigation}
-            currentNavigation={state.currentNavigation}
-            isDashBoardPending={state.isDashBoardPending}
-            currentDiary={state.currentDiary}
-            onSetCurrentDiary={onSetCurrentDiary}
-            onSetMenu={onSetMenu}
-            onLogout={onLogout}
-            onSetNavigation={onSetNavigation}
-            onSubmitDiary={onSubmitDiary}
-            onDeleteDiary={onDeleteDiary}
-            onUpdateDiary={onUpdateDiary}
-            onUpdateAvatar={onUpdateAvatar}
-            onClearStatus={onClearStatus}
-            onGetDiariesByLabel={onGetDiariesByLabel}
-            onGetMyPasserbyDiaries={onGetMyPasserbyDiaries}
-            onGetPasserbyDiaries={onGetPasserbyDiaries}
-          />
+          username={state.username}
+          avatar={state.avatar}
+          labels={state.labels}
+          avatars={state.avatars}
+          currentDiary={state.currentDiary}
+          passerbyDiaries={state.passerbyDiaries}
+          diaries={state.diaries}
+          menu={state.menu}
+          error={state.error}
+          previousNavigation={state.previousNavigation}
+          currentNavigation={state.currentNavigation}
+          isDashBoardPending={state.isDashBoardPending}
+          onSetCurrentDiary={onSetCurrentDiary}
+          onSetMenu={onSetMenu}
+          onLogout={onLogout}
+          onSetNavigation={onSetNavigation}
+          onSubmitDiary={onSubmitDiary}
+          onDeleteDiary={onDeleteDiary}
+          onUpdateDiary={onUpdateDiary}
+          onUpdateAvatar={onUpdateAvatar}
+          onClearStatus={onClearStatus}
+          onGetDiariesByLabel={onGetDiariesByLabel}
+          onGetMyPasserbyDiaries={onGetMyPasserbyDiaries}
+          onGetPasserbyDiaries={onGetPasserbyDiaries}
+        />
       }
     </div>
   );

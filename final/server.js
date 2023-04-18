@@ -1,3 +1,10 @@
+/*
+ * Author: Mengyun Xie
+ * Date: 04/17/2023
+ * Description: Offer rest API for this system
+ * This code is a part of the final project of the INFO 6250 course
+ */
+
 const express = require('express');
 const cookieParser = require('cookie-parser');
 
@@ -5,19 +12,20 @@ const app = express();
 const PORT = process.env.PORT || 3000;
 
 const sessions = require('./sessions');
-const users = require('./users');
-const diaries = require('./diaries');
-const avatars = require('./avatars');
-const labels = require('./labels');
+const users = require('./users'); // The users data
+const diaries = require('./diaries'); // The diary data
+const avatars = require('./avatars'); // The system's built-in avatars
+const labels = require('./labels'); // The system's built-in labels
 
 app.use(cookieParser());
 app.use(express.static('./build'));
 app.use(express.json()); // Parses requests with json content bodies
 
-// Check for existing session (used on page load)
+/* Check for existing session (used on page load) */
 app.get('/api/v1/session', (req, res) => {
   const sid = req.cookies.sid;
   const username = sid ? sessions.getSessionUser(sid) : '';
+
   if(!sid || !username) {
     res.status(401).json({ error: 'auth-missing' });
     return;
@@ -26,9 +34,10 @@ app.get('/api/v1/session', (req, res) => {
   res.json(user);
 });
 
-// Create a new session (login)
+/* Create a new session (login) */
 app.post('/api/v1/session', (req, res) => {
   const { username } = req.body;
+
   if(!username) { // The username is empty
     res.status(400).json({ error: 'required-username' });
     return;
@@ -44,7 +53,7 @@ app.post('/api/v1/session', (req, res) => {
 
   const existingUserData = users.getUser(username);
 
-  if(!existingUserData) {
+  if(!existingUserData) { // New user, create default labels and avatars for this user
     const defaultAvatar = avatars.getDefaultAvatar();
     const avatarList = avatars.getAvatars();
     const labelList = labels.getLabels();
@@ -56,27 +65,29 @@ app.post('/api/v1/session', (req, res) => {
   res.json(users.getUser(username));
 });
 
-// Update user's avatar
+/* Update user's avatar */
 app.patch('/api/v1/session', (req, res) => {
   const sid = req.cookies.sid;
   const username = sid ? sessions.getSessionUser(sid) : '';
+
   if(!sid || !users.isValidUsername(username)) {
     res.status(401).json({ error: 'auth-missing' });
     return;
   }
   const {avatar} = req.body;
 
-  if(!avatars.isValid(avatar)) {
+  if(!avatars.isValid(avatar)) { // Check if this avatar is a system's built-in avatar
     res.status(400).json({ error: 'invalid-avatar' });
     return;
   }
 
-  users.updateUserAvatar({username, avatar});
-  diaries.updateDiariesUserAvatar({username, avatar});
+  users.updateUserAvatar({username, avatar}); // Update the user's avatar
+  diaries.updateDiariesUserAvatar({username, avatar}); // Update the user's avatar of the diaries object
+
   res.json(users.getUser(username));
 });
 
-// Logout
+/* Logout */
 app.delete('/api/v1/session', (req, res) => {
   const sid = req.cookies.sid;
   const username = sid ? sessions.getSessionUser(sid) : '';
@@ -90,16 +101,18 @@ app.delete('/api/v1/session', (req, res) => {
   res.json({ wasLoggedIn: !!username }); // Provides some extra info that can be safely ignored
 });
 
-// Add a new diary
+/* Add a new diary */
 app.post('/api/v1/diaries', (req, res) => {
   const sid = req.cookies.sid;
   const username = sid ? sessions.getSessionUser(sid) : '';
+
   if(!sid || !username) {
     res.status(401).json({ error: 'auth-missing' });
     return;
   }
   const {details, labelKey, isPasserby} = req.body;
-  if(!details) {
+
+  if(!details) { // Details of a diary is empty
     res.status(400).json({ error: 'required-diary-details' });
     return;
   }
@@ -109,7 +122,7 @@ app.post('/api/v1/diaries', (req, res) => {
     return;
   }
 
-  if(!labels.isValid(labelKey)) {
+  if(!labels.isValid(labelKey)) { // Check if this label is a system's built-in label
     res.status(400).json({ error: 'invalid-label' });
     return;
   }
@@ -118,20 +131,24 @@ app.post('/api/v1/diaries', (req, res) => {
 
   const label = labels.getLabel(labelKey);
   const id = diaries.addDiary({user, label, isPasserby, details});
+
   res.json(diaries.getDiary(id));
 });
 
-// Update user's diary
+/* Update user's diary */
 app.patch('/api/v1/diaries/:id', (req, res) => {
   const sid = req.cookies.sid;
   const username = sid ? sessions.getSessionUser(sid) : '';
+
   if(!sid || !users.isValidUsername(username)) {
     res.status(401).json({ error: 'auth-missing' });
     return;
   }
+
   const { id } = req.params;
   const {details, labelKey, isPasserby} = req.body;
-  if(!details) {
+
+  if(!details) { // Details of a diary is empty
     res.status(400).json({ error: 'required-diary-details' });
     return;
   }
@@ -141,18 +158,19 @@ app.patch('/api/v1/diaries/:id', (req, res) => {
     return;
   }
 
-  if(!labels.isValid(labelKey)) {
+  if(!labels.isValid(labelKey)) { // Check if this label is a system's built-in label
     res.status(400).json({ error: 'invalid-label' });
     return;
   }
 
-  if(!diaries.contains(id)) {
+  if(!diaries.contains(id)) { // This diary id is not exist
     res.status(404).json({ error: `noSuchDiaryId`, message: `No diary with id ${id}` });
     return;
   }
+
   const diary = diaries.getDiary(id);
 
-  if(diary.username != username) {
+  if(diary.username != username) { // Check if the User id is match diary id
     res.status(404).json({ error: `notMatchUser`, message: `User id is not match diary id` });
     return;
   }
@@ -161,42 +179,28 @@ app.patch('/api/v1/diaries/:id', (req, res) => {
   res.json(diaries.getDiary(id));
 });
 
-// Delete user's diary
+/* Delete user's diary */
 app.delete('/api/v1/diaries/:id', (req, res) => {
   const sid = req.cookies.sid;
   const username = sid ? sessions.getSessionUser(sid) : '';
+
   if(!sid || !users.isValidUsername(username)) {
     res.status(401).json({ error: 'auth-missing' });
     return;
   }
   const { id } = req.params;
   const exists = diaries.contains(id);
-  if(exists) {
+  if(exists) { 
     diaries.deleteDiary(id);
   }
   res.json({ message: exists ? `diary ${id} deleted` : `Diary ${id} did not exist` });
 });
 
-// Get user's diary
-app.get('/api/v1/diaries/:id', (req, res) => {
-  const sid = req.cookies.sid;
-  const username = sid ? sessions.getSessionUser(sid) : '';
-  if(!sid || !users.isValidUsername(username)) {
-    res.status(401).json({ error: 'auth-missing' });
-    return;
-  }
-  const { id } = req.params;
-  if(!diaries.contains(id)) {
-    res.status(404).json({ error: `noSuchDiaryId`, message: `No diary with id ${id}` });
-    return;
-  }
-  res.json(diaries.getDiary(id));
-});
-
-// Get user's diaries of different labels
+/* Get this user's diaries by different labels */
 app.get('/api/v1/diariesbylabel/:label', (req, res) => {
   const sid = req.cookies.sid;
   const username = sid ? sessions.getSessionUser(sid) : '';
+
   if(!sid || !username) {
     res.status(401).json({ error: 'auth-missing' });
     return;
@@ -204,25 +208,26 @@ app.get('/api/v1/diariesbylabel/:label', (req, res) => {
 
   const { label } = req.params;
 
-  if(!labels.isValid(label)) {
+  if(!labels.isValid(label)) { // Check if this label is a system's built-in label
     res.status(400).json({ error: 'invalid-label' });
     return;
   }
 
   let response;
-  if(!label || label == labels.getDefaultLabel().key) {
+  if(!label || label == labels.getDefaultLabel().key) { // Get all labels' diaries
     response = diaries.getDiaries(username);
-  } else {
+  } else { // Get this label's diaries
     response = diaries.getDiariesByLabel({username, label});
   }
   
   res.json(response);
 });
 
-// Get passersby's diaries
+/* Get all passersby's diaries */
 app.get('/api/v1/passersby/all', (req, res) => {
   const sid = req.cookies.sid;
   const username = sid ? sessions.getSessionUser(sid) : '';
+
   if(!sid || !username) {
     res.status(401).json({ error: 'auth-missing' });
     return;
@@ -231,10 +236,11 @@ app.get('/api/v1/passersby/all', (req, res) => {
   res.json(diaries.getPasserbyDiaries());
 });
 
-// Get user's passersby's diaries
+/* Get this user's passersby's diaries */
 app.get('/api/v1/passersby/mine', (req, res) => {
   const sid = req.cookies.sid;
   const username = sid ? sessions.getSessionUser(sid) : '';
+
   if(!sid || !username) {
     res.status(401).json({ error: 'auth-missing' });
     return;
@@ -244,4 +250,3 @@ app.get('/api/v1/passersby/mine', (req, res) => {
 });
 
 app.listen(PORT, () => console.log(`http://localhost:${PORT}`));
-

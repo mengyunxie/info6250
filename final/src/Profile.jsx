@@ -1,6 +1,19 @@
+/*
+ * Author: Mengyun Xie
+ * Date: 04/17/2023
+ * This code is a part of the final project of the INFO 6250 course
+ */
+
 import { useState } from 'react';
 import Avatar from './Avatar';
-function Profile({username, avatar, avatars, onUpdateAvatar, onClearStatus}) {
+
+function Profile({
+    username,
+    avatar,
+    avatars,
+    onUpdateAvatar,
+    onClearStatus,
+}) {
 
     const [isEditing, setIsEditing] = useState(false);
     const [newAvatar, setNewAvatar] = useState(avatar);

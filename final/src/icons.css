@@ -43,11 +43,11 @@
     width: 22px;
     height: 22px;
     border: 2px solid transparent;
-    border-radius: 40px
-   }
-   
-   .gg-close::after,
-   .gg-close::before {
+    border-radius: 40px;
+}
+
+.gg-close::after,
+.gg-close::before {
     content: "";
     display: block;
     box-sizing: border-box;
@@ -58,16 +58,16 @@
     transform: rotate(45deg);
     border-radius: 5px;
     top: 8px;
-    left: 1px
-   }
-   
-   .gg-close::after {
-    transform: rotate(-45deg)
-   }
+    left: 1px;
+}
+
+.gg-close::after {
+    transform: rotate(-45deg);
+}
 
 
 /* Check */
-   .gg-check {
+.gg-check {
     box-sizing: border-box;
     position: relative;
     display: block;
@@ -75,10 +75,10 @@
     width: 22px;
     height: 22px;
     border: 2px solid transparent;
-    border-radius: 100px
-   }
-   
-   .gg-check::after {
+    border-radius: 100px;
+}
+
+.gg-check::after {
     content: "";
     display: block;
     box-sizing: border-box;
@@ -90,12 +90,12 @@
     border-width: 0 2px 2px 0;
     border-style: solid;
     transform-origin: bottom left;
-    transform: rotate(45deg)
-   } 
+    transform: rotate(45deg);
+}                             
  
 /* Data */
 .gg-data {
-    transform: scale(var(--ggs,1))
+    transform: scale(var(--ggs,1));
 }
 
 .gg-data,
@@ -122,8 +122,8 @@
 
 .gg-data::after {
 background: linear-gradient( to left,
-currentColor 8px,transparent 0)
-no-repeat bottom center/2px 8px;
+    currentColor 8px,transparent 0)
+    no-repeat bottom center/2px 8px;
     width: 22px;
     height: 22px;
     top: -6px;
@@ -237,49 +237,50 @@ no-repeat bottom center/2px 8px;
     transform: scale(var(--ggs,1));
     width: 22px;
     height: 22px;
-   }
-   
-   .gg-arrow-left::after,
-   .gg-arrow-left::before {
+}
+
+.gg-arrow-left::after,
+.gg-arrow-left::before {
     content: "";
     display: block;
     box-sizing: border-box;
     position: absolute;
     left: 3px;
-   }
-   
-   .gg-arrow-left::after {
+}
+
+.gg-arrow-left::after {
     width: 8px;
     height: 8px;
     border-bottom: 2px solid;
     border-left: 2px solid;
     transform: rotate(45deg);
     bottom: 7px;
-   }
-   
-   .gg-arrow-left::before {
+}
+
+.gg-arrow-left::before {
     width: 16px;
     height: 2px;
     bottom: 10px;
     background: currentColor;
-   }
+}
 
 /* Spinner */
 @keyframes spinner-two {
     0% {transform: rotate(0deg)}
     to {transform: rotate(359deg)}
-  }
-  .gg-spinner-two {
+}
+
+.gg-spinner-two {
     transform: scale(var(--ggs,1));
     box-sizing: border-box;
     position: relative;
     display: block;
     width: 3rem;
     height: 3rem;
-  }
- 
-  .gg-spinner-two::after,
-  .gg-spinner-two::before {
+}
+
+.gg-spinner-two::after,
+.gg-spinner-two::before {
     box-sizing: border-box;
     display: block;
     width: 3rem;
@@ -287,21 +288,22 @@ no-repeat bottom center/2px 8px;
     content: "";
     position: absolute;
     border-radius: 10rem;
-  }
-  .gg-spinner-two::before {
+}
+
+.gg-spinner-two::before {
     animation: spinner-two 1s cubic-bezier(.6,0,.4,1) infinite;
     border: 0.4rem solid transparent;
     border-bottom-color: currentColor;
     border-top-color: currentColor;
-  }
-  .gg-spinner-two::after {
+}
+
+.gg-spinner-two::after {
     border: 0.4rem solid;
     opacity: .2;
-  }
-
+}
 
 /* Danger */
-  .gg-danger {
+.gg-danger {
     box-sizing: border-box;
     position: relative;
     display: block;
@@ -309,11 +311,11 @@ no-repeat bottom center/2px 8px;
     width: 20px;
     height: 20px;
     border: 2px solid;
-    border-radius: 40px
-   }
-   
-   .gg-danger::after,
-   .gg-danger::before {
+    border-radius: 40px;
+}
+
+.gg-danger::after,
+.gg-danger::before {
     content: "";
     display: block;
     box-sizing: border-box;
@@ -321,15 +323,15 @@ no-repeat bottom center/2px 8px;
     border-radius: 3px;
     width: 2px;
     background: currentColor;
-    left: 7px
-   }
-   
-   .gg-danger::after {
+    left: 7px;
+}
+
+.gg-danger::after {
     top: 2px;
-    height: 8px
-   }
-   
-   .gg-danger::before {
+    height: 8px;
+}
+
+.gg-danger::before {
     height: 2px;
-    bottom: 2px
-   } 
+    bottom: 2px;
+} 

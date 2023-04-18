@@ -1,3 +1,9 @@
+/*
+ * Author: Mengyun Xie
+ * Date: 04/17/2023
+ * This code is a part of the final project of the INFO 6250 course
+ */
+
 import SideMenu from './SideMenu';
 import NavigationControls from './NavigationControls';
 import PanelControls from './PanelControls';
@@ -8,9 +14,12 @@ function Dashboard({
   avatar, 
   labels, 
   avatars, 
+  currentDiary,
   passerbyDiaries, 
   diaries,
   menu,
+  error,
+  isDashBoardPending,
   previousNavigation,
   currentNavigation,
   onSubmitDiary,
@@ -21,9 +30,6 @@ function Dashboard({
   onSetNavigation,
   onLogout,
   onClearStatus,
-  error,
-  isDashBoardPending,
-  currentDiary,
   onSetCurrentDiary,
   onGetDiariesByLabel,
   onGetMyPasserbyDiaries,
@@ -59,11 +65,11 @@ function Dashboard({
         error={error}
         previousNavigation={previousNavigation}
         currentNavigation={currentNavigation}
-        onSetNavigation={onSetNavigation}
         passerbyDiaries={passerbyDiaries} 
         diaries={diaries}
         isDashBoardPending={isDashBoardPending}
         currentDiary={currentDiary}
+        onSetNavigation={onSetNavigation}
         onSetCurrentDiary={onSetCurrentDiary}
         onSubmitDiary={onSubmitDiary}
         onDeleteDiary={onDeleteDiary}

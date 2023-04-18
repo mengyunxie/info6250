@@ -1,3 +1,9 @@
+/*
+ * Author: Mengyun Xie
+ * Date: 04/17/2023
+ * This code is a part of the final project of the INFO 6250 course
+ */
+
 const uuid = require('uuid').v4;
 
 const diaries = {};
@@ -11,11 +17,12 @@ function isValid(details) {
     isValid = !!details && details.trim();
     isValid = isValid && details.length <= 3000;
     return isValid;
-  }
+}
 
 function addDiary({user, label, isPasserby, details}) {
     const id = uuid();
     const date = Date.now();
+    // The intro attribute is the first 50 letters of the details
     const intro = details.length > 50 ? `${details.substring(0, 50)}...` : details;
     
     diaries[id] = {
@@ -47,6 +54,7 @@ function updateDiary({id, label, isPasserby, details}) {
     diaries[id].intro = details.length > 50 ? `${details.substring(0, 50)}...` : details;
 }
 
+/* Update the avatar of all diaries of this username */
 function updateDiariesUserAvatar({username, avatar}) {
     Object.values(diaries).forEach(diary => {
         if (diary.username === username) {
@@ -55,6 +63,7 @@ function updateDiariesUserAvatar({username, avatar}) {
     });
 }
 
+/* Get this user's all diaries by chronological order */
 function getDiaries(username) {
     return Object.values(diaries).filter((item) => item?.username == username).sort((item1,item2) => item2.date - item1.date);
 }
@@ -63,6 +72,7 @@ function getDiariesByLabel({username, label}) {
     return Object.values(diaries).filter((item) => item?.username == username && item?.label.key == label).sort((item1,item2) => item2.date - item1.date);
 }
 
+/* Get all passerby diaries by chronological order */
 function getPasserbyDiaries() {
     return Object.values(diaries).filter((item) => item?.isPasserby).sort((item1,item2) => item2.date - item1.date);
 }

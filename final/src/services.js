@@ -1,3 +1,10 @@
+/*
+ * Author: Mengyun Xie
+ * Date: 04/17/2023
+ * Description: Offer fetch() calls to communicate with the server.
+ * This code is a part of the final project of the INFO 6250 course.
+ */
+
 /* Login */
 export function fetchLogin(username) {
   return fetch('/api/v1/session/', {
@@ -37,15 +44,15 @@ export function fetchLogout() {
 /* Check for an existing session */
 export function fetchSession() {
   return fetch('/api/v1/session')
-    .catch( err => Promise.reject({ error: 'network-error' }) )
-    .then( response => {
-      if (response.ok) {
-        return response.json();
-      }
-      return response.json()
-      .catch( error => Promise.reject({ error }) )
-      .then( err => Promise.reject(err) );
-    });
+  .catch( err => Promise.reject({ error: 'network-error' }) )
+  .then( response => {
+    if (response.ok) {
+      return response.json();
+    }
+    return response.json()
+    .catch( error => Promise.reject({ error }) )
+    .then( err => Promise.reject(err) );
+  });
 }
 
 // Update user's avatar
@@ -124,58 +131,44 @@ export function fetchDeleteDiary(id) {
   });
 }
 
-// Get user's diary
-export function fetchDiary(id) {
-  return fetch(`/api/v1/diaries/${id}`)
-    .catch( err => Promise.reject({ error: 'network-error' }) )
-    .then( response => {
-      if (response.ok) {
-        return response.json();
-      }
-      return response.json()
-      .catch( error => Promise.reject({ error }) )
-      .then( err => Promise.reject(err) );
-    });
-}
-
-// Get user's diaries of different labels
+// Get a user's diaries of different labels
 export function fetchDiariesByLabel(label) {
   return fetch(`/api/v1/diariesbylabel/${label}`)
-    .catch( err => Promise.reject({ error: 'network-error' }) )
-    .then( response => {
-      if (response.ok) {
-        return response.json();
-      }
-      return response.json()
-      .catch( error => Promise.reject({ error }) )
-      .then( err => Promise.reject(err) );
-    });
+  .catch( err => Promise.reject({ error: 'network-error' }) )
+  .then( response => {
+    if (response.ok) {
+      return response.json();
+    }
+    return response.json()
+    .catch( error => Promise.reject({ error }) )
+    .then( err => Promise.reject(err) );
+  });
 }
 
 // Get passersby's diaries
 export function fetchPasserbyDiaries() {
   return fetch('/api/v1/passersby/all')
-    .catch( err => Promise.reject({ error: 'network-error' }) )
-    .then( response => {
-      if (response.ok) {
-        return response.json();
-      }
-      return response.json()
-      .catch( error => Promise.reject({ error }) )
-      .then( err => Promise.reject(err) );
-    });
+  .catch( err => Promise.reject({ error: 'network-error' }) )
+  .then( response => {
+    if (response.ok) {
+      return response.json();
+    }
+    return response.json()
+    .catch( error => Promise.reject({ error }) )
+    .then( err => Promise.reject(err) );
+  });
 }
 
-// Get user's passersby's diaries
+// Get a user's passersby's diaries
 export function fetchMyPasserbyDiaries() {
   return fetch('/api/v1/passersby/mine')
-    .catch( err => Promise.reject({ error: 'network-error' }) )
-    .then( response => {
-      if (response.ok) {
-        return response.json();
-      }
-      return response.json()
-      .catch( error => Promise.reject({ error }) )
-      .then( err => Promise.reject(err) );
-    });
+  .catch( err => Promise.reject({ error: 'network-error' }) )
+  .then( response => {
+    if (response.ok) {
+      return response.json();
+    }
+    return response.json()
+    .catch( error => Promise.reject({ error }) )
+    .then( err => Promise.reject(err) );
+  });
 }

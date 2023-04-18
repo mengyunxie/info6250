@@ -1,20 +1,27 @@
+/*
+ * Author: Mengyun Xie
+ * Date: 04/17/2023
+ * Description: Offer build-in labels.
+ * This code is a part of the final project of the INFO 6250 course.
+ */
+
 const LABEL_COLOR = {
-    ROSE: 'rose', //#e2262b
-    ORANGE: 'orange', //#ec7013
-    YELLOW: 'yellow', //#fde64b
-    MEDALLION: 'medallion', //#e3b106
-    TAN: 'tan', //#e6dbad
-    SALT: 'salt', //#f7efec
-    FROST: 'frost', //#ecfcfc
-    WATERMELON: 'watermelon', //#fe7f9c
-    PURPLE: 'purple', //#a32cc4
-    BLUE: 'blue', //#3942ba
-    OCEAN: 'ocean', //#006063
-    GREEN: 'green', //#3ab143
-    COFFEE: 'coffee', //#4b371d
-    GREY: 'grey', //#6c626d
-    IRIS: 'iris', //#9767c5
-    SKY: 'sky', //#63c5d9
+    ROSE: 'rose',
+    ORANGE: 'orange',
+    YELLOW: 'yellow',
+    MEDALLION: 'medallion',
+    TAN: 'tan',
+    SALT: 'salt',
+    FROST: 'frost',
+    WATERMELON: 'watermelon',
+    PURPLE: 'purple',
+    BLUE: 'blue',
+    OCEAN: 'ocean',
+    GREEN: 'green',
+    COFFEE: 'coffee',
+    GREY: 'grey',
+    IRIS: 'iris',
+    SKY: 'sky',
 };
 
 const LABEL_TYPE = {
@@ -22,6 +29,7 @@ const LABEL_TYPE = {
     CUSTOM: 'Custom'
 };
 
+// The system's built-in 15 labels and a default 'all' label
 const LABEL_KEY = {
     ALL: 'all',
     TRAVEL: 'travel',

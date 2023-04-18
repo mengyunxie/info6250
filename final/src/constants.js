@@ -1,9 +1,17 @@
+/*
+ * Author: Mengyun Xie
+ * Date: 04/17/2023
+ * This code is a part of the final project of the INFO 6250 course
+ */
+
+// The system's build-in side menus
 export const SIDE_MENU = {
   PASSERBY: 'Passerby',
   MYDIARY: 'MyDiary',
   SETTING: 'Setting',
 };
 
+// The system's build-in navigations
 export const NAVIGATION = {
   [SIDE_MENU.PASSERBY]: {
     DEFAULT: 'Passerby Diaries',

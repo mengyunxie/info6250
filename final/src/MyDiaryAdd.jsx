@@ -1,11 +1,16 @@
-import { useState } from 'react';
+/*
+ * Author: Mengyun Xie
+ * Date: 04/17/2023
+ * This code is a part of the final project of the INFO 6250 course
+ */
 
+import { useState } from 'react';
 import { DEFAULT_LABEL_KEY } from './constants';
 
 function MyDiaryAdd({
     labels,
-    onSubmitDiary,
     previousNavigation,
+    onSubmitDiary,
     onSetNavigation,
     onGetDiariesByLabel,
 }) {

@@ -1,3 +1,9 @@
+/*
+ * Author: Mengyun Xie
+ * Date: 04/17/2023
+ * This code is a part of the final project of the INFO 6250 course
+ */
+
 function About() {
     return (
       <div className='about'>
@@ -12,6 +18,8 @@ function About() {
           <p className="about-intro-details">
             Here you can see all the diaries from around the world that have been posted to the 'Passerby' section. 
             You can also see your passerby diaries.
+            If you post a diary to 'Passerby' section, it means it will be open to the world.
+            But passers-by can only view your passerby diary, and they can't comment or connect with you. Because we are all travellers after all.
           </p>
         </div>
         <div className="about-intro">
