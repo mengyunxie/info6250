@@ -21,6 +21,7 @@ function MyDiaryNavigation({
             {currentNavigation === NAVIGATION[SIDE_MENU.MYDIARY].DEFAULT &&
                 <>
                     <label className="navigation-select-label">
+                        <span>Types of Diary: </span>
                         <select 
                                 className="navigation-select"
                                 defaultValue={DEFAULT_LABEL_KEY}

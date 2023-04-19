@@ -24,11 +24,12 @@ function MyDiaryItem({diary, onSetNavigation, onSetCurrentDiary}) {
         >
             <p className="diary-item-date">{formatDate(diary.date)}</p>
             <p className="diary-item-intro">{diary.intro}</p>
-            {diary.label.key !== DEFAULT_LABEL_KEY && <span 
+            {diary.label.key !== DEFAULT_LABEL_KEY && <div 
                     className={`diary-item-label label-item-color ${diary.label.color}`} 
                 >
-                    {diary.label.key}
-                </span>
+                    <i className="gg-tag"></i>
+                    <span className='diary-item-label-title'>{diary.label.key}</span>
+                </div>
             }  
         </div>
     );

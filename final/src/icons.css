@@ -33,7 +33,6 @@
     left: 8px;
 }
 
-
 /* Close */
 .gg-close {
     box-sizing: border-box;
@@ -64,7 +63,6 @@
 .gg-close::after {
     transform: rotate(-45deg);
 }
-
 
 /* Check */
 .gg-check {
@@ -134,8 +132,7 @@ background: linear-gradient( to left,
 .gg-data::after {
     border-top-color: transparent;
     border-bottom-color: transparent;
-} 
-
+}
 
 /* Details */
 .gg-details-more {
@@ -170,7 +167,6 @@ background: linear-gradient( to left,
     bottom: 0;
 }
 
-   
 /* Grid */
 .gg-layout-grid-small {
     transform: scale(var(--ggs,1));
@@ -334,4 +330,48 @@ background: linear-gradient( to left,
 .gg-danger::before {
     height: 2px;
     bottom: 2px;
+}
+
+/* Tag */
+.gg-tag,
+.gg-tag::before {
+    display: block;
+    border: 2px solid;
+}
+
+.gg-tag {
+    border-right: 0;
+    border-top-left-radius: 3px;
+    border-bottom-left-radius: 3px;
+    box-sizing: border-box;
+    transform: scale(var(--ggs,1));
+    position: relative;
+    width: 19px;
+    height: 14px;
+}
+
+.gg-tag::before {
+    content: "";
+    position: absolute;
+    width: 2px;
+    height: 2px;
+    box-sizing: content-box;
+    border-radius: 100px;
+    right: 0;
+    top: 2px;
+}
+
+.gg-tag::after {
+    content: "";
+    display: block;
+    box-sizing: border-box;
+    position: absolute;
+    width: 10px;
+    height: 10px;
+    border-bottom: 2px solid;
+    border-right: 2px solid;
+    border-bottom-right-radius: 4px;
+    transform: rotate(-45deg);
+    top: 0;
+    right: -5px;
 } 

@@ -15,8 +15,8 @@ function MyDiaryEdit({
 }) {
 
     const [diary, setDiary] = useState({
-        details: currentDiary.details || '',
-        label: currentDiary.label,
+        details: currentDiary.details,
+        labelKey: currentDiary.label.key,
         isPasserby: currentDiary.isPasserby,
     });
 
@@ -24,7 +24,7 @@ function MyDiaryEdit({
         // Prevent the browser from reloading the page
         e.preventDefault();
         if(diary.details) {
-            onUpdateDiary({id: currentDiary.id, details: diary.details, labelKey: diary.label, isPasserby: diary.isPasserby });
+            onUpdateDiary({id: currentDiary.id, details: diary.details, labelKey: diary.labelKey, isPasserby: diary.isPasserby });
         }
     }
 
@@ -40,6 +40,7 @@ function MyDiaryEdit({
                     className='to-cancel'
                     onClick={ (e) => {
                         e.preventDefault();
+                        // Go to the details of the diary page 
                         onSetNavigation({currentNavigation: previousNavigation});
                     }}
                 >
@@ -59,10 +60,10 @@ function MyDiaryEdit({
                 <span className='mydiaries-form-title'>Select Type: </span>
                 <select 
                     className='mydiaries-form-select'
-                    defaultValue={diary.label.key}
+                    defaultValue={diary.labelKey}
                     onChange={ (e) => {
                         e.preventDefault();
-                        setDiary({...diary, label: e.target.value});
+                        setDiary({...diary, labelKey: e.target.value});
                     }}
                 >
                     { Object.values(labels).map( label => (

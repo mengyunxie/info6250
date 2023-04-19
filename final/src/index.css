@@ -110,7 +110,7 @@ html, body {
 
 .navigation-select {
   padding: 0.5rem 1rem;
-  margin: 1rem 0;
+  margin: 1rem 0 1rem 1rem;
   border: 1px solid #151515;
   border-radius: 1rem;
   color: #151515;
@@ -305,6 +305,9 @@ html, body {
 }
 
 .passerby-item {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
   background-color: #fff;
   margin:0 0 1rem;
   padding: 1rem;
@@ -332,6 +335,9 @@ html, body {
 }
 
 .diary-item {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
   background-color: #fff;
   margin:0 0 1rem;
   padding: 1rem;
@@ -344,10 +350,15 @@ html, body {
 }
 
 .diary-item-label {
-  color: #33c3a2;
-  border: 1px solid #33c3a2;
+  display: flex;
+  align-items: center;
+  color: #151515;
   border-radius: 0.3rem;
   padding: 0.1rem 0.5rem;
+}
+
+.diary-item-label-title {
+  margin: 0 0 0 1rem;
 }
 
 .diary-item-date {
@@ -457,11 +468,16 @@ html, body {
 }
 
 .mydiaries-details-label {
+  display: flex;
+  align-items: center;
   margin: 0 1rem 0 0;
-  color: #33c3a2;
-  border: 1px solid #33c3a2;
+  color: #151515;
   border-radius: 0.3rem;
   padding: 0.1rem 0.5rem;
+}
+
+.mydiaries-details-label-title {
+  margin: 0 0 0 1rem;
 }
 
 .mydiaries-details-date {
@@ -703,79 +719,79 @@ html, body {
 
 /* Label Color */
 .label-item-color.rose {
-  color: #e2262b;
-  border: 1px solid #e2262b;
+  color: #fff;
+  background-color: #e2262b;
 }
 
 .label-item-color.orange {
-  color: #ec7013;
-  border: 1px solid #ec7013;
+  color: #fff;
+  background-color: #ec7013;
 }
 
 .label-item-color.yellow {
-  color: #ead441;
-  border: 1px solid #ead441;
+  color: #fff;
+  background-color: #ead441;
 }
 
 .label-item-color.medallion {
-  color: #e3b106;
-  border: 1px solid #e3b106;
+  color: #fff;
+  background-color: #e3b106;
 }
 
 .label-item-color.tan {
-  color: #d5cdad;
-  border: 1px solid #d5cdad;
+  color: #fff;
+  background-color: #d5cdad;
 }
 
 .label-item-color.salt {
-  color: #c8e1e8;
-  border: 1px solid #c8e1e8;
+  color: #fff;
+  background-color: #c8e1e8;
 }
 
 .label-item-color.frost {
-  color: #8de4e4;
-  border: 1px solid #8de4e4;
+  color: #fff;
+  background-color: #8de4e4;
 }
 
 .label-item-color.watermelon {
-  color: #fe7f9c;
-  border: 1px solid #fe7f9c;
+  color: #fff;
+  background-color: #fe7f9c;
 }
 
 .label-item-color.purple {
-  color: #b13fd0;
-  border: 1px solid #b13fd0;
+  color: #fff;
+  background-color: #b13fd0;
 }
 
 .label-item-color.blue {
-  color: #2183d8;
-  border: 1px solid #2183d8;
+  color: #fff;
+  background-color: #2183d8;
 }
 
 .label-item-color.ocean {
-  color: #158f93;
-  border: 1px solid #158f93;
+  color: #fff;
+  background-color: #158f93;
 }
 
 .label-item-color.green {
-  color: #33c3a2;
-  border: 1px solid #33c3a2;
+  color: #fff;
+  background-color: #33c3a2;
 }
 .label-item-color.coffee {
-  color: #986c32;
-  border: 1px solid #986c32;
+  color: #fff;
+  background-color: #986c32;
 }
 .label-item-color.grey {
-  color: #8a7a8b;
-  border: 1px solid #8a7a8b;
+  color: #fff;
+  background-color: #8a7a8b;
 }
 
 .label-item-color.iris {
-  color: #9767c5;
-  border: 1px solid #9767c5;
+  color: #fff;
+  background-color: #9767c5;
 }
 
 .label-item-color.sky {
-  color: #63c5d9;
-  border: 1px solid #63c5d9;
+  color: #fff;
+  background-color: #63c5d9;
 }

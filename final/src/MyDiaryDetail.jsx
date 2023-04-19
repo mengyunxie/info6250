@@ -25,7 +25,9 @@ function MyDiaryDetail({
                     className='go-back'
                     onClick={ (e) => {
                         e.preventDefault();
+                        // Go to the diaries list page 
                         onSetNavigation({currentNavigation: NAVIGATION[SIDE_MENU.MYDIARY].DEFAULT});
+                        // Refresh the diaries list by 'DEFAULT_LABEL_KEY' label
                         onGetDiariesByLabel(DEFAULT_LABEL_KEY);
                     }}
                 >
@@ -56,7 +58,10 @@ function MyDiaryDetail({
             </div>
             <div className="mydiaries-details-info">
                 {currentDiary.label.key !== DEFAULT_LABEL_KEY && 
-                    <span className={`mydiaries-details-label label-item-color ${currentDiary.label.color}`} >{currentDiary.label.key}</span>
+                    <div className={`mydiaries-details-label label-item-color ${currentDiary.label.color}`} >
+                        <i className="gg-tag"></i>
+                        <span className='mydiaries-details-label-title'>{currentDiary.label.key}</span>
+                    </div>
                 }
                 <span className="mydiaries-details-date">{formatDate(currentDiary.date)}</span>
             </div>

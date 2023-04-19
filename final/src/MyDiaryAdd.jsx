@@ -16,7 +16,7 @@ function MyDiaryAdd({
 }) {
     const [diary, setDiary] = useState({
         details: '',
-        label: DEFAULT_LABEL_KEY,
+        labelKey: DEFAULT_LABEL_KEY,
         isPasserby: false
     });
 
@@ -24,7 +24,7 @@ function MyDiaryAdd({
         // Prevent the browser from reloading the page
         e.preventDefault();
         if(diary.details) {
-            onSubmitDiary({ details: diary.details, labelKey: diary.label, isPasserby: diary.isPasserby });
+            onSubmitDiary({ details: diary.details, labelKey: diary.labelKey, isPasserby: diary.isPasserby });
         }
     }
     
@@ -36,7 +36,9 @@ function MyDiaryAdd({
                     className='to-cancel'
                     onClick={ (e) => {
                         e.preventDefault();
+                        // Go to the diaries list page 
                         onSetNavigation({currentNavigation: previousNavigation});
+                        // Refresh the diaries list by 'DEFAULT_LABEL_KEY' label
                         onGetDiariesByLabel(DEFAULT_LABEL_KEY);
                     }}
                 >
@@ -56,10 +58,10 @@ function MyDiaryAdd({
                 <span className='mydiaries-form-title'>Select Type: </span>
                 <select 
                     className='mydiaries-form-select'
-                    defaultValue={diary.label}
+                    defaultValue={diary.labelKey}
                     onChange={ (e) => {
                         e.preventDefault();
-                        setDiary({...diary, label: e.target.value});
+                        setDiary({...diary, labelKey: e.target.value});
                     }}
                 >
                     { Object.values(labels).map( label => (
